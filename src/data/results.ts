@@ -1,0 +1,116 @@
+/**
+ * Typed accessor over src/data/results.json.
+ *
+ * The JSON is the ONLY source of truth for client metrics (§5). Do not import
+ * results.json anywhere else — always go through this helper, so type shape
+ * changes surface at compile time.
+ *
+ * Rules from PROJECT-BRIEF.md §5:
+ *   - No fabricated, inflated, or placeholder metrics ever appear on the site.
+ *   - Values in results.json are copied verbatim from the brief.
+ *   - Framing rules: lead with ratios (5.1x), aggregate totals across clients,
+ *     reframe "new" as "current" — every result is from an account we're
+ *     running RIGHT NOW.
+ */
+
+import raw from './results.json' with { type: 'json' };
+
+/* ── Types ──────────────────────────────────────────────────────────── */
+
+export type Currency = 'INR';
+
+export type QuantitativeResult = {
+  kind: 'quantitative';
+  amount: number;
+  currency: Currency;
+  metric: string;
+  period: string;
+  source: string;
+};
+
+export type QualitativeResult = {
+  kind: 'qualitative';
+  description: string;
+};
+
+export type ClientResult = QuantitativeResult | QualitativeResult;
+
+export type Client = {
+  slug: string;
+  name: string;
+  services: string[];
+  result: ClientResult;
+};
+
+export type AdSpendEntry = {
+  clientSlug: string;
+  amount: number;
+  currency: Currency;
+  platform: string;
+  scope: string;
+  period: string;
+};
+
+export type HeadlineFigures = {
+  roas: {
+    ratio: number;
+    display: string;
+    revenue: number;
+    spend: number;
+    clientSlug: string;
+    platform: string;
+    period: string;
+    description: string;
+  };
+  totalRevenue: { display: string; descriptor: string };
+  totalAdSpend: { display: string; descriptor: string };
+  brandCount: { value: number; descriptor: string };
+  platforms: string[];
+};
+
+export type ResultsData = {
+  lastUpdated: string;
+  onboardingYear: number;
+  clients: Client[];
+  adSpend: AdSpendEntry[];
+  headline: HeadlineFigures;
+};
+
+/* ── The data ───────────────────────────────────────────────────────── */
+
+export const results = raw as unknown as ResultsData;
+
+/* ── Convenience accessors ──────────────────────────────────────────── */
+
+export const headline = results.headline;
+
+/** All 8 clients, in brief order. */
+export function getClients(): Client[] {
+  return results.clients;
+}
+
+/** Clients that have a hard number attached — for case-study cards. */
+export function getQuantitativeClients(): Array<Client & { result: QuantitativeResult }> {
+  return results.clients.filter(
+    (c): c is Client & { result: QuantitativeResult } => c.result.kind === 'quantitative'
+  );
+}
+
+export function findClient(slug: string): Client | undefined {
+  return results.clients.find((c) => c.slug === slug);
+}
+
+export function getAdSpendForClient(slug: string): AdSpendEntry | undefined {
+  return results.adSpend.find((s) => s.clientSlug === slug);
+}
+
+/**
+ * Format an INR amount using Indian digit grouping (2-digit lakh/crore groups).
+ * Used everywhere a rupee amount hits the page — pairs with .num for tabular
+ * figures so columns align.
+ */
+export function fmtINR(amount: number, opts: { symbol?: boolean } = {}): string {
+  const withSymbol = opts.symbol ?? true;
+  const formatted = amount.toLocaleString('en-IN');
+  return withSymbol ? `₹${formatted}` : formatted;
+}

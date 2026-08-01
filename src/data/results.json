@@ -1,0 +1,170 @@
+{
+  "$schema": "./results.schema.json",
+  "_notice": "This file is the ONLY source of truth for client metrics on the site. Every value is verbatim from docs/PROJECT-BRIEF.md §5. No fabricated, inflated, or placeholder metrics. If a client has no metric, the qualitative description stays.",
+  "lastUpdated": "2026-08-02",
+
+  "onboardingYear": 2026,
+
+  "clients": [
+    {
+      "slug": "ladakh-berry",
+      "name": "Ladakh Berry",
+      "services": [
+        "Shopify management",
+        "Google Ads",
+        "Meta Ads",
+        "creative"
+      ],
+      "result": {
+        "kind": "quantitative",
+        "amount": 670173,
+        "currency": "INR",
+        "metric": "conversion value from Google Ads",
+        "period": "lifetime",
+        "source": "Google Ads"
+      }
+    },
+    {
+      "slug": "divine-rudras",
+      "name": "Divine Rudras",
+      "services": [
+        "Flipkart Seller Hub management"
+      ],
+      "result": {
+        "kind": "quantitative",
+        "amount": 650410,
+        "currency": "INR",
+        "metric": "revenue",
+        "period": "last 30 days",
+        "source": "Flipkart"
+      }
+    },
+    {
+      "slug": "vastranama",
+      "name": "Vastranama",
+      "services": [
+        "Shopify management"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Launched and managed, ongoing optimisation"
+      }
+    },
+    {
+      "slug": "vastramahal",
+      "name": "Vastramahal",
+      "services": [
+        "Shopify management",
+        "Google Ads",
+        "Meta Ads",
+        "creative"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Launched and managed, ongoing optimisation"
+      }
+    },
+    {
+      "slug": "khamma-ghani",
+      "name": "Khamma Ghani",
+      "services": [
+        "Shopify management",
+        "creative"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Launched and managed, ongoing optimisation"
+      }
+    },
+    {
+      "slug": "savana-kurti",
+      "name": "Savana Kurti",
+      "services": [
+        "Shopify management"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Launched and managed, ongoing optimisation"
+      }
+    },
+    {
+      "slug": "vastra-by-monty",
+      "name": "Vastra by Monty",
+      "services": [
+        "Flipkart Seller Hub management"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Marketplace-ready listings created and published"
+      }
+    },
+    {
+      "slug": "jaipur-rang",
+      "name": "Jaipur Rang",
+      "services": [
+        "Shopify management"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Launched and managed, ongoing optimisation"
+      }
+    }
+  ],
+
+  "adSpend": [
+    {
+      "clientSlug": "ladakh-berry",
+      "amount": 131198,
+      "currency": "INR",
+      "platform": "Google Ads",
+      "scope": "all campaigns",
+      "period": "lifetime"
+    },
+    {
+      "clientSlug": "divine-rudras",
+      "amount": 316450,
+      "currency": "INR",
+      "platform": "Flipkart",
+      "scope": "campaigns",
+      "period": "last 60 days"
+    },
+    {
+      "clientSlug": "vastra-by-monty",
+      "amount": 449,
+      "currency": "INR",
+      "platform": "Flipkart",
+      "scope": "campaigns",
+      "period": "last 60 days"
+    }
+  ],
+
+  "headline": {
+    "roas": {
+      "ratio": 5.1,
+      "display": "5.1x",
+      "revenue": 670173,
+      "spend": 131198,
+      "clientSlug": "ladakh-berry",
+      "platform": "Google Ads",
+      "period": "lifetime",
+      "description": "ROAS on Google Ads"
+    },
+    "totalRevenue": {
+      "display": "₹13.2 lakh+",
+      "descriptor": "total tracked client revenue generated"
+    },
+    "totalAdSpend": {
+      "display": "₹4.4 lakh+",
+      "descriptor": "total ad spend under management"
+    },
+    "brandCount": {
+      "value": 8,
+      "descriptor": "brands across Shopify and Flipkart"
+    },
+    "platforms": [
+      "Google Ads",
+      "Meta Ads",
+      "Flipkart Seller Hub"
+    ]
+  }
+}
