@@ -2,6 +2,9 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import Schema from '../components/Schema.astro';
+import { organization, localBusiness } from '../lib/schema';
+import { SITE } from '../lib/site';
 
 export interface Props {
   /** Page title. Appended with " — Orcas Prime" unless titleTemplate is 'none'. */
@@ -27,7 +30,7 @@ const {
   noindex = false,
 } = Astro.props;
 
-const fullTitle = titleTemplate === 'none' ? title : `${title} — Orcas Prime`;
+const fullTitle = titleTemplate === 'none' ? title : `${title} — ${SITE.name}`;
 
 // Astro.site is set in astro.config.mjs (placeholder domain until deploy).
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
@@ -51,7 +54,7 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		<meta name="theme-color" content="#FAF7F2" />
 
 		<meta property="og:type" content="website" />
-		<meta property="og:site_name" content="Orcas Prime" />
+		<meta property="og:site_name" content={SITE.name} />
 		<meta property="og:title" content={fullTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalUrl} />
@@ -64,7 +67,10 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImageUrl} />
 
-		{/* Slot for per-page structured data — <script type="application/ld+json">…</script> */}
+		{/* Sitewide identity — Organization + LocalBusiness on every page (§7 Layer 3). */}
+		<Schema data={[organization(), localBusiness()]} />
+
+		{/* Per-page schema slot (Service, FAQPage, BreadcrumbList, Person, etc.). */}
 		<slot name="head" />
 	</head>
 	<body class="bg-paper text-ink min-h-screen flex flex-col">

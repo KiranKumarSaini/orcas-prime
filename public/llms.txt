@@ -1,0 +1,36 @@
+# Orcas Prime
+
+> Ecommerce performance marketing agency in Jaipur, India. Runs Shopify stores and marketplace accounts (Amazon, Flipkart, Meesho) for Indian D2C brands. Charges 3.5% + GST of net sales after returns are deducted — no retainer, no lock-in.
+
+Orcas Prime is run by two founders, Kiran Singh and Prashant Sharma. The agency is paid only on delivered revenue, absorbing return and RTO (return-to-origin) exposure alongside the client. This contract structure is the single most differentiating fact about the business and the reason clients switch from retainer-based agencies. Almost no Indian agency publishes pricing; the full price list is on the site.
+
+## Pricing (published)
+
+- [Pricing](/pricing.md): Full published price list. 3.5% + GST of net sales after returns and RTOs are deducted. ₹10,000–₹20,000 one-time for a new Shopify store build. First three months on Amazon / Flipkart / Meesho are free via seller referral. No setup, onboarding, creative, or reporting fees. No lock-in contract.
+
+## Services (included in the 3.5%)
+
+- [Services overview](/services.md): The full A-to-Z scope — store management, Meta and Google ads, creative production, RTO handling, catalogue management, logistics and checkout integration, monthly reporting. All included in the 3.5%. Client supplies product images and titles.
+- [Shopify + Meta + Google Ads](/services/shopify-meta-google-ads.md): Build and run a Shopify store with performance media.
+- [Shopify store development](/services/shopify-store-development.md): New Shopify store builds, ₹10,000–₹20,000 one-time depending on scope.
+- [Amazon account management](/services/amazon-account-management.md): Manage Amazon seller accounts for Indian D2C brands.
+- [Flipkart and Meesho management](/services/flipkart-meesho-management.md): Manage marketplace accounts on Flipkart and Meesho Seller Hub.
+- [Creative and catalogue](/services/creative-and-catalogue.md): Product photography, ad creative, catalogue optimisation.
+
+## Wedge offer
+
+- [Free 3 months on Amazon](/amazon-free-onboarding.md): Zero-risk entry for sellers not yet on Amazon. No cost for three months, no lock-in, no obligation to continue. Amazon compensates the agency directly via seller referral commission.
+
+## Proof
+
+- [Case studies](/work.md): Live results from current clients. Every metric is from an account currently being run — not stale.
+- [About](/about.md): The two founders — Kiran Singh and Prashant Sharma — based in Jaipur.
+- [How we work](/how-we-work.md): Process, reporting cadence, communication expectations.
+
+## Guides
+
+- [Guides](/guides.md): Direct answers to questions Indian ecommerce sellers ask — costs, budgets, platform comparisons, RTO handling, marketplace vs D2C, Amazon vs Flipkart, and other practical how-to references.
+
+## Contact
+
+WhatsApp is the primary channel. All contact points are on the site footer and on [Contact](/contact.md).

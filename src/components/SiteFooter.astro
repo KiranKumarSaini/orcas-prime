@@ -1,23 +1,23 @@
 ---
 /*
   Footer is where the "two founders in Jaipur" story lives (§3 — deliberately
-  kept out of the hero). Also the schema anchor for LocalBusiness (§7 Layer 3).
+  kept out of the hero). Also the visual anchor whose schema counterpart lives
+  in the sitewide LocalBusiness JSON-LD emitted from BaseLayout.
 
-  TODOs below are the source of truth for §13's outstanding items. Do NOT invent
-  values here — better to ship with visible placeholders than fabricated data.
+  All identity/contact/address data comes from src/lib/site.ts — the single
+  source of truth. TODOs live there; do not duplicate them here.
 */
 
-// TODO(§13): supply the real WhatsApp number, phone, email, and postal address.
-const contact = {
-  whatsapp: '+91XXXXXXXXXX',    // TODO: real WhatsApp business number
-  phone:    '+91 XXXXX XXXXX',  // TODO: real phone
-  email:    'hello@example.com',// TODO: real email
-  street:   'Street address',   // TODO: real street
-  locality: 'Jaipur, Rajasthan 302XXX', // TODO: real PIN code
-};
+import { SITE } from '../lib/site';
 
-// TODO(§13): confirm full legal names for both founders (Person schema needs them).
-const founders = ['Kiran Saini', 'Prashant'];
+const founders = SITE.founders.map((f) => f.name);
+const contact = {
+  whatsapp: SITE.contact.whatsapp,
+  phone: SITE.contact.phone,
+  email: SITE.contact.email,
+  street: SITE.address.street,
+  locality: `${SITE.address.locality}, ${SITE.address.region} ${SITE.address.postalCode}`,
+};
 
 const footerNav = {
   work: [
@@ -40,7 +40,7 @@ const footerNav = {
   ],
 };
 
-const year = 2026;
+const year = new Date().getFullYear();
 ---
 
 <footer class="mt-24 border-t border-rule-strong bg-paper">
