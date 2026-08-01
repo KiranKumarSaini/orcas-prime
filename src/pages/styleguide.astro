@@ -1,0 +1,301 @@
+---
+import '../styles/global.css';
+
+const palette = [
+  { name: 'paper',          hex: '#FAF7F2', use: 'Page background — warm off-white, never pure white',       swatchClass: 'bg-paper',         needsBorder: true  },
+  { name: 'ink',            hex: '#1C1917', use: 'Primary text — near-black with warmth, never #000',        swatchClass: 'bg-ink',           needsBorder: false },
+  { name: 'ink-muted',      hex: '#57534E', use: 'Body copy, secondary text, kickers',                       swatchClass: 'bg-ink-muted',     needsBorder: false },
+  { name: 'ochre',          hex: '#B45309', use: 'Accent — links, primary CTAs, one hero number per view',   swatchClass: 'bg-ochre',         needsBorder: false },
+  { name: 'ochre-hover',    hex: '#92400E', use: 'Hover state for ochre links + buttons',                    swatchClass: 'bg-ochre-hover',   needsBorder: false },
+  { name: 'ochre-wash',     hex: '#FDF0E1', use: 'Highlight blocks, table headers, text selection',          swatchClass: 'bg-ochre-wash',    needsBorder: true  },
+  { name: 'rule',           hex: '#E7E1D8', use: 'Hairline borders and dividers',                            swatchClass: 'bg-rule',          needsBorder: true  },
+  { name: 'rule-strong',    hex: '#D6CFC2', use: 'Emphasized dividers between major sections',               swatchClass: 'bg-rule-strong',   needsBorder: false },
+  { name: 'ledger-green',   hex: '#3F6212', use: 'Positive figures only — used sparingly, never decorative', swatchClass: 'bg-ledger-green',  needsBorder: false },
+];
+
+// Static class map — Tailwind v4 tree-shakes based on literal source scanning,
+// so we must reference every utility as a literal string, not a template.
+const typeScale = [
+  { token: 'display', class: 'text-display', useCase: 'Homepage hero, page opener',      isHeading: true,  sample: 'No retainer. No monthly fee.' },
+  { token: 'h1',      class: 'text-h1',      useCase: 'Page titles',                     isHeading: true,  sample: 'How much do agencies charge?' },
+  { token: 'h2',      class: 'text-h2',      useCase: 'Major section headings',          isHeading: true,  sample: 'What the 3.5% covers' },
+  { token: 'h3',      class: 'text-h3',      useCase: 'Subsection headings, card titles',isHeading: true,  sample: 'Store management' },
+  { token: 'lead',    class: 'text-lead',    useCase: 'Deck, opening paragraph, subhead',isHeading: false, sample: 'Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho.' },
+  { token: 'base',    class: 'text-base',    useCase: 'Body copy',                       isHeading: false, sample: 'Ratios have no scale. "5.1x return on Google Ads" is a strong claim that doesn\'t reveal company size, which is exactly what an agency of two founders wants to talk about.' },
+  { token: 'small',   class: 'text-small',   useCase: 'Footnotes, captions, meta',       isHeading: false, sample: 'Source: Ladakh Berry Google Ads dashboard, lifetime through 2026-07-31.' },
+  { token: 'micro',   class: 'text-micro',   useCase: 'Kickers, labels, table headers',  isHeading: false, sample: 'CASE STUDY · GOOGLE ADS' },
+];
+
+const radii = [
+  { token: 'sm', px: '2px', use: 'Badges, pills' },
+  { token: 'DEFAULT', px: '3px', use: 'Inputs, small buttons' },
+  { token: 'md', px: '4px', use: 'Buttons, cards' },
+  { token: 'lg', px: '6px', use: 'Larger cards, images. Do not exceed.' },
+];
+
+const pricingRows = [
+  { net: 500000,  op: 17500,  ret: 75000 },
+  { net: 1000000, op: 35000,  ret: 150000 },
+  { net: 2500000, op: 87500,  ret: 300000 },
+];
+
+const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<title>Design system — Orcas Prime</title>
+	</head>
+	<body class="bg-paper text-ink">
+		<main class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+
+			<!-- Header ─────────────────────────────────────────────────────────── -->
+			<header class="grid md:grid-cols-[1fr_auto] gap-y-4 gap-x-8 pb-10 border-b border-rule">
+				<div>
+					<p class="kicker mb-3">Internal · v1 · 2026-08</p>
+					<h1 class="font-serif font-medium text-h1 leading-[1.08] tracking-[-0.022em]">
+						Ledger — the design system
+					</h1>
+					<p class="text-lead text-ink-muted mt-4 max-w-prose">
+						One page. Every token, every size, one sample data table. If a page needs a token
+						that isn't here, it goes in <span class="num">src/styles/global.css</span> first.
+					</p>
+				</div>
+				<dl class="text-small font-mono grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 content-start pt-1">
+					<dt class="text-ink-muted">brief</dt><dd>§8 "Ledger"</dd>
+					<dt class="text-ink-muted">status</dt><dd>Locked</dd>
+					<dt class="text-ink-muted">route</dt><dd>/styleguide</dd>
+				</dl>
+			</header>
+
+			<!-- Palette ────────────────────────────────────────────────────────── -->
+			<section class="py-16 border-b border-rule">
+				<p class="kicker mb-3">01 · Palette</p>
+				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Nine colours. No more.
+				</h2>
+				<p class="text-base text-ink-muted max-w-prose mb-10">
+					Ochre is the only accent. Ledger-green appears only next to positive numbers.
+					Everything else is paper, ink, and warm hairline greys.
+				</p>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+					{palette.map((c) => (
+						<div class="grid grid-cols-[3.5rem_1fr] gap-4 items-start">
+							<div
+								class={`${c.swatchClass} h-14 rounded-sm ${c.needsBorder ? 'border border-rule' : ''}`}
+								aria-hidden="true"
+							></div>
+							<div>
+								<div class="flex items-baseline gap-3 flex-wrap">
+									<span class="font-mono text-small text-ink">{c.name}</span>
+									<span class="font-mono text-micro text-ink-muted uppercase tracking-wider">{c.hex}</span>
+								</div>
+								<p class="text-small text-ink-muted mt-1 leading-snug">{c.use}</p>
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<!-- Typography ─────────────────────────────────────────────────────── -->
+			<section class="py-16 border-b border-rule">
+				<p class="kicker mb-3">02 · Typography</p>
+				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Three faces. Fraunces sets the tone; Geist reports the facts.
+				</h2>
+				<p class="text-base text-ink-muted max-w-prose mb-12">
+					Fraunces is a variable serif — warm, characterful, editorial. Geist Sans handles
+					body and UI. Every number on the site sets in Geist Mono with tabular figures
+					by default, so columns align without effort.
+				</p>
+
+				<div class="space-y-10">
+					{typeScale.map(({ token, class: sizeClass, useCase, isHeading, sample }) => (
+						<div class="grid md:grid-cols-[10rem_1fr] gap-4 md:gap-10 items-baseline">
+							<div class="pt-2 border-t border-rule md:border-0 md:pt-0">
+								<div class="font-mono text-micro text-ink uppercase tracking-wider">text-{token}</div>
+								<div class="font-mono text-micro text-ink-muted mt-1">{useCase}</div>
+							</div>
+							<p class:list={[sizeClass, isHeading ? 'font-serif font-medium' : 'font-sans']}>
+								{sample}
+							</p>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<!-- Numbers ────────────────────────────────────────────────────────── -->
+			<section class="py-16 border-b border-rule">
+				<p class="kicker mb-3">03 · Numbers</p>
+				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Every figure is Geist Mono. Every figure is tabular.
+				</h2>
+				<p class="text-base text-ink-muted max-w-prose mb-10">
+					Use the <span class="font-mono text-small">.num</span> class on any element that
+					contains data. Numbers stack in columns whether they're headline or footnote,
+					which is what makes the site read as reported rather than claimed.
+				</p>
+
+				<div class="grid md:grid-cols-3 gap-8">
+					<div class="border border-rule rounded p-6">
+						<div class="kicker mb-3">Not tabular (wrong)</div>
+						<div class="font-sans text-base leading-loose">
+							<div>11,111</div>
+							<div>22,222</div>
+							<div>33,333</div>
+							<div>44,444</div>
+						</div>
+					</div>
+					<div class="border border-rule rounded p-6">
+						<div class="kicker mb-3">Tabular (right)</div>
+						<div class="num text-base leading-loose">
+							<div>11,111</div>
+							<div>22,222</div>
+							<div>33,333</div>
+							<div>44,444</div>
+						</div>
+					</div>
+					<div class="border border-ochre-wash bg-ochre-wash rounded p-6">
+						<div class="kicker mb-3">Hero figure</div>
+						<div class="num figure-hero" style="font-size: clamp(2rem, 4vw, 3rem); line-height: 1;">
+							5.1&thinsp;x
+						</div>
+						<p class="text-small text-ink-muted mt-2 leading-snug">
+							Google Ads return<br />(Ladakh Berry, lifetime)
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Rules & radii ──────────────────────────────────────────────────── -->
+			<section class="py-16 border-b border-rule">
+				<p class="kicker mb-3">04 · Rules and radii</p>
+				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Everything sharp. Nothing rounded past 6&nbsp;px.
+				</h2>
+				<p class="text-base text-ink-muted max-w-prose mb-10">
+					Large radii and thick rules are what push warm-cream sites into the AI-generated
+					aesthetic zone (§8 execution warning). The correction is precision, not decoration.
+				</p>
+
+				<div class="grid md:grid-cols-2 gap-12">
+					<div>
+						<div class="kicker mb-3">Hairline rules</div>
+						<div class="space-y-4">
+							<div>
+								<div class="border-t border-rule"></div>
+								<div class="font-mono text-micro text-ink-muted mt-2">border-rule · 1px</div>
+							</div>
+							<div>
+								<div class="border-t border-rule-strong"></div>
+								<div class="font-mono text-micro text-ink-muted mt-2">border-rule-strong · 1px</div>
+							</div>
+							<div>
+								<div class="border-t border-ink"></div>
+								<div class="font-mono text-micro text-ink-muted mt-2">border-ink · 1px (rare — heading dividers only)</div>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<div class="kicker mb-3">Radii</div>
+						<div class="flex items-end gap-6 flex-wrap">
+							{radii.map((r) => (
+								<div>
+									<div class="w-14 h-14 bg-ochre-wash border border-rule" style={`border-radius: ${r.px};`}></div>
+									<div class="font-mono text-micro text-ink mt-2">rounded-{r.token.toLowerCase()}</div>
+									<div class="font-mono text-micro text-ink-muted">{r.px} · {r.use}</div>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Buttons ────────────────────────────────────────────────────────── -->
+			<section class="py-16 border-b border-rule">
+				<p class="kicker mb-3">05 · Buttons</p>
+				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Three shapes. Ochre carries every conversion.
+				</h2>
+				<p class="text-base text-ink-muted max-w-prose mb-10">
+					Primary is a solid ochre pill-corner rectangle. Secondary is an ink-outlined
+					ghost. Tertiary is a text link with an underline offset by the same 2&nbsp;px as
+					the smallest radius — small consistency, big impact.
+				</p>
+
+				<div class="flex items-center gap-4 flex-wrap">
+					<button class="bg-ochre text-paper font-sans text-base font-medium px-5 py-3 rounded-md hover:bg-ochre-hover transition-colors">
+						Start on WhatsApp
+					</button>
+					<button class="bg-transparent text-ink border border-ink font-sans text-base font-medium px-5 py-3 rounded-md hover:bg-ink hover:text-paper transition-colors">
+						See how it works
+					</button>
+					<a href="#" class="font-sans text-base text-ochre underline decoration-1 underline-offset-4 hover:text-ochre-hover">
+						View sample report →
+					</a>
+				</div>
+			</section>
+
+			<!-- Sample data table (the signature element) ─────────────────────── -->
+			<section class="py-16 border-b border-rule">
+				<p class="kicker mb-3">06 · Sample data table</p>
+				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					The pricing comparison — this is the layout everything else quiets down for.
+				</h2>
+				<p class="text-base text-ink-muted max-w-prose mb-10">
+					Fraunces headline. Ochre-washed header row. Tabular Geist Mono figures. Hairline
+					rules, nothing thicker. On mobile the columns stay side-by-side — collapsing to
+					stacked cards would destroy the comparison, which is the entire point.
+				</p>
+
+				<div class="border border-rule-strong rounded overflow-hidden">
+					<table class="w-full border-collapse text-left">
+						<thead>
+							<tr class="bg-ochre-wash">
+								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink border-b border-rule-strong">
+									<span class="kicker">Net sales / month</span>
+								</th>
+								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink border-b border-rule-strong">
+									<span class="kicker">Orcas Prime <span class="normal-case text-ochre">(3.5% + GST)</span></span>
+								</th>
+								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink-muted border-b border-rule-strong border-l border-rule">
+									<span class="kicker">Typical agency retainer</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{pricingRows.map((row, i) => (
+								<tr class={i < pricingRows.length - 1 ? 'border-b border-rule' : ''}>
+									<td class="num p-4 md:p-5 text-base md:text-lead">{fmt(row.net)}</td>
+									<td class="num p-4 md:p-5 text-base md:text-lead text-ochre">{fmt(row.op)}</td>
+									<td class="num p-4 md:p-5 text-base md:text-lead text-ink-muted border-l border-rule">{fmt(row.ret)}+</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+				<p class="text-small text-ink-muted mt-4 max-w-prose">
+					Sources for the "typical agency retainer" column are footnoted on the live pricing
+					page. This styleguide skips them to keep the demonstration clean.
+				</p>
+			</section>
+
+			<!-- Footer ─────────────────────────────────────────────────────────── -->
+			<footer class="pt-10">
+				<p class="font-mono text-small text-ink-muted">
+					End of ledger.
+					<span class="text-ochre">docs/PROJECT-BRIEF.md §8</span>
+					is the source of truth. Update tokens in
+					<span class="text-ink">src/styles/global.css</span>, never in components.
+				</p>
+			</footer>
+
+		</main>
+	</body>
+</html>

@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* Explicit source scan — Tailwind v4 uses `.git` to find the project root, so
+   this @source directive guarantees utilities are generated even if the git
+   heuristic fails (e.g. when working inside a monorepo or during setup). */
+@source "../**/*.{astro,html,ts,tsx,js,jsx,md,mdx}";
+
+/* Fonts — self-hosted via Fontsource. Fraunces variable; Geist per-weight. */
+@import "@fontsource-variable/fraunces/wght.css";
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
+@import "@fontsource/geist-mono/400.css";
+@import "@fontsource/geist-mono/500.css";
+
+/*
+  Design tokens — §8 "Ledger".
+  All utilities (bg-*, text-*, border-*, font-*, text-{size}, rounded-*) derive from
+  the custom properties declared here. Never hardcode a hex, a font name, or a size
+  in a component; extend this file instead.
+*/
+@theme {
+  /* ─── Colour ──────────────────────────────────────────────────────────── */
+  --color-paper: #FAF7F2;
+  --color-ink: #1C1917;
+  --color-ink-muted: #57534E;
+  --color-ochre: #B45309;
+  --color-ochre-hover: #92400E;
+  --color-ochre-wash: #FDF0E1;
+  --color-rule: #E7E1D8;
+  --color-rule-strong: #D6CFC2;
+  --color-ledger-green: #3F6212;
+
+  /* ─── Typography ──────────────────────────────────────────────────────── */
+  --font-serif: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Type scale — fluid, but capped. Ratios chosen for editorial feel, not tech-agency uniformity. */
+  --text-display: clamp(2.5rem, 5.5vw + 0.75rem, 4.5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.028em;
+
+  --text-h1: clamp(2rem, 3vw + 1rem, 3rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.022em;
+
+  --text-h2: clamp(1.5rem, 1.5vw + 1rem, 2.125rem);
+  --text-h2--line-height: 1.18;
+  --text-h2--letter-spacing: -0.015em;
+
+  --text-h3: clamp(1.25rem, 0.5vw + 1rem, 1.5rem);
+  --text-h3--line-height: 1.28;
+  --text-h3--letter-spacing: -0.008em;
+
+  --text-lead: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+  --text-lead--line-height: 1.55;
+
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.55;
+
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.4;
+
+  /* ─── Radii — small, consistent, no soft-serve corners ────────────────── */
+  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* ─── Layout ──────────────────────────────────────────────────────────── */
+  --container-prose: 44rem;
+  --container-page: 76rem;
+}
+
+/*
+  Base — the anti-generic-AI defaults live here.
+  Every rule below carries information; nothing is decorative.
+*/
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.65;
+  }
+
+  /* Serif headings by default. Fraunces weight 500 is the editorial sweet spot;
+     700 reads too advertorial for the "auditable document" concept. */
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  /* Every number on the site is Geist Mono with tabular figures. Rule from §8.
+     `font-variant-numeric` and `font-feature-settings` are both set for maximum
+     cross-browser tabular alignment. */
+  .num,
+  .font-mono,
+  code, samp, kbd, var,
+  [data-num] {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum" 1, "cv11" 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Hairline rule token — always exactly 1px, warm colour. */
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+    margin: 0;
+  }
+
+  /* Selection uses the ochre wash — coherent, calm. */
+  ::selection {
+    background: var(--color-ochre-wash);
+    color: var(--color-ink);
+  }
+
+  /* Focus ring — visible ochre outline. WCAG requirement (§9). */
+  :focus-visible {
+    outline: 2px solid var(--color-ochre);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Reduced motion respected (§9). */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/*
+  Component-level primitives. Keep this file thin — real components live in
+  src/components. Only truly global patterns belong here.
+*/
+@layer components {
+  /* Skip-to-content link — accessibility floor (§9). */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-small);
+    z-index: 100;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Section kicker — the small monospace label that opens sections. Used sparingly. */
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: var(--text-micro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  /* Ochre inline highlight — reserved for the single most important number in view. */
+  .figure-hero {
+    color: var(--color-ochre);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}
