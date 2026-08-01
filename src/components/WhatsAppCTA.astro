@@ -1,0 +1,53 @@
+---
+/**
+ * Contextual WhatsApp call-to-action. Pre-filled messages, no popups,
+ * no forms. Every conversion moment on the site uses this component
+ * so the number + link shape is defined in exactly one place.
+ *
+ * Message copy comes from §9 UX rules — always the exact prewritten
+ * phrase for that context, not generic "get in touch" language.
+ */
+
+import { SITE } from '../lib/site';
+
+export interface Props {
+  /** Pre-filled message text. Written from the visitor's perspective — see §9. */
+  message: string;
+  /** Visual weight. Default 'primary' for the main conversion moments. */
+  variant?: 'primary' | 'ghost' | 'link';
+  /** Button label. Defaults per variant. */
+  label?: string;
+  /** Extra classes for layout. */
+  class?: string;
+}
+
+const {
+  message,
+  variant = 'primary',
+  label = variant === 'link' ? 'Start on WhatsApp' : 'Start on WhatsApp',
+  class: extraClass = '',
+} = Astro.props;
+
+const digits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
+const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+
+const base: Record<NonNullable<Props['variant']>, string> = {
+  primary:
+    'inline-flex items-center gap-2 bg-ochre text-paper hover:bg-ochre-hover px-5 py-3 rounded-md font-sans text-base font-medium transition-colors',
+  ghost:
+    'inline-flex items-center gap-2 border border-ink text-ink hover:bg-ink hover:text-paper px-5 py-3 rounded-md font-sans text-base font-medium transition-colors',
+  link:
+    'inline-flex items-center gap-1 text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4 font-sans text-base',
+};
+---
+
+<a
+	href={href}
+	class:list={[base[variant], extraClass]}
+	rel="noopener"
+	data-cta="whatsapp"
+	data-msg={message.slice(0, 40)}
+>
+	{label}
+	{variant !== 'link' && <span aria-hidden="true" class="num">→</span>}
+</a>

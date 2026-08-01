@@ -1,0 +1,66 @@
+---
+/**
+ * The pricing comparison table — §4 + §8's signature element. Appears above
+ * the fold on the homepage and again on /pricing. Rows are canonical: exact
+ * values from §4, not sourced from results.json (this is our fee, not client
+ * data).
+ *
+ * Behaviour on narrow widths: the columns stay side by side. Do NOT collapse
+ * to stacked cards — that destroys the comparison and defeats the point.
+ */
+
+import { fmtINR } from '../data/results';
+
+export interface Props {
+  /** Show the "Sources ↓" line beneath the table. Enabled on /pricing only. */
+  withSourcesNote?: boolean;
+  /** Section container id — links to it from other pages can anchor here. */
+  id?: string;
+}
+
+const { withSourcesNote = false, id } = Astro.props;
+
+const rows = [
+  { net: 500000,  op: 17500,  ret: 75000 },
+  { net: 1000000, op: 35000,  ret: 150000 },
+  { net: 2500000, op: 87500,  ret: 300000 },
+];
+---
+
+<div id={id} class="border border-rule-strong rounded">
+	<table class="w-full border-collapse text-left table-fixed">
+		<thead>
+			<tr class="bg-ochre-wash">
+				<th scope="col" class="w-1/3 px-2 py-3 sm:p-4 md:p-5 font-sans font-medium text-ink border-b border-rule-strong align-top">
+					<span class="kicker leading-tight block">Net sales</span>
+					<span class="kicker leading-tight block">/ month</span>
+				</th>
+				<th scope="col" class="w-1/3 px-2 py-3 sm:p-4 md:p-5 font-sans font-medium text-ink border-b border-rule-strong border-l border-rule-strong align-top">
+					<span class="kicker leading-tight block">Orcas Prime</span>
+					<span class="block font-mono text-micro text-ochre normal-case tracking-normal leading-tight mt-0.5">3.5% + GST</span>
+				</th>
+				<th scope="col" class="w-1/3 px-2 py-3 sm:p-4 md:p-5 font-sans font-medium text-ink-muted border-b border-rule-strong border-l border-rule align-top">
+					<span class="kicker leading-tight block">Typical</span>
+					<span class="kicker leading-tight block">retainer</span>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{rows.map((row, i) => (
+				<tr class={i < rows.length - 1 ? 'border-b border-rule' : ''}>
+					<td class="num px-2 py-3 sm:p-4 md:p-5 text-small sm:text-base md:text-lead">{fmtINR(row.net)}</td>
+					<td class="num px-2 py-3 sm:p-4 md:p-5 text-small sm:text-base md:text-lead text-ochre border-l border-rule">{fmtINR(row.op)}</td>
+					<td class="num px-2 py-3 sm:p-4 md:p-5 text-small sm:text-base md:text-lead text-ink-muted border-l border-rule">{fmtINR(row.ret)}+</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</div>
+
+{withSourcesNote && (
+	<p class="text-small text-ink-muted mt-4 max-w-prose leading-relaxed">
+		Sources for the "typical agency retainer" column are footnoted below the
+		comparison &mdash; industry ranges of ₹75K–₹10L/month, commonly ₹1.5L–₹6L,
+		or 10–20% of ad spend.
+	</p>
+)}

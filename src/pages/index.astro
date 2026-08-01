@@ -1,26 +1,244 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PricingTable from '../components/PricingTable.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import { results, headline, fmtINR } from '../data/results';
+
+/*
+  Homepage. Section plan approved by operator:
+    1. Hero + pricing comparison  (msg #1, #2)
+    2. The two ways agencies get paid — and why we chose the third  (msg #2)
+    3. What the 3.5% covers  (msg #4)
+    4. Every result below is from an account we're running right now  (msg #5)
+    5. [skipped — founders section deferred until bios/photos arrive]
+    6. Not on Amazon yet? Start there for free  (msg #6)
+    7. Final close  (msg #7)
+
+  Sourced numbers come from src/data/results.json (§5). Never hardcode a metric.
+*/
+
+const roas = headline.roas;
+const roasClient = results.clients.find((c) => c.slug === roas.clientSlug)!;
+
+// A-to-Z scope from §4. Copy-approved with the operator.
+const scope = [
+  { label: 'Store management',      desc: 'The whole Shopify admin, day to day.' },
+  { label: 'Meta and Google Ads',   desc: 'Build, run, adjust, report — all inside your ad account.' },
+  { label: 'Creative production',   desc: 'Ad graphics, product-page assets, banners.' },
+  { label: 'RTO management',        desc: 'Dispute filing, courier follow-ups, address validation.' },
+  { label: 'Catalogue management',  desc: 'Variants, tags, on-page SEO, availability.' },
+  { label: 'Logistics + checkout',  desc: 'Payment gateway integration, shipping partners, cart-to-doorstep flow.' },
+  { label: 'Monthly reporting',     desc: 'The numbers, plain, plus what changed and what we changed next.' },
+];
+
+const ctaMsg = {
+  general: 'Hi, I want to check if the 3.5% model fits my store.',
+  amazon:  'Hi, I want to start the free 3-month Amazon onboarding.',
+};
 ---
 
 <BaseLayout
 	title="Ecommerce agency in Jaipur — no retainer, 3.5% of what your customers keep"
-	description="Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. We take 3.5% of net sales after returns. No retainer, no lock-in."
+	description="Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. We take 3.5% + GST of net sales after returns and RTOs. No retainer, no lock-in."
 	titleTemplate="none"
+	canonicalPath="/"
 >
-	<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
-		<p class="kicker mb-6">Scaffold verified · Prompt 4 complete</p>
-		<h1 class="text-display font-serif font-medium">
-			No retainer. No monthly fee.<br />
-			We take <span class="num text-ochre">3.5%</span> of what your customers actually keep.
-		</h1>
-		<p class="text-lead text-ink-muted mt-6 max-w-prose">
-			Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho.
-			Nothing charged on returns or RTOs.
-		</p>
-		<p class="text-small text-ink-muted mt-10 font-mono">
-			This placeholder holds the /  route until Prompt 7 builds the real homepage.
-			The BaseLayout, SiteHeader, and SiteFooter you see wrapping this content
-			are the deliverables from Prompt 4.
-		</p>
-	</div>
+
+	{/* ─── 1 · Hero + pricing comparison ─────────────────────────────── */}
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-16 md:pb-24">
+			<h1 class="text-display font-serif font-medium max-w-[24ch]">
+				No retainer. No monthly fee.<br />
+				We take <span class="num text-ochre">3.5%</span> of what your customers actually keep.
+			</h1>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho.
+				Nothing charged on returns or RTOs.
+			</p>
+
+			<div class="mt-12 md:mt-16 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+				<PricingTable id="pricing-preview" />
+				<div class="flex flex-col items-start gap-3">
+					<WhatsAppCTA message={ctaMsg.general} />
+					<a href="/pricing" class="text-small text-ink-muted hover:text-ochre font-mono">
+						See full pricing →
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 2 · The contract difference ───────────────────────────────── */}
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">The contract</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				The two ways agencies get paid — and why we chose the third.
+			</h2>
+			<div class="mt-10 grid gap-10 md:grid-cols-3 md:gap-12">
+				<div>
+					<p class="kicker text-ink-muted mb-3">One</p>
+					<p class="text-base leading-relaxed text-ink-muted">
+						A retainer bills you the same amount whether your store made money or
+						lost money last month.
+					</p>
+				</div>
+				<div>
+					<p class="kicker text-ink-muted mb-3">Two</p>
+					<p class="text-base leading-relaxed text-ink-muted">
+						A percentage of ad spend bills more as spend goes up, regardless of
+						whether the spend converted.
+					</p>
+				</div>
+				<div class="border-l-2 border-ochre pl-6 md:pl-8">
+					<p class="kicker text-ochre mb-3">Ours</p>
+					<p class="text-base leading-relaxed text-ink">
+						<span class="num text-ochre">3.5%</span> of net sales tracks the only
+						number that actually matters to you — the money your customers keep
+						after refunds, returns, and RTOs. When a shipment gets refused, we
+						absorb that with you.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 3 · What's covered ────────────────────────────────────────── */}
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">What's covered</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				What the <span class="num text-ochre">3.5%</span> covers.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				One fee. Everything you need to run and grow the store. You supply the
+				product images and titles. We do the rest.
+			</p>
+
+			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
+				{scope.map((item) => (
+					<div class="grid grid-cols-[1fr_2fr] gap-6 py-5 border-b border-rule items-baseline">
+						<dt class="font-serif text-h3 font-medium text-ink">{item.label}</dt>
+						<dd class="text-base text-ink-muted leading-relaxed">{item.desc}</dd>
+					</div>
+				))}
+			</dl>
+
+			<p class="text-small text-ink-muted mt-8 font-mono">
+				No separate fee for any of it. No setup, no onboarding, no creative, no reporting fees.
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 4 · Proof — the numbers ───────────────────────────────────── */}
+	<section class="border-b border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Proof</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+				Every result below is from an account we're running right now.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				Not stale case studies from three years ago. Live accounts, current numbers.
+			</p>
+
+			<div class="mt-12 md:mt-16 grid gap-10 md:grid-cols-[minmax(0,1.2fr)_1fr] md:gap-16 items-start">
+
+				<div class="border border-rule-strong bg-paper rounded p-6 md:p-10">
+					<p class="kicker mb-3">Hero figure</p>
+					<p class="num text-ochre" style="font-size: clamp(3.5rem, 8vw, 6rem); line-height: 0.95; letter-spacing: -0.02em;">
+						{roas.display}
+					</p>
+					<p class="text-base text-ink mt-4 max-w-sm">
+						{roas.description} — <span class="text-ink-muted">{roasClient.name}, {roas.period}.</span>
+					</p>
+					<dl class="mt-6 pt-6 border-t border-rule grid grid-cols-2 gap-x-8 gap-y-2 text-small">
+						<dt class="text-ink-muted">Revenue</dt>
+						<dd class="num text-ink">{fmtINR(roas.revenue)}</dd>
+						<dt class="text-ink-muted">Ad spend</dt>
+						<dd class="num text-ink">{fmtINR(roas.spend)}</dd>
+						<dt class="text-ink-muted">Platform</dt>
+						<dd class="text-ink">{roas.platform}</dd>
+					</dl>
+				</div>
+
+				<dl class="grid gap-6">
+					<div class="border border-rule bg-paper rounded p-6">
+						<dt class="kicker mb-2">Total tracked revenue</dt>
+						<dd class="num text-ink" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+							{headline.totalRevenue.display}
+						</dd>
+						<p class="text-small text-ink-muted mt-2">across all clients</p>
+					</div>
+					<div class="border border-rule bg-paper rounded p-6">
+						<dt class="kicker mb-2">Total ad spend under management</dt>
+						<dd class="num text-ink" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+							{headline.totalAdSpend.display}
+						</dd>
+						<p class="text-small text-ink-muted mt-2">across Google, Meta, Flipkart</p>
+					</div>
+					<div class="border border-rule bg-paper rounded p-6">
+						<dt class="kicker mb-2">Brands</dt>
+						<dd class="num text-ink" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+							{headline.brandCount.value}
+						</dd>
+						<p class="text-small text-ink-muted mt-2">{headline.brandCount.descriptor}</p>
+					</div>
+				</dl>
+
+			</div>
+
+			<div class="mt-10">
+				<a href="/work" class="font-sans text-base text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4">
+					See every case study →
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 6 · Amazon free program ───────────────────────────────────── */}
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<div class="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
+				<div class="max-w-prose">
+					<p class="kicker mb-4">Wedge offer</p>
+					<h2 class="text-h1 font-serif font-medium">
+						Not on Amazon yet? Start there for free.
+					</h2>
+					<p class="text-lead text-ink-muted mt-6">
+						We'll open your Amazon seller account, list your first products, and run
+						it for three months at no cost to you. Amazon pays us a referral commission
+						for bringing new sellers on — that's how it works.
+					</p>
+					<p class="text-base text-ink mt-4">
+						There's no lock-in after month three. If it hasn't worked by then, walk away.
+					</p>
+				</div>
+				<div class="flex flex-col items-start gap-3">
+					<WhatsAppCTA
+						message={ctaMsg.amazon}
+						label="Start free on WhatsApp"
+					/>
+					<a href="/amazon-free-onboarding" class="text-small text-ink-muted hover:text-ochre font-mono">
+						How the 3 months works →
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 7 · Final close ───────────────────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+				If any of this made sense, the next step is a two-line WhatsApp message.
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				It's already written — just hit send.
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message={ctaMsg.general} />
+			</div>
+		</div>
+	</section>
+
 </BaseLayout>

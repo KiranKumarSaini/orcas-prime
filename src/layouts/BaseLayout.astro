@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import SiteWhatsAppFloat from '../components/SiteWhatsAppFloat.astro';
 import Schema from '../components/Schema.astro';
 import { organization, localBusiness } from '../lib/schema';
 import { SITE } from '../lib/site';
@@ -80,5 +81,6 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 			<slot />
 		</main>
 		<SiteFooter />
+		<SiteWhatsAppFloat />
 	</body>
 </html>
