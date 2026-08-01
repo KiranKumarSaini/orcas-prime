@@ -1,0 +1,110 @@
+---
+// Minimal header. Wordmark left, nav right. Deliberately not sticky (§9).
+// Mobile menu is one vanilla-JS toggle — no framework overhead.
+
+const nav = [
+  { href: '/pricing',  label: 'Pricing' },
+  { href: '/work',     label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/about',    label: 'About' },
+];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="border-b border-rule bg-paper">
+	<div class="max-w-[76rem] mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between gap-6">
+		<a href="/" class="font-serif font-medium text-lg md:text-xl tracking-tight text-ink hover:text-ochre transition-colors">
+			Orcas Prime
+		</a>
+
+		<nav aria-label="Primary" class="hidden md:block">
+			<ul class="flex items-center gap-8">
+				{nav.map((item) => {
+					const active = currentPath === item.href;
+					return (
+						<li>
+							<a
+								href={item.href}
+								aria-current={active ? 'page' : undefined}
+								class:list={[
+									'font-sans text-small transition-colors',
+									active ? 'text-ochre' : 'text-ink hover:text-ochre'
+								]}
+							>
+								{item.label}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</nav>
+
+		<button
+			id="sv-menu-btn"
+			type="button"
+			class="md:hidden inline-flex items-center gap-2 text-ink font-sans text-small"
+			aria-controls="sv-mobile-nav"
+			aria-expanded="false"
+		>
+			<span class="sv-menu-word" data-when="closed">Menu</span>
+			<span class="sv-menu-word hidden" data-when="open">Close</span>
+			<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+				<line class="sv-menu-line" data-when="closed" x1="2" y1="5"  x2="16" y2="5"  />
+				<line class="sv-menu-line" data-when="closed" x1="2" y1="13" x2="16" y2="13" />
+				<line class="sv-menu-line hidden" data-when="open" x1="3" y1="3"  x2="15" y2="15" />
+				<line class="sv-menu-line hidden" data-when="open" x1="3" y1="15" x2="15" y2="3"  />
+			</svg>
+		</button>
+	</div>
+
+	<div
+		id="sv-mobile-nav"
+		hidden
+		class="md:hidden border-t border-rule bg-paper"
+	>
+		<nav aria-label="Primary mobile" class="max-w-[76rem] mx-auto px-6 py-4">
+			<ul class="flex flex-col divide-y divide-rule">
+				{nav.map((item) => {
+					const active = currentPath === item.href;
+					return (
+						<li>
+							<a
+								href={item.href}
+								aria-current={active ? 'page' : undefined}
+								class:list={[
+									'block py-4 font-sans text-base',
+									active ? 'text-ochre' : 'text-ink'
+								]}
+							>
+								{item.label}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</nav>
+	</div>
+</header>
+
+<script>
+	const btn = document.getElementById('sv-menu-btn');
+	const panel = document.getElementById('sv-mobile-nav');
+	if (btn && panel) {
+		btn.addEventListener('click', () => {
+			const open = btn.getAttribute('aria-expanded') === 'true';
+			const next = !open;
+			btn.setAttribute('aria-expanded', String(next));
+			if (next) {
+				panel.removeAttribute('hidden');
+			} else {
+				panel.setAttribute('hidden', '');
+			}
+			btn.querySelectorAll<HTMLElement>('[data-when]').forEach((el) => {
+				const showWhen = el.dataset.when;
+				const shouldShow = (showWhen === 'open') === next;
+				el.classList.toggle('hidden', !shouldShow);
+			});
+		});
+	}
+</script>

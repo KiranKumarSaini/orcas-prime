@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+export interface Props {
+  /** Page title. Appended with " — Orcas Prime" unless titleTemplate is 'none'. */
+  title: string;
+  /** Meta description. First 160 chars are the SERP snippet — write for extraction. */
+  description: string;
+  /** Absolute or /-prefixed path to the OG image. Defaults to the sitewide fallback. */
+  ogImage?: string;
+  /** Canonical path (path only, e.g. "/pricing"). Defaults to the current URL. */
+  canonicalPath?: string;
+  /** Skip title suffix. Use for the homepage where the wordmark carries it. */
+  titleTemplate?: 'default' | 'none';
+  /** Prevent indexing (utility pages, styleguide, etc.). */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og-default.png',
+  canonicalPath,
+  titleTemplate = 'default',
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = titleTemplate === 'none' ? title : `${title} — Orcas Prime`;
+
+// Astro.site is set in astro.config.mjs (placeholder domain until deploy).
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonicalUrl = siteOrigin + (canonicalPath ?? Astro.url.pathname);
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{fullTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="theme-color" content="#FAF7F2" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Orcas Prime" />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={fullTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+
+		{/* Slot for per-page structured data — <script type="application/ld+json">…</script> */}
+		<slot name="head" />
+	</head>
+	<body class="bg-paper text-ink min-h-screen flex flex-col">
+		<a href="#main" class="skip-link">Skip to content</a>
+		<SiteHeader />
+		<main id="main" class="flex-1">
+			<slot />
+		</main>
+		<SiteFooter />
+	</body>
+</html>

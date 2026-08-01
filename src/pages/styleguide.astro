@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 const palette = [
   { name: 'paper',          hex: '#FAF7F2', use: 'Page background — warm off-white, never pure white',       swatchClass: 'bg-paper',         needsBorder: true  },
@@ -42,16 +42,12 @@ const pricingRows = [
 const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="robots" content="noindex" />
-		<title>Design system — Orcas Prime</title>
-	</head>
-	<body class="bg-paper text-ink">
-		<main class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+<BaseLayout
+	title="Design system"
+	description="Internal design system for the Orcas Prime website — colour tokens, type scale, radii, sample data table."
+	noindex
+>
+	<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 
 			<!-- Header ─────────────────────────────────────────────────────────── -->
 			<header class="grid md:grid-cols-[1fr_auto] gap-y-4 gap-x-8 pb-10 border-b border-rule">
@@ -286,16 +282,15 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 				</p>
 			</section>
 
-			<!-- Footer ─────────────────────────────────────────────────────────── -->
-			<footer class="pt-10">
+			<!-- Colophon ───────────────────────────────────────────────────────── -->
+			<div class="pt-10">
 				<p class="font-mono text-small text-ink-muted">
 					End of ledger.
 					<span class="text-ochre">docs/PROJECT-BRIEF.md §8</span>
 					is the source of truth. Update tokens in
 					<span class="text-ink">src/styles/global.css</span>, never in components.
 				</p>
-			</footer>
+			</div>
 
-		</main>
-	</body>
-</html>
+		</div>
+</BaseLayout>

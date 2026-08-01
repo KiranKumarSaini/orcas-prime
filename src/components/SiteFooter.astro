@@ -1,0 +1,139 @@
+---
+/*
+  Footer is where the "two founders in Jaipur" story lives (§3 — deliberately
+  kept out of the hero). Also the schema anchor for LocalBusiness (§7 Layer 3).
+
+  TODOs below are the source of truth for §13's outstanding items. Do NOT invent
+  values here — better to ship with visible placeholders than fabricated data.
+*/
+
+// TODO(§13): supply the real WhatsApp number, phone, email, and postal address.
+const contact = {
+  whatsapp: '+91XXXXXXXXXX',    // TODO: real WhatsApp business number
+  phone:    '+91 XXXXX XXXXX',  // TODO: real phone
+  email:    'hello@example.com',// TODO: real email
+  street:   'Street address',   // TODO: real street
+  locality: 'Jaipur, Rajasthan 302XXX', // TODO: real PIN code
+};
+
+// TODO(§13): confirm full legal names for both founders (Person schema needs them).
+const founders = ['Kiran Saini', 'Prashant'];
+
+const footerNav = {
+  work: [
+    { href: '/services',                             label: 'Services' },
+    { href: '/services/shopify-meta-google-ads',     label: 'Shopify + ads' },
+    { href: '/services/amazon-account-management',   label: 'Amazon management' },
+    { href: '/services/flipkart-meesho-management',  label: 'Flipkart & Meesho' },
+    { href: '/services/creative-and-catalogue',      label: 'Creative & catalogue' },
+  ],
+  proof: [
+    { href: '/pricing',     label: 'Pricing' },
+    { href: '/work',        label: 'Case studies' },
+    { href: '/about',       label: 'About' },
+    { href: '/how-we-work', label: 'How we work' },
+    { href: '/guides',      label: 'Guides' },
+  ],
+  start: [
+    { href: '/amazon-free-onboarding', label: 'Free 3 months on Amazon' },
+    { href: '/contact',                label: 'Contact' },
+  ],
+};
+
+const year = 2026;
+---
+
+<footer class="mt-24 border-t border-rule-strong bg-paper">
+	<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-14 md:py-20">
+
+		<div class="grid gap-12 md:gap-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+
+			<div>
+				<a href="/" class="font-serif font-medium text-h3 text-ink hover:text-ochre transition-colors">
+					Orcas Prime
+				</a>
+				<p class="text-small text-ink-muted mt-4 leading-relaxed max-w-xs">
+					No retainer. No monthly fee. We take <span class="num text-ochre">3.5%</span> of what your customers actually keep.
+				</p>
+				<p class="text-small text-ink-muted mt-6 leading-relaxed">
+					Built and run by<br />
+					<span class="text-ink">{founders[0]}</span> &nbsp;·&nbsp;
+					<span class="text-ink">{founders[1]}</span>
+				</p>
+			</div>
+
+			<nav aria-label="Services" class="min-w-0">
+				<h2 class="kicker mb-4">Services</h2>
+				<ul class="space-y-2.5">
+					{footerNav.work.map((item) => (
+						<li>
+							<a href={item.href} class="font-sans text-small text-ink hover:text-ochre transition-colors">
+								{item.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			</nav>
+
+			<nav aria-label="Proof" class="min-w-0">
+				<h2 class="kicker mb-4">Proof</h2>
+				<ul class="space-y-2.5">
+					{footerNav.proof.map((item) => (
+						<li>
+							<a href={item.href} class="font-sans text-small text-ink hover:text-ochre transition-colors">
+								{item.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			</nav>
+
+			<div class="min-w-0">
+				<h2 class="kicker mb-4">Start</h2>
+				<ul class="space-y-2.5">
+					{footerNav.start.map((item) => (
+						<li>
+							<a href={item.href} class="font-sans text-small text-ink hover:text-ochre transition-colors">
+								{item.label}
+							</a>
+						</li>
+					))}
+				</ul>
+
+				<h2 class="kicker mt-8 mb-4">Contact</h2>
+				<address class="not-italic space-y-2.5 text-small">
+					<p>
+						<a
+							href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g,'')}`}
+							class="text-ink hover:text-ochre transition-colors"
+						>
+							WhatsApp
+							<span class="num text-ink-muted">{contact.whatsapp}</span>
+						</a>
+					</p>
+					<p>
+						<a href={`mailto:${contact.email}`} class="text-ink hover:text-ochre transition-colors">
+							{contact.email}
+						</a>
+					</p>
+					<p class="text-ink-muted num">
+						{contact.phone}
+					</p>
+				</address>
+			</div>
+		</div>
+
+		<hr class="mt-14 border-t border-rule" />
+
+		<div class="mt-8 grid gap-6 md:grid-cols-[1fr_auto] items-start">
+			<address class="not-italic text-small text-ink-muted">
+				<span class="text-ink">Orcas Prime</span> ·
+				{contact.street}, {contact.locality}, India
+			</address>
+			<p class="font-mono text-micro text-ink-muted uppercase tracking-wider md:text-right">
+				© <span class="num">{year}</span> Orcas Prime. All rights reserved.
+			</p>
+		</div>
+
+	</div>
+</footer>
