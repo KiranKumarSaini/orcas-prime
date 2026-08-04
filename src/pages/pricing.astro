@@ -1,0 +1,300 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PricingTable from '../components/PricingTable.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import Schema from '../components/Schema.astro';
+import { faqPage, breadcrumb } from '../lib/schema';
+import { SITE } from '../lib/site';
+
+/*
+  /pricing — the most strategically important page (Prompt 8).
+  Structure follows PROJECT-BRIEF.md §4 + §7 Layer 3 extraction rules:
+    - Direct answer in the first 40 words (h1 + lead)
+    - Full price list next
+    - Comparison table with cited sources
+    - What's covered
+    - Why we publish
+    - Real FAQ with FAQPage schema
+    - Contextual WhatsApp close
+
+  RULES (§4):
+    - Publish as "3.5% + GST", never GST-inclusive.
+    - Never mention that the rate is negotiable.
+    - Do NOT include the ₹2,000 security deposit — handled off-site.
+*/
+
+// Priced items — verbatim from §4. Do not add rows without brief approval.
+const priceRows = [
+  {
+    item: 'Shopify management — everything included',
+    price: '3.5% + GST',
+    detail: 'of net sales, after returns and RTOs are deducted',
+  },
+  {
+    item: 'New Shopify store build',
+    price: '₹10,000–₹20,000',
+    detail: 'one-time, depending on scope',
+  },
+  {
+    item: 'Amazon · Flipkart · Meesho management',
+    price: 'Free',
+    detail: 'for the first 3 months, via seller referral',
+  },
+  {
+    item: 'Setup, onboarding, creative, reporting fees',
+    price: 'None',
+    detail: 'included in the 3.5%',
+  },
+  {
+    item: 'Lock-in contract',
+    price: 'None',
+    detail: '30 days’ notice, no exit fee',
+  },
+];
+
+const scope = [
+  { label: 'Store management',      desc: 'The whole Shopify admin, day to day.' },
+  { label: 'Meta and Google Ads',   desc: 'Build, run, adjust, report — all inside your ad account.' },
+  { label: 'Creative production',   desc: 'Ad graphics, product-page assets, banners.' },
+  { label: 'RTO management',        desc: 'Dispute filing, courier follow-ups, address validation.' },
+  { label: 'Catalogue management',  desc: 'Variants, tags, on-page SEO, availability.' },
+  { label: 'Logistics + checkout',  desc: 'Payment gateway integration, shipping partners, cart-to-doorstep flow.' },
+  { label: 'Monthly reporting',     desc: 'The numbers, plain, plus what changed and what we changed next.' },
+];
+
+const faqs = [
+  {
+    question: 'What counts as "net sales"?',
+    answer:
+      'Net sales is the money that stayed with your business after refunds, returns, and RTOs are deducted. If a customer refuses delivery and the shipment comes back, that transaction is removed from the base we charge on. This is different from gross revenue, which most agencies use.',
+  },
+  {
+    question: 'Does the 3.5% include GST?',
+    answer:
+      'No. The 3.5% is our service fee. GST is added on top at the government rate (currently 18%), so the bill reads "3.5% + GST." We publish it this way to stay directly comparable to other agencies’ pre-GST rates.',
+  },
+  {
+    question: 'What does "no lock-in" mean?',
+    answer:
+      'You can end the arrangement in any month by giving 30 days’ notice so we can hand over accounts cleanly. No exit fee, no minimum term, no cancellation penalty.',
+  },
+  {
+    question: 'Why is Amazon free for the first three months?',
+    answer:
+      'Amazon pays a referral commission when we bring a new seller onto their platform. That commission covers our work during your first 90 days. After the three months, marketplace management is included in the 3.5% (if you also run Shopify with us) or moves to a separate rate we agree on before the free period ends.',
+  },
+  {
+    question: 'What size store is this best for?',
+    answer:
+      'Brands doing roughly ₹3–50 lakh per month in net sales. Below that, our percentage will usually be smaller than a retainer would cost — efficient for both sides. Above ₹50 lakh, the percentage stays competitive but a fixed retainer may also make sense.',
+  },
+  {
+    question: 'What if I only want ads run, not store management?',
+    answer:
+      'The 3.5% covers everything as one bundle — store, ads, creative, catalogue, logistics. We don’t split it into "just ads." If you only need one piece, a specialist agency will serve you better than we would.',
+  },
+];
+
+const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
+const correctionMsg = 'Hi, I have an agency quote you should see for your pricing footnote.';
+const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
+const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(correctionMsg)}`;
+---
+
+<BaseLayout
+	title="Pricing"
+	description="Orcas Prime takes 3.5% + GST of net sales after returns are deducted. A Shopify build is ₹10,000–₹20,000 one-time. Amazon, Flipkart and Meesho are free for the first three months. No retainer, no lock-in."
+	canonicalPath="/pricing"
+>
+	<Schema
+		slot="head"
+		data={[
+			faqPage(faqs),
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'Pricing', path: '/pricing' },
+			]),
+		]}
+	/>
+
+	{/* ─── 1 · Direct answer (first 40 words for AI extraction) ────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">Pricing</p>
+			<h1 class="text-display font-serif font-medium max-w-[16ch]">
+				What Orcas Prime charges.
+			</h1>
+			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
+				Orcas Prime takes <span class="num text-ochre">3.5% + GST</span> of net sales
+				after returns are deducted. A Shopify build is <span class="num">₹10,000–₹20,000</span>
+				one-time. Amazon, Flipkart and Meesho are free for the first three months.
+				No retainer, no lock-in, no setup fees.
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 2 · The full price list ─────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">The list</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				The full price list.
+			</h2>
+
+			<dl class="mt-12 border-t border-rule-strong">
+				{priceRows.map((row) => (
+					<div class="grid gap-2 md:gap-8 md:grid-cols-[1fr_auto_1.2fr] py-6 border-b border-rule items-baseline">
+						<dt class="font-serif text-h3 font-medium text-ink">{row.item}</dt>
+						<dd class="num text-lead text-ochre md:text-right whitespace-nowrap">{row.price}</dd>
+						<dd class="text-small text-ink-muted leading-relaxed">{row.detail}</dd>
+					</div>
+				))}
+			</dl>
+		</div>
+	</section>
+
+	{/* ─── 3 · Comparison + footnoted sources ──────────────────────── */}
+	<section class="border-t border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">The comparison</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+				What you’d pay a typical retainer agency.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				Same net sales, three price points side by side. Retainer agencies charge the same
+				whether the month worked or not.
+			</p>
+
+			<div class="mt-12 max-w-[42rem]">
+				<PricingTable id="pricing-comparison" />
+			</div>
+
+			<div class="mt-8 max-w-prose text-small text-ink-muted leading-relaxed space-y-3">
+				<p class="kicker text-ink" id="sources">Sources</p>
+				<p>
+					<sup class="num text-ochre">1</sup>&nbsp;Ranges compiled from publicly available
+					agency rate pages, industry directory listings on Clutch, DesignRush and Sortlist,
+					and public LinkedIn descriptions for Indian ecommerce agencies as of Q3 2026.
+				</p>
+				<p>
+					<sup class="num text-ochre">2</sup>&nbsp;Retainer range for Indian ecommerce
+					agencies: <span class="num">₹75,000</span>–<span class="num">₹10,00,000</span>
+					per month, most commonly <span class="num">₹1,50,000</span>–<span class="num">₹6,00,000</span>.
+					Percentage-of-ad-spend pricing commonly runs 10–20% of media budget.
+				</p>
+				<p class="pt-2 font-mono text-micro">
+					If you have an agency quote that undercuts this range,
+					<a
+						href={correctionHref}
+						rel="noopener"
+						class="text-ochre underline decoration-1 underline-offset-4 hover:text-ochre-hover"
+					>
+						send it over &mdash; we’ll update the footnote.
+					</a>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 4 · What the 3.5% covers ────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">What’s covered</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				What the <span class="num text-ochre">3.5%</span> covers.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				One fee. Everything you need to run and grow the store.
+			</p>
+
+			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
+				{scope.map((item) => (
+					<div class="grid grid-cols-[1fr_2fr] gap-6 py-5 border-b border-rule items-baseline">
+						<dt class="font-serif text-h3 font-medium text-ink">{item.label}</dt>
+						<dd class="text-base text-ink-muted leading-relaxed">{item.desc}</dd>
+					</div>
+				))}
+			</dl>
+
+			<p class="text-small text-ink-muted mt-8 font-mono">
+				No setup, no onboarding, no creative, no reporting fees. You supply product
+				images and titles; we do everything else.
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 5 · Why we publish this ─────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Why publish</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				Why we publish this.
+			</h2>
+			<div class="mt-8 grid gap-6 md:grid-cols-3 md:gap-10">
+				<p class="text-base text-ink-muted leading-relaxed">
+					<span class="kicker text-ink block mb-2">One</span>
+					It saves you the discovery call if the number doesn’t fit your budget.
+				</p>
+				<p class="text-base text-ink-muted leading-relaxed">
+					<span class="kicker text-ink block mb-2">Two</span>
+					It makes us defend the rate publicly instead of raising it quietly.
+				</p>
+				<p class="text-base text-ink-muted leading-relaxed">
+					<span class="kicker text-ink block mb-2">Three</span>
+					If you’re comparing us to three other agencies, having our number in
+					front of you means you compare on what actually matters &mdash; the work,
+					and the terms.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 6 · FAQ (FAQPage schema emitted above) ──────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Questions</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				Questions we get before signing.
+			</h2>
+
+			<div class="mt-12 max-w-prose border-t border-rule">
+				{faqs.map((qa) => (
+					<details class="group border-b border-rule py-5" open>
+						<summary class="cursor-pointer list-none flex items-start gap-4">
+							<span aria-hidden="true" class="kicker mt-2 text-ochre num">Q</span>
+							<h3 class="font-serif text-h3 font-medium text-ink flex-1">
+								{qa.question}
+							</h3>
+						</summary>
+						<p class="mt-4 pl-9 text-base text-ink-muted leading-relaxed">
+							{qa.answer}
+						</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 7 · Close ────────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[30ch] mx-auto">
+				If <span class="num text-ochre">3.5%</span> of net sales sounds like it might
+				fit, the next step is a two-line WhatsApp message.
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				It’s already written &mdash; just hit send.
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message={ctaMsg} />
+			</div>
+			<p class="text-small text-ink-muted mt-6">
+				Or start with the wedge offer:
+				<a href="/amazon-free-onboarding" class="text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4">
+					free 3 months on Amazon &rarr;
+				</a>
+			</p>
+		</div>
+	</section>
+
+</BaseLayout>

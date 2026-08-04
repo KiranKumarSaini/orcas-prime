@@ -12,13 +12,11 @@
 import { fmtINR } from '../data/results';
 
 export interface Props {
-  /** Show the "Sources ↓" line beneath the table. Enabled on /pricing only. */
-  withSourcesNote?: boolean;
   /** Section container id — links to it from other pages can anchor here. */
   id?: string;
 }
 
-const { withSourcesNote = false, id } = Astro.props;
+const { id } = Astro.props;
 
 const rows = [
   { net: 500000,  op: 17500,  ret: 75000 },
@@ -57,10 +55,3 @@ const rows = [
 	</table>
 </div>
 
-{withSourcesNote && (
-	<p class="text-small text-ink-muted mt-4 max-w-prose leading-relaxed">
-		Sources for the "typical agency retainer" column are footnoted below the
-		comparison &mdash; industry ranges of ₹75K–₹10L/month, commonly ₹1.5L–₹6L,
-		or 10–20% of ad spend.
-	</p>
-)}
