@@ -1,0 +1,298 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import Schema from '../../components/Schema.astro';
+import { faqPage, breadcrumb } from '../../lib/schema';
+import { SITE } from '../../lib/site';
+
+/*
+  Guide template — the extraction shape from §7 Layer 3:
+    1. Real question as the <h1>
+    2. Direct answer in the first 40 words, visually set apart
+    3. Then the detail
+    4. FAQPage + BreadcrumbList schema
+
+  The direct answer block is deliberately the first prose node after the
+  h1 in the DOM. That ordering is what makes it liftable.
+*/
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  return guides.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: Awaited<ReturnType<typeof getCollection<'guides'>>>[number];
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// Resolve related guides for the footer.
+const allGuides = await getCollection('guides', ({ data }) => !data.draft);
+const related = entry.data.related
+  .map((id) => allGuides.find((g) => g.id === id))
+  .filter((g): g is NonNullable<typeof g> => Boolean(g));
+
+// The main question + answer always leads the FAQPage block; extra Q&As follow.
+const faqEntries = [
+  { question: entry.data.question, answer: entry.data.directAnswer },
+  ...entry.data.faqs,
+];
+
+const updatedISO = entry.data.updated.toISOString();
+const updatedDisplay = updatedISO.slice(0, 10);
+
+// Article schema — dated, attributed, first-party. Models weight this.
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.question,
+  description: entry.data.description,
+  datePublished: updatedISO,
+  dateModified: updatedISO,
+  author: { '@id': `${SITE.url}/#organization` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${SITE.url}/guides/${entry.id}`,
+  },
+};
+
+const ctaMsg = 'Hi, I read your guide — I want to talk about my store.';
+---
+
+<BaseLayout
+	title={entry.data.shortTitle}
+	description={entry.data.description}
+	canonicalPath={`/guides/${entry.id}`}
+>
+	<Schema
+		slot="head"
+		data={[
+			articleSchema,
+			faqPage(faqEntries),
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'Guides', path: '/guides' },
+				{ name: entry.data.shortTitle, path: `/guides/${entry.id}` },
+			]),
+		]}
+	/>
+
+	{/* ─── 1 · Question + direct answer ────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">
+				<a href="/guides" class="hover:text-ochre transition-colors">Guides</a>
+				<span aria-hidden="true"> · </span>
+				<span class="text-ochre">{entry.data.category}</span>
+			</p>
+
+			<h1 class="text-h1 font-serif font-medium max-w-[26ch]">
+				{entry.data.question}
+			</h1>
+
+			{/* The citation block. First prose after the h1, by design. */}
+			<div class="mt-8 max-w-prose border-l-2 border-ochre pl-6 md:pl-8">
+				<p class="text-lead text-ink leading-relaxed">
+					{entry.data.directAnswer}
+				</p>
+			</div>
+
+			<p class="font-mono text-micro text-ink-muted mt-8">
+				Last updated <time datetime={updatedISO}>{updatedDisplay}</time>
+				<span aria-hidden="true"> · </span>
+				Orcas Prime
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 2 · The detail ──────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<article class="prose-guide max-w-prose">
+				<Content />
+			</article>
+		</div>
+	</section>
+
+	{/* ─── 3 · Extra FAQs, if the guide declared any ───────────────── */}
+	{entry.data.faqs.length > 0 && (
+		<section class="border-t border-rule bg-ochre-wash/40">
+			<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+				<p class="kicker mb-4">Related questions</p>
+				<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+					While you're here.
+				</h2>
+				<div class="mt-12 max-w-prose border-t border-rule">
+					{entry.data.faqs.map((qa) => (
+						<details class="border-b border-rule py-5" open>
+							<summary class="cursor-pointer list-none flex items-start gap-4">
+								<span aria-hidden="true" class="kicker mt-2 text-ochre num">Q</span>
+								<h3 class="font-serif text-h3 font-medium text-ink flex-1">
+									{qa.question}
+								</h3>
+							</summary>
+							<p class="mt-4 pl-9 text-base text-ink-muted leading-relaxed">
+								{qa.answer}
+							</p>
+						</details>
+					))}
+				</div>
+			</div>
+		</section>
+	)}
+
+	{/* ─── 4 · Related guides ──────────────────────────────────────── */}
+	{related.length > 0 && (
+		<section class="border-t border-rule">
+			<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+				<p class="kicker mb-4">Read next</p>
+				<ul class="mt-6 grid gap-4 md:grid-cols-2">
+					{related.map((g) => (
+						<li>
+							<a
+								href={`/guides/${g.id}`}
+								class="block border border-rule bg-paper rounded p-5 hover:border-ochre transition-colors"
+							>
+								<p class="font-mono text-micro uppercase tracking-wider text-ochre">
+									{g.data.category}
+								</p>
+								<p class="font-serif text-h3 font-medium text-ink mt-2">
+									{g.data.question}
+								</p>
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)}
+
+	{/* ─── 5 · Close ───────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[30ch] mx-auto">
+				Want this handled instead of researched?
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				<span class="num text-ochre">3.5%</span> of net sales. No retainer, no lock-in.
+			</p>
+			<div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+				<WhatsAppCTA message={ctaMsg} />
+				<a
+					href="/pricing"
+					class="font-sans text-base text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+				>
+					See full pricing &rarr;
+				</a>
+			</div>
+			<p class="text-small text-ink-muted mt-8">
+				<a href="/guides" class="hover:text-ochre">&larr; All guides</a>
+			</p>
+		</div>
+	</section>
+
+</BaseLayout>
+
+<style>
+	/* Guide prose — derives from the design tokens, not Tailwind typography. */
+	.prose-guide :global(h2) {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: var(--text-h2);
+		line-height: var(--text-h2--line-height);
+		letter-spacing: var(--text-h2--letter-spacing);
+		color: var(--color-ink);
+		margin-top: 3rem;
+		margin-bottom: 1rem;
+	}
+	.prose-guide :global(h2:first-child) {
+		margin-top: 0;
+	}
+	.prose-guide :global(h3) {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: var(--text-h3);
+		line-height: var(--text-h3--line-height);
+		color: var(--color-ink);
+		margin-top: 2.25rem;
+		margin-bottom: 0.75rem;
+	}
+	.prose-guide :global(p) {
+		font-family: var(--font-sans);
+		font-size: var(--text-base);
+		line-height: 1.7;
+		color: var(--color-ink-muted);
+		margin-bottom: 1.25rem;
+	}
+	.prose-guide :global(strong) {
+		color: var(--color-ink);
+		font-weight: 500;
+	}
+	.prose-guide :global(ul),
+	.prose-guide :global(ol) {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 1.5rem;
+		border-top: 1px solid var(--color-rule);
+	}
+	.prose-guide :global(li) {
+		font-family: var(--font-sans);
+		font-size: var(--text-base);
+		line-height: 1.6;
+		color: var(--color-ink-muted);
+		padding: 0.75rem 0 0.75rem 1.5rem;
+		border-bottom: 1px solid var(--color-rule);
+		position: relative;
+	}
+	.prose-guide :global(li::before) {
+		content: '—';
+		position: absolute;
+		left: 0;
+		color: var(--color-ochre);
+		font-family: var(--font-mono);
+	}
+	.prose-guide :global(a) {
+		color: var(--color-ochre);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
+	}
+	.prose-guide :global(a:hover) {
+		color: var(--color-ochre-hover);
+	}
+	.prose-guide :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 0 0 1.5rem;
+		font-size: var(--text-small);
+	}
+	.prose-guide :global(th) {
+		font-family: var(--font-sans);
+		font-weight: 500;
+		text-align: left;
+		color: var(--color-ink);
+		background: var(--color-ochre-wash);
+		padding: 0.75rem;
+		border-bottom: 1px solid var(--color-rule-strong);
+	}
+	.prose-guide :global(td) {
+		padding: 0.75rem;
+		border-bottom: 1px solid var(--color-rule);
+		color: var(--color-ink-muted);
+	}
+	.prose-guide :global(blockquote) {
+		border-left: 2px solid var(--color-ochre);
+		padding-left: 1.5rem;
+		margin: 0 0 1.5rem;
+	}
+	.prose-guide :global(blockquote p) {
+		color: var(--color-ink);
+	}
+</style>
