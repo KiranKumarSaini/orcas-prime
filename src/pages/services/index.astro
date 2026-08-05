@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import Schema from '../../components/Schema.astro';
+import { breadcrumb } from '../../lib/schema';
+import { services } from '../../data/services';
+
+/*
+  /services — the hub. Five service cards, no marketing padding.
+  Each card links to its own page (each page must convert on its own — §6).
+*/
+
+const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
+---
+
+<BaseLayout
+	title="Services"
+	description="What Orcas Prime does: Shopify + ads, Shopify store builds, Amazon, Flipkart and Meesho management, creative and catalogue. All under one team, one fee."
+	canonicalPath="/services"
+>
+	<Schema
+		slot="head"
+		data={breadcrumb([
+			{ name: 'Home', path: '/' },
+			{ name: 'Services', path: '/services' },
+		])}
+	/>
+
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">Services</p>
+			<h1 class="text-display font-serif font-medium max-w-[22ch]">
+				One team. Five services. One fee.
+			</h1>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose leading-relaxed">
+				If you're a management client, the first four are bundled into <span class="num text-ochre">3.5% + GST</span> of net sales. New Shopify builds are a separate one-time fee. Creative is standalone if you already have an agency running your ads.
+			</p>
+		</div>
+	</section>
+
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-12 md:py-16">
+			<ul class="border-t border-rule">
+				{services.map((s) => (
+					<li class="border-b border-rule">
+						<a
+							href={`/services/${s.slug}`}
+							class="group grid gap-3 md:gap-8 md:grid-cols-[10rem_1fr_auto] py-6 md:py-8 items-baseline hover:bg-ochre-wash/50 -mx-4 px-4 md:-mx-6 md:px-6 rounded transition-colors"
+						>
+							<span class="font-mono text-micro uppercase tracking-wider text-ochre">
+								{s.kicker}
+							</span>
+							<div>
+								<h2 class="font-serif text-h2 font-medium text-ink group-hover:text-ochre transition-colors">
+									{s.name}
+								</h2>
+								<p class="text-base text-ink-muted leading-relaxed mt-2 max-w-[52ch]">
+									{s.lead}
+								</p>
+							</div>
+							<span class="font-mono text-small text-ochre group-hover:text-ochre-hover whitespace-nowrap">
+								Read more &rarr;
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+				Not sure which of the five applies to you?
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				Tell us on WhatsApp and we'll say honestly whether we're the right fit.
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message={ctaMsg} />
+			</div>
+		</div>
+	</section>
+
+</BaseLayout>

@@ -70,36 +70,6 @@ export const SITE = {
   // ISO country code for schema.org areaServed and priceCurrency.
   serviceAreaCountry: 'IN',
   priceCurrency: 'INR',
-
-  // Services listed as a flat array. Slug is the /services/[slug] path segment.
-  services: [
-    {
-      slug: 'shopify-meta-google-ads',
-      name: 'Shopify + Meta + Google Ads',
-      short:
-        'Build and run a Shopify store with performance media across Meta and Google.',
-    },
-    {
-      slug: 'shopify-store-development',
-      name: 'Shopify store development',
-      short: 'New Shopify store builds, ₹10,000–₹20,000 one-time.',
-    },
-    {
-      slug: 'amazon-account-management',
-      name: 'Amazon account management',
-      short: 'Manage Amazon seller accounts for Indian D2C brands.',
-    },
-    {
-      slug: 'flipkart-meesho-management',
-      name: 'Flipkart and Meesho management',
-      short: 'Manage marketplace accounts on Flipkart and Meesho Seller Hub.',
-    },
-    {
-      slug: 'creative-and-catalogue',
-      name: 'Creative and catalogue',
-      short: 'Product photography, ad creative, catalogue optimisation.',
-    },
-  ],
 } as const;
 
 export type SiteConfig = typeof SITE;

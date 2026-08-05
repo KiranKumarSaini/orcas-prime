@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import Schema from '../../components/Schema.astro';
+import { service, breadcrumb } from '../../lib/schema';
+import { services, type ServiceContent } from '../../data/services';
+import { findClient, fmtINR } from '../../data/results';
+
+export async function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { svc: s } }));
+}
+
+interface Props {
+  svc: ServiceContent;
+}
+
+const { svc } = Astro.props;
+
+// Other services shown at the bottom — everyone else, in file order.
+const otherServices = services.filter((s) => s.slug !== svc.slug);
+
+const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
+---
+
+<BaseLayout
+	title={svc.meta.title}
+	description={svc.meta.description}
+	canonicalPath={`/services/${svc.slug}`}
+>
+	<Schema
+		slot="head"
+		data={[
+			service({
+				name: svc.name,
+				description: svc.meta.description,
+				slug: svc.slug,
+				priceDescription: `${svc.cost.headline} ${svc.cost.subhead}`,
+			}),
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'Services', path: '/services' },
+				{ name: svc.name, path: `/services/${svc.slug}` },
+			]),
+		]}
+	/>
+
+	{/* ─── 1 · Hero ────────────────────────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">
+				<a href="/services" class="hover:text-ochre transition-colors">Services</a>
+				<span aria-hidden="true"> · </span>
+				<span class="text-ochre">{svc.kicker}</span>
+			</p>
+			<h1 class="text-display font-serif font-medium max-w-[22ch]">
+				{svc.h1}
+			</h1>
+			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
+				{svc.lead}
+			</p>
+			<div class="mt-10">
+				<WhatsAppCTA message={svc.ctaMessage} label={svc.ctaLabel} />
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 2 · What's included ─────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">What's included</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				Every part of the job.
+			</h2>
+
+			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
+				{svc.included.map((item) => (
+					<div class="grid grid-cols-[1fr_2fr] gap-6 py-5 border-b border-rule items-baseline">
+						<dt class="font-serif text-h3 font-medium text-ink">{item.label}</dt>
+						<dd class="text-base text-ink-muted leading-relaxed">{item.desc}</dd>
+					</div>
+				))}
+			</dl>
+		</div>
+	</section>
+
+	{/* ─── 3 · Cost ────────────────────────────────────────────────── */}
+	<section class="border-t border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
+				<div>
+					<p class="kicker mb-4">Cost</p>
+					<h2 class="text-h1 font-serif font-medium">
+						What it costs.
+					</h2>
+				</div>
+				<div class="border border-rule-strong bg-paper rounded p-6 md:p-10">
+					<p class="num text-ochre" style="font-size: clamp(2.5rem, 5vw, 3.75rem); line-height: 1.05; letter-spacing: -0.02em;">
+						{svc.cost.headline}
+					</p>
+					<p class="text-base text-ink mt-3 leading-relaxed">
+						{svc.cost.subhead}
+					</p>
+					{svc.cost.note && (
+						<p class="text-small text-ink-muted mt-6 pt-6 border-t border-rule leading-relaxed">
+							{svc.cost.note}
+						</p>
+					)}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 4 · Proof (only if this service has a linked client) ───── */}
+	{svc.proof && proofClient && (
+		<section class="border-t border-rule">
+			<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+				<p class="kicker mb-4">Proof</p>
+				<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+					A live account we run right now.
+				</h2>
+
+				<div class="mt-12 border border-rule-strong bg-paper rounded p-6 md:p-10 max-w-3xl">
+					<p class="font-mono text-micro uppercase tracking-wider text-ink-muted mb-3">
+						{proofClient.name}
+					</p>
+					<p class="num text-ochre" style="font-size: clamp(3rem, 7vw, 5rem); line-height: 0.95; letter-spacing: -0.02em;">
+						{svc.proof.figure}
+					</p>
+					<p class="text-base text-ink mt-3">
+						{svc.proof.description}
+					</p>
+					{proofClient.result.kind === 'quantitative' && (
+						<p class="font-mono text-micro text-ink-muted mt-4 pt-4 border-t border-rule">
+							{fmtINR(proofClient.result.amount)} {proofClient.result.metric} · {proofClient.result.period}
+						</p>
+					)}
+				</div>
+
+				<div class="mt-8">
+					<a href="/work" class="font-sans text-base text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4">
+						See every case study &rarr;
+					</a>
+				</div>
+			</div>
+		</section>
+	)}
+
+	{/* ─── 5 · Other services ──────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">The other four</p>
+			<h2 class="text-h2 font-serif font-medium">
+				What else we do.
+			</h2>
+
+			<ul class="mt-8 grid gap-4 md:grid-cols-2">
+				{otherServices.map((s) => (
+					<li>
+						<a
+							href={`/services/${s.slug}`}
+							class="block border border-rule bg-paper rounded p-5 hover:border-ochre transition-colors"
+						>
+							<p class="font-mono text-micro uppercase tracking-wider text-ochre">
+								{s.kicker}
+							</p>
+							<p class="font-serif text-h3 font-medium text-ink mt-2">
+								{s.name}
+							</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	{/* ─── 6 · Close ────────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+				Sounds like a fit? Message is already written.
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message={svc.ctaMessage} label={svc.ctaLabel} />
+			</div>
+		</div>
+	</section>
+
+</BaseLayout>
