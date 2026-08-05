@@ -55,12 +55,9 @@ export const SITE = {
   },
 
   contact: {
-    // TODO(§13): real hello@ email.
-    email: 'hello@orcasprime.com',
-    // TODO(§13): real business phone in international format.
-    phone: '+91XXXXXXXXXX',
-    // TODO(§13): real WhatsApp business number, digits only for wa.me links.
-    whatsapp: '+91XXXXXXXXXX',
+    email: 'orcasprime@gmail.com',
+    phone: '+91 90018 33059',
+    whatsapp: '+91 90018 33059',
   },
 
   social: {

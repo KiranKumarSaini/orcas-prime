@@ -11,7 +11,7 @@ const chrome = await launch({
 const client = await CDP({ port: chrome.port });
 const { Page, Emulation } = client;
 await Page.enable();
-await Emulation.setDeviceMetricsOverride({ width: 1200, height: 630, deviceScaleFactor: 2, mobile: false });
+await Emulation.setDeviceMetricsOverride({ width: 1200, height: 630, deviceScaleFactor: 1, mobile: false });
 await Page.navigate({ url: file });
 await Page.loadEventFired();
 await new Promise(r => setTimeout(r, 1200)); // let webfonts settle
