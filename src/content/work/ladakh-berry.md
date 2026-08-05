@@ -3,7 +3,7 @@ slug: ladakh-berry
 kicker: Google Ads · lifetime
 headline: A 5.1x return on Google Ads, and a Shopify store that keeps up with it.
 dek: How the Ladakh Berry Google Ads account has run since we took it over — the shape of the campaigns, the numbers as they stand today, and what happens next.
-description: Ladakh Berry runs Shopify plus Google and Meta ads with Orcas Prime. Lifetime Google Ads has delivered ₹6,70,173 in tracked conversion value on ₹1,31,198 in spend — a 5.1x return.
+description: Ladakh Berry runs Shopify plus Google and Meta ads with Orcas Prime. Lifetime Google Ads — ₹6,70,173 conversion value on ₹1,31,198 spend, a 5.1x return.
 updated: 2026-08-05
 ---
 

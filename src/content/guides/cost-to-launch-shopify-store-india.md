@@ -3,7 +3,7 @@ question: What does it actually cost to launch a Shopify store in India?
 shortTitle: Real cost of a Shopify store in India
 category: Getting started
 directAnswer: Budget ₹3,500–₹8,000 a month to run a Basic Shopify store in India — subscription plus GST, apps, and transaction fees. A one-time build costs ₹10,000–₹50,000 depending on who does it and how custom it is.
-description: The full cost of launching and running a Shopify store in India — subscription with GST, theme, apps, payment gateway fees, shipping integration and build cost, with the numbers most quotes leave out.
+description: The full cost of launching a Shopify store in India — subscription with GST, apps, gateway fees and build cost, including what most quotes leave out.
 updated: 2026-08-05
 faqs:
   - question: Do I need a paid theme?

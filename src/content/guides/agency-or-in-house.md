@@ -3,7 +3,7 @@ question: When should a D2C brand hire an agency instead of doing it in-house?
 shortTitle: Agency or in-house?
 category: Pricing
 directAnswer: Hire an agency when the work is costing you more in lost time than the fee, or when you need a skill you cannot hire for at your size. Below roughly ₹3 lakh monthly revenue, doing it yourself usually wins.
-description: An honest look at when an Indian D2C brand should hire an ecommerce agency, when to keep it in-house, and when to hire an employee instead — with the arithmetic behind each.
+description: When an Indian D2C brand should hire an ecommerce agency, when to keep it in-house, and when to hire an employee instead — with the arithmetic.
 updated: 2026-08-05
 faqs:
   - question: Is hiring one person cheaper than an agency?

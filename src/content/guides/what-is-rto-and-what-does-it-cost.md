@@ -3,7 +3,7 @@ question: What is RTO in ecommerce, and how much does it actually cost you?
 shortTitle: What RTO actually costs an Indian seller
 category: RTO and returns
 directAnswer: RTO is a shipment the customer refuses or that fails delivery, returning to you unsold. India averages 20–30% RTO on D2C orders, higher on COD. Each one costs you forward shipping, return shipping, and the packaging — with no revenue.
-description: RTO (return to origin) explained for Indian D2C sellers — what it is, the real per-order cost, why India's rate is three times the global benchmark, and how it destroys margin quietly.
+description: RTO explained for Indian D2C sellers — what it is, the real per-order cost, why India's rate is triple the global benchmark, and the margin impact.
 updated: 2026-08-05
 faqs:
   - question: Is RTO the same as a customer return?

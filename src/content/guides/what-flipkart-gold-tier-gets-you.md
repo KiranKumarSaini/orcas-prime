@@ -3,7 +3,7 @@ question: What does Flipkart Gold tier actually get you?
 shortTitle: What Flipkart Gold tier gets you
 category: Marketplaces
 directAnswer: Flipkart Gold tier requires roughly ₹30 lakh revenue or 4,000 units sold, plus cancellation under 0.15% and RTD breaches under 1%. It gets you faster payment — about five business days — a dedicated account manager, and earlier sale-event access.
-description: Flipkart's seller tier system explained — the revenue and performance thresholds for Gold, what changes at that level, and how the 90-day rolling reassessment works.
+description: Flipkart's seller tiers explained — the revenue and performance thresholds for Gold, what changes at that level, and the 90-day reassessment.
 updated: 2026-08-05
 faqs:
   - question: How long does the tier last once you reach it?

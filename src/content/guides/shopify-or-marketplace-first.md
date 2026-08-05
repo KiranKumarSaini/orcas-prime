@@ -3,7 +3,7 @@ question: Should a new Indian D2C brand start on Shopify or on a marketplace?
 shortTitle: Shopify or marketplace first?
 category: Getting started
 directAnswer: Start on a marketplace if you need cash flow and validation fast. Start on Shopify if you have a brand and want to own the customer. Most Indian brands end up on both — the question is sequence, not either/or.
-description: Whether a new Indian D2C brand should launch on Shopify or on Amazon, Flipkart or Meesho first — the trade-offs on cost, speed, margin, data ownership and brand control.
+description: Should a new Indian D2C brand launch on Shopify or a marketplace? The trade-offs on cost, speed, margin, customer data and brand control.
 updated: 2026-08-05
 faqs:
   - question: Can I do both at the same time?

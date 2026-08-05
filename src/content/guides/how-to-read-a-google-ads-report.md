@@ -3,7 +3,7 @@ question: How do you read a Google Ads report if you're not technical?
 shortTitle: Reading a Google Ads report
 category: Ads
 directAnswer: Ignore impressions and clicks. Look at four numbers — conversions, conversion value, cost, and ROAS. If conversion value divided by cost is above your break-even multiple, the account is working. Everything else is diagnostic detail.
-description: A plain-language guide to reading a Google Ads report for Indian D2C brands — which four metrics matter, which ones are vanity, and the questions to ask your agency.
+description: A plain-language guide to reading a Google Ads report — the four metrics that matter, the vanity ones, and the questions to ask your agency.
 updated: 2026-08-05
 faqs:
   - question: What is a good ROAS?

@@ -3,7 +3,7 @@ question: Gross revenue or net revenue — which should you judge an agency on?
 shortTitle: Gross vs net revenue when judging an agency
 category: Pricing
 directAnswer: Judge an agency on net revenue — what stayed with you after refunds, returns and RTOs. Gross revenue counts orders that came back and you paid shipping on twice. In India that gap is routinely 20–30%.
-description: Why Indian D2C brands should evaluate agency performance on net revenue rather than gross, how the RTO gap distorts reported ROAS, and what to ask for in reporting.
+description: Why Indian D2C brands should judge an agency on net revenue, not gross — how the RTO gap distorts reported ROAS, and what to ask for in reporting.
 updated: 2026-08-05
 faqs:
   - question: Do ad platforms report gross or net?

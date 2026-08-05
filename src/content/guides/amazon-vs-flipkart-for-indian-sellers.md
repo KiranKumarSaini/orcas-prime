@@ -3,7 +3,7 @@ question: Amazon or Flipkart — which should an Indian seller start with?
 shortTitle: Amazon vs Flipkart for Indian sellers
 category: Marketplaces
 directAnswer: Amazon suits higher-value, brand-led catalogues and has better fulfilment infrastructure. Flipkart suits value-priced, tier-2/3 categories like fashion and has a clearer seller-tier system. Both now waive commission on much low-priced inventory, so fees are no longer the deciding factor.
-description: Amazon vs Flipkart for Indian sellers in 2026 — commission structures after the zero-fee changes, fulfilment options, settlement speed, category strengths and which to launch on first.
+description: Amazon vs Flipkart for Indian sellers in 2026 — commission after the zero-fee changes, fulfilment, settlement speed, and which to launch on first.
 updated: 2026-08-05
 faqs:
   - question: Should I eventually sell on both?

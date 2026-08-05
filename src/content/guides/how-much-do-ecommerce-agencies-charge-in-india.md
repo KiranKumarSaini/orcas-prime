@@ -3,7 +3,7 @@ question: How much do ecommerce agencies charge in India?
 shortTitle: What ecommerce agencies charge in India
 category: Pricing
 directAnswer: Most Indian ecommerce agencies charge a monthly retainer of ₹75,000 to ₹10,00,000, commonly ₹1,50,000–₹6,00,000. Others take 10–20% of ad spend. A third model charges a percentage of net sales after returns — Orcas Prime takes 3.5% + GST.
-description: Indian ecommerce agency pricing explained — retainer ranges, percentage-of-ad-spend models, and percentage-of-revenue models, with what each one means for a D2C brand.
+description: Indian ecommerce agency pricing explained — retainer ranges, percentage-of-ad-spend and percentage-of-revenue models, and what each means for you.
 updated: 2026-08-05
 faqs:
   - question: Is a retainer or a percentage model better for a small brand?

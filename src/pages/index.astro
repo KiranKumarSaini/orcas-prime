@@ -38,8 +38,8 @@ const ctaMsg = {
 ---
 
 <BaseLayout
-	title="Ecommerce agency in Jaipur — no retainer, 3.5% of what your customers keep"
-	description="Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. We take 3.5% + GST of net sales after returns and RTOs. No retainer, no lock-in."
+	title="Ecommerce agency in Jaipur — no retainer, 3.5% of net sales"
+	description="Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns. No retainer, no lock-in."
 	titleTemplate="none"
 	canonicalPath="/"
 >
@@ -161,27 +161,35 @@ const ctaMsg = {
 					</dl>
 				</div>
 
+				{/* A <dl> may only contain dt/dd (optionally wrapped in a div). The
+				    caption text lives inside the <dd>, not as a sibling <p>. */}
 				<dl class="grid gap-6">
 					<div class="border border-rule bg-paper rounded p-6">
 						<dt class="kicker mb-2">Total tracked revenue</dt>
-						<dd class="num text-ink" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
-							{headline.totalRevenue.display}
+						<dd>
+							<span class="num text-ink block" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+								{headline.totalRevenue.display}
+							</span>
+							<span class="block text-small text-ink-muted mt-2">across all clients</span>
 						</dd>
-						<p class="text-small text-ink-muted mt-2">across all clients</p>
 					</div>
 					<div class="border border-rule bg-paper rounded p-6">
 						<dt class="kicker mb-2">Total ad spend under management</dt>
-						<dd class="num text-ink" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
-							{headline.totalAdSpend.display}
+						<dd>
+							<span class="num text-ink block" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+								{headline.totalAdSpend.display}
+							</span>
+							<span class="block text-small text-ink-muted mt-2">across Google, Meta, Flipkart</span>
 						</dd>
-						<p class="text-small text-ink-muted mt-2">across Google, Meta, Flipkart</p>
 					</div>
 					<div class="border border-rule bg-paper rounded p-6">
 						<dt class="kicker mb-2">Brands</dt>
-						<dd class="num text-ink" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
-							{headline.brandCount.value}
+						<dd>
+							<span class="num text-ink block" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+								{headline.brandCount.value}
+							</span>
+							<span class="block text-small text-ink-muted mt-2">{headline.brandCount.descriptor}</span>
 						</dd>
-						<p class="text-small text-ink-muted mt-2">{headline.brandCount.descriptor}</p>
 					</div>
 				</dl>
 

@@ -3,7 +3,7 @@ slug: divine-rudras
 kicker: Flipkart · Gold tier
 headline: How we got Divine Rudras to Flipkart Gold tier — and why that matters more than the revenue number.
 dek: Gold tier on Flipkart's Seller Program isn't a sticker. It changes the payment cycle, the surface area on the platform, and the shape of the relationship with Flipkart itself.
-description: Divine Rudras runs on Flipkart Seller Hub with Orcas Prime managing the account. Reached Gold tier under Flipkart's Seller Program — payment cycle, account manager, and platform visibility all change at that level.
+description: Divine Rudras runs on Flipkart Seller Hub with Orcas Prime. Reached Gold tier — payment cycle, account manager and platform visibility all change there.
 updated: 2026-08-05
 ---
 

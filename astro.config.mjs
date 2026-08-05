@@ -14,5 +14,11 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // /styleguide is noindex and Disallow'd in robots.txt — listing it in the
+      // sitemap would send a contradictory "please index this" signal.
+      filter: (page) => !page.includes('/styleguide'),
+    }),
+  ],
 });

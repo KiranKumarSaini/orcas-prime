@@ -3,7 +3,7 @@ question: How much should an Indian D2C brand spend on ads to start?
 shortTitle: Starting ad budget for Indian D2C
 category: Ads
 directAnswer: Start at ₹1,000–₹2,000 a day — enough for the platform to gather data without burning cash while you learn. Expect the first three to four weeks to be spent finding what works, not making a profit.
-description: How much an Indian D2C brand should budget for Meta and Google ads at launch, why very small budgets fail structurally, and what to expect in the first month.
+description: How much an Indian D2C brand should budget for Meta and Google ads at launch, why tiny budgets fail structurally, and what month one looks like.
 updated: 2026-08-05
 faqs:
   - question: Can I start with ₹300 a day?

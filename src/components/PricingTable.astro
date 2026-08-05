@@ -35,7 +35,9 @@ const rows = [
 				</th>
 				<th scope="col" class="w-1/3 px-2 py-3 sm:p-4 md:p-5 font-sans font-medium text-ink border-b border-rule-strong border-l border-rule-strong align-top">
 					<span class="kicker leading-tight block">Orcas Prime</span>
-					<span class="block font-mono text-micro text-ochre normal-case tracking-normal leading-tight mt-0.5">3.5% + GST</span>
+					{/* ochre-hover (#92400E), not ochre: at 12px on ochre-wash, plain ochre
+					    is 4.47:1 and fails WCAG AA. This darker step is 6.32:1. */}
+					<span class="block font-mono text-micro text-ochre-hover normal-case tracking-normal leading-tight mt-0.5">3.5% + GST</span>
 				</th>
 				<th scope="col" class="w-1/3 px-2 py-3 sm:p-4 md:p-5 font-sans font-medium text-ink-muted border-b border-rule-strong border-l border-rule align-top">
 					<span class="kicker leading-tight block">Typical</span>

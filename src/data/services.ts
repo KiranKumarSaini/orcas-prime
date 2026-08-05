@@ -114,7 +114,7 @@ export const services: ServiceContent[] = [
     meta: {
       title: 'Amazon account management',
       description:
-        'Full Amazon seller account management for Indian D2C brands. Listings, Sponsored Products, FBA, disputes, reporting. Free for the first 3 months for new sellers.',
+        'Full Amazon seller account management for Indian D2C brands. Listings, Sponsored Products, FBA, disputes, reporting. Free for the first 3 months.',
     },
     included: [
       { label: 'Listing optimisation', desc: 'Titles, bullets, A+ content, keywords, backend fields.' },

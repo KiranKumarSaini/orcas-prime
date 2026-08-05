@@ -3,7 +3,7 @@ question: How do you reduce COD return rates in India?
 shortTitle: How to reduce COD returns in India
 category: RTO and returns
 directAnswer: Cut COD RTO by verifying addresses before dispatch, confirming high-risk orders by WhatsApp or call, offering a small prepaid discount, and blocking repeat offenders. Most Indian D2C brands can move RTO down several points with these alone.
-description: Practical tactics for reducing cash-on-delivery return-to-origin rates for Indian D2C brands — order confirmation, address validation, prepaid incentives, risk scoring and courier selection.
+description: Practical tactics for cutting cash-on-delivery RTO rates in India — address validation, order confirmation, prepaid incentives and courier choice.
 updated: 2026-08-05
 faqs:
   - question: Should I just turn off COD?
