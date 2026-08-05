@@ -1,0 +1,248 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import Schema from '../components/Schema.astro';
+import { person, breadcrumb } from '../lib/schema';
+import { founders } from '../data/founders';
+import { headline, getClients } from '../data/results';
+import { SITE } from '../lib/site';
+
+/*
+  /about — where "two founders in Jaipur" becomes a strength (§3).
+  Deliberately NOT in the hero; this is its home.
+
+  The argument the page has to make: you talk to the people doing the
+  work, not an account manager. That's the whole point of two people.
+*/
+
+const clientCount = getClients().length;
+const ctaMsg = 'Hi, I read your About page — I want to talk about my store.';
+
+const initials = (name: string) =>
+  name.split(' ').map((w) => w[0]).join('').slice(0, 2);
+---
+
+<BaseLayout
+	title="About"
+	description={`Orcas Prime is ${founders[0].name} and ${founders[1].name}, two founders in Jaipur running ecommerce accounts for ${clientCount} Indian D2C brands. You talk to the people doing the work.`}
+	canonicalPath="/about"
+>
+	<Schema
+		slot="head"
+		data={[
+			...founders.map((f) =>
+				person({
+					name: f.name,
+					role: f.role,
+					bio: f.bio,
+					sameAs: f.linkedin ? [f.linkedin] : undefined,
+				})
+			),
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'About', path: '/about' },
+			]),
+		]}
+	/>
+
+	{/* ─── 1 · The argument ─────────────────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">About</p>
+			<h1 class="text-display font-serif font-medium max-w-[22ch]">
+				There are two of us. That's the whole pitch.
+			</h1>
+			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
+				Orcas Prime is {founders[0].name} and {founders[1].name}, working out of
+				Jaipur. We run <span class="num text-ochre">{clientCount}</span> ecommerce
+				accounts between us. When you message us, you get one of the two people
+				who will actually be inside your ad account and your Shopify admin.
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 2 · Why small is the feature ────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">What it means for you</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+				No account manager in the middle.
+			</h2>
+
+			<div class="mt-10 grid gap-10 md:grid-cols-3 md:gap-12">
+				<div>
+					<p class="kicker text-ink-muted mb-3">The usual way</p>
+					<p class="text-base leading-relaxed text-ink-muted">
+						You sign with an agency. You meet the founder once. After that you
+						talk to an account manager who relays your questions to whoever is
+						actually running the campaigns — often a junior, often on six other
+						accounts.
+					</p>
+				</div>
+				<div>
+					<p class="kicker text-ink-muted mb-3">What breaks</p>
+					<p class="text-base leading-relaxed text-ink-muted">
+						Context gets lost in the relay. Decisions take a week. Nobody in the
+						chain has both the full picture of your business and their hands on
+						the account.
+					</p>
+				</div>
+				<div class="border-l-2 border-ochre pl-6 md:pl-8">
+					<p class="kicker text-ochre mb-3">Ours</p>
+					<p class="text-base leading-relaxed text-ink">
+						You message one of us. That person already knows your RTO rate, your
+						margin, and what we changed last Tuesday. There is no relay because
+						there is nobody to relay to.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 3 · The two of us ───────────────────────────────────────── */}
+	<section class="border-t border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Who we are</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				The two of us.
+			</h2>
+
+			<div class="mt-12 grid gap-8 md:grid-cols-2">
+				{founders.map((f) => (
+					<article class="bg-paper border border-rule rounded p-6 md:p-8">
+						<div class="flex items-start gap-5">
+							{f.photo ? (
+								<img
+									src={f.photo}
+									alt={f.name}
+									width="96"
+									height="96"
+									loading="lazy"
+									class="w-24 h-24 rounded object-cover border border-rule shrink-0"
+								/>
+							) : (
+								/* TODO(§13): replace with a real portrait. */
+								<div
+									class="w-24 h-24 rounded border border-rule bg-ochre-wash shrink-0 flex items-center justify-center"
+									aria-hidden="true"
+								>
+									<span class="font-serif text-h2 font-medium text-ochre">
+										{initials(f.name)}
+									</span>
+								</div>
+							)}
+							<div class="min-w-0">
+								<h3 class="font-serif text-h2 font-medium text-ink">{f.name}</h3>
+								<p class="font-mono text-micro uppercase tracking-wider text-ochre mt-1">
+									{f.role}
+								</p>
+								<p class="font-mono text-micro text-ink-muted mt-1">{f.focus}</p>
+							</div>
+						</div>
+
+						<p class="text-base text-ink-muted leading-relaxed mt-6">
+							{f.bio}
+						</p>
+
+						<ul class="mt-6 pt-6 border-t border-rule space-y-2.5">
+							{f.does.map((d) => (
+								<li class="grid grid-cols-[1rem_1fr] gap-2 text-small text-ink-muted leading-snug">
+									<span aria-hidden="true" class="font-mono text-ochre">&mdash;</span>
+									<span>{d}</span>
+								</li>
+							))}
+						</ul>
+
+						{f.linkedin && (
+							<p class="mt-6">
+								<a
+									href={f.linkedin}
+									rel="noopener"
+									class="font-mono text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+								>
+									LinkedIn &rarr;
+								</a>
+							</p>
+						)}
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 4 · Real scarcity (§9 — the true version) ───────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
+				<div>
+					<p class="kicker mb-4">Capacity</p>
+					<h2 class="text-h1 font-serif font-medium">
+						We take on four new clients a quarter.
+					</h2>
+				</div>
+				<div class="max-w-prose">
+					<p class="text-lead text-ink-muted leading-relaxed">
+						Because there are two of us. That is the real constraint, and we would
+						rather say it plainly than pretend the calendar is always open.
+					</p>
+					<p class="text-base text-ink-muted leading-relaxed mt-4">
+						When we say we're full, we're full. If that's the case when you message,
+						we'll tell you when the next slot opens rather than taking your money
+						and under-serving the account.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 5 · Where we are ────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
+				<div>
+					<p class="kicker mb-4">Where</p>
+					<h2 class="text-h1 font-serif font-medium">
+						Jaipur, Rajasthan.
+					</h2>
+				</div>
+				<div class="max-w-prose">
+					<p class="text-base text-ink-muted leading-relaxed">
+						We work with brands across India. Most of our clients we have never met
+						in person &mdash; the work happens on WhatsApp, in shared dashboards, and
+						inside your accounts. If you are in Jaipur and would rather sit down, we
+						are happy to.
+					</p>
+					<address class="not-italic font-mono text-small text-ink-muted mt-6 leading-relaxed">
+						{SITE.address.street}<br />
+						{SITE.address.locality}, {SITE.address.region} {SITE.address.postalCode}<br />
+						India
+					</address>
+					{/* TODO(§13): real street address + PIN — see src/lib/site.ts */}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 6 · Proof link + close ──────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[30ch] mx-auto">
+				Best way to judge us is the work, not this page.
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				<span class="num text-ochre">{headline.roas.display}</span> on Google Ads for
+				one client. Flipkart Gold tier for another.
+			</p>
+			<div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+				<WhatsAppCTA message={ctaMsg} />
+				<a
+					href="/work"
+					class="font-sans text-base text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+				>
+					See the case studies &rarr;
+				</a>
+			</div>
+		</div>
+	</section>
+
+</BaseLayout>
