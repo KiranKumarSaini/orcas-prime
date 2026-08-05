@@ -38,6 +38,8 @@ export type ClientResult = QuantitativeResult | QualitativeResult;
 export type Client = {
   slug: string;
   name: string;
+  /** Live store URL. Only set for stores whose homepage we're OK linking to (§8). */
+  liveUrl?: string;
   services: string[];
   result: ClientResult;
 };

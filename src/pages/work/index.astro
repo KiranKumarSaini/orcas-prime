@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import Schema from '../../components/Schema.astro';
+import { breadcrumb } from '../../lib/schema';
+import { fmtINR, getClients } from '../../data/results';
+import { getCollection } from 'astro:content';
+
+/*
+  /work — the hub. §8 framing: results, not aesthetics.
+
+  Every client from results.json shows up here. Clients that also have a
+  case study in src/content/work render a "Read case study →" link.
+  Everyone else gets an honest short card built from the qualitative
+  status in §5 — no invented numbers.
+*/
+
+const clients = getClients();
+const caseStudies = await getCollection('work');
+const studyMap = new Map(caseStudies.map((c) => [c.data.slug, c]));
+
+// §8: three specific stores anchor the showcase.
+const showcaseSlugs = ['ladakh-berry', 'vastramahal', 'savana-kurti'];
+const showcase = showcaseSlugs
+  .map((s) => clients.find((c) => c.slug === s))
+  .filter((c): c is NonNullable<typeof c> => Boolean(c));
+
+// Each showcase gets a distinct "colour world" hint (no fake screenshots).
+const showcaseTints: Record<string, string> = {
+  'ladakh-berry':  'linear-gradient(180deg, #F2E0E7 0%, #D6C8F2 60%, #B49CD6 100%)',
+  'vastramahal':   'linear-gradient(180deg, #F7E3C4 0%, #E5A55A 60%, #A2431F 100%)',
+  'savana-kurti':  'linear-gradient(180deg, #EDE7D9 0%, #C8B896 60%, #7A6A48 100%)',
+};
+
+const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
+---
+
+<BaseLayout
+	title="Case studies"
+	description="Live accounts we're running right now. Ladakh Berry at 5.1x on Google Ads. Divine Rudras on Flipkart Gold tier. Six more brands across Shopify and Flipkart."
+	canonicalPath="/work"
+>
+	<Schema
+		slot="head"
+		data={breadcrumb([
+			{ name: 'Home', path: '/' },
+			{ name: 'Case studies', path: '/work' },
+		])}
+	/>
+
+	{/* ─── 1 · Hero framing (§8) ────────────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">Case studies</p>
+			<h1 class="text-display font-serif font-medium max-w-[24ch]">
+				We build stores that sell, then we run them.
+			</h1>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose leading-relaxed">
+				Design, ads, RTO, catalogue, logistics &mdash; one team, one fee. Every number
+				below is from an account we're running right now.
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 2 · The three-store showcase (§8 "device frames") ───────── */}
+	<section class="border-t border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Three colour worlds</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+				Stores we built, running now.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				Same team. Three brands. Deliberately unlike each other.
+			</p>
+
+			<div class="mt-12 grid gap-6 md:grid-cols-3">
+				{showcase.map((client) => (
+					<article class="bg-paper border border-rule rounded overflow-hidden">
+						{/* Browser-window placeholder — real screenshots go here once ready (§13). */}
+						<div class="border-b border-rule">
+							<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule bg-paper">
+								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+								<span class="ml-3 font-mono text-micro text-ink-muted truncate">
+									{client.liveUrl?.replace(/^https?:\/\//, '')}
+								</span>
+							</div>
+							<div
+								class="aspect-[4/3]"
+								style={`background: ${showcaseTints[client.slug]};`}
+								aria-hidden="true"
+							></div>
+						</div>
+						<div class="p-5">
+							<h3 class="font-serif text-h3 font-medium text-ink">{client.name}</h3>
+							<p class="font-mono text-micro text-ink-muted mt-1">
+								{client.services.join(' · ')}
+							</p>
+							{client.liveUrl && (
+								<a
+									href={client.liveUrl}
+									rel="noopener"
+									class="mt-3 inline-block font-sans text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+								>
+									Visit {client.liveUrl.replace(/^https?:\/\//, '')} &rarr;
+								</a>
+							)}
+						</div>
+					</article>
+				))}
+			</div>
+
+			<p class="font-mono text-micro text-ink-muted mt-6">
+				Screenshots to be added.
+				{/* TODO(§13): swap the tinted placeholders for real store screenshots. */}
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 3 · All 8 clients — with case-study links where available ── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">All clients</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+				Every account we run right now.
+			</h2>
+
+			<ul class="mt-12 border-t border-rule">
+				{clients.map((client) => {
+					const study = studyMap.get(client.slug);
+					return (
+						<li class="border-b border-rule">
+							<div class="grid md:grid-cols-[1fr_2fr_auto] gap-3 md:gap-8 py-6 md:py-8 items-baseline">
+								<div>
+									<h3 class="font-serif text-h3 font-medium text-ink">{client.name}</h3>
+									<p class="font-mono text-micro text-ink-muted mt-1">
+										{client.services.join(' · ')}
+									</p>
+								</div>
+								<div class="text-base text-ink-muted leading-relaxed">
+									{client.result.kind === 'quantitative' ? (
+										<span>
+											<span class="num text-ochre text-lead">{fmtINR(client.result.amount)}</span>
+											<span> {client.result.metric}, {client.result.period}</span>
+										</span>
+									) : (
+										<span>{client.result.description}</span>
+									)}
+								</div>
+								<div class="md:text-right">
+									{study ? (
+										<a
+											href={`/work/${client.slug}`}
+											class="font-sans text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4 whitespace-nowrap"
+										>
+											Read case study &rarr;
+										</a>
+									) : (
+										<span class="font-mono text-micro text-ink-muted whitespace-nowrap">
+											Case study soon
+										</span>
+									)}
+								</div>
+							</div>
+						</li>
+					);
+				})}
+			</ul>
+		</div>
+	</section>
+
+	{/* ─── 4 · Close ────────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+				If any of this looks like the kind of work you want us doing for you &mdash;
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				the next step is one WhatsApp message.
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message={ctaMsg} />
+			</div>
+		</div>
+	</section>
+
+</BaseLayout>

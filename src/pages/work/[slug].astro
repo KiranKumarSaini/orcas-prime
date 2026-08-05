@@ -1,0 +1,247 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
+import Schema from '../../components/Schema.astro';
+import { breadcrumb } from '../../lib/schema';
+import { findClient, getAdSpendForClient, fmtINR } from '../../data/results';
+import { SITE } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const studies = await getCollection('work');
+  return studies.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: Awaited<ReturnType<typeof getCollection<'work'>>>[number];
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const client = findClient(entry.data.slug);
+if (!client) {
+  throw new Error(
+    `Case study "${entry.data.slug}" has no matching client in results.json. ` +
+    `Add the client there first — case studies must never cite fabricated metrics.`
+  );
+}
+const spend = getAdSpendForClient(entry.data.slug);
+
+// Article schema — helps AI models cite this as a first-party account.
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: entry.data.headline,
+  description: entry.data.description,
+  datePublished: entry.data.updated.toISOString(),
+  dateModified: entry.data.updated.toISOString(),
+  author: { '@id': `${SITE.url}/#organization` },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  about: {
+    '@type': 'Organization',
+    name: client.name,
+    ...(client.liveUrl ? { url: client.liveUrl } : {}),
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${SITE.url}/work/${entry.data.slug}`,
+  },
+};
+---
+
+<BaseLayout
+	title={`${client.name} — ${entry.data.kicker}`}
+	description={entry.data.description}
+	canonicalPath={`/work/${entry.data.slug}`}
+>
+	<Schema
+		slot="head"
+		data={[
+			articleSchema,
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'Case studies', path: '/work' },
+				{ name: client.name, path: `/work/${entry.data.slug}` },
+			]),
+		]}
+	/>
+
+	{/* ─── 1 · Hero ────────────────────────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">
+				<a href="/work" class="hover:text-ochre transition-colors">Case studies</a>
+				<span aria-hidden="true"> · </span>
+				<span class="text-ochre">{entry.data.kicker}</span>
+			</p>
+			<p class="font-serif font-medium text-h3 text-ink-muted mb-2">
+				{client.name}
+			</p>
+			<h1 class="text-h1 font-serif font-medium max-w-[28ch]">
+				{entry.data.headline}
+			</h1>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose leading-relaxed">
+				{entry.data.dek}
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 2 · The numbers (from results.json — never invented) ───── */}
+	<section class="border-t border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">The numbers</p>
+			<h2 class="text-h2 font-serif font-medium mb-8">
+				As of <span class="num">{entry.data.updated.toISOString().slice(0, 10)}</span>.
+			</h2>
+
+			<dl class="grid gap-6 md:grid-cols-3">
+				{client.result.kind === 'quantitative' && (
+					<div class="border border-rule-strong bg-paper rounded p-6">
+						<dt class="kicker mb-2">{client.result.metric}</dt>
+						<dd class="num text-ochre" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1;">
+							{fmtINR(client.result.amount)}
+						</dd>
+						<p class="font-mono text-micro text-ink-muted mt-2">
+							{client.result.period} · {client.result.source}
+						</p>
+					</div>
+				)}
+
+				{spend && (
+					<div class="border border-rule bg-paper rounded p-6">
+						<dt class="kicker mb-2">Ad spend managed</dt>
+						<dd class="num text-ink" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1;">
+							{fmtINR(spend.amount)}
+						</dd>
+						<p class="font-mono text-micro text-ink-muted mt-2">
+							{spend.platform} · {spend.scope} · {spend.period}
+						</p>
+					</div>
+				)}
+
+				<div class="border border-rule bg-paper rounded p-6">
+					<dt class="kicker mb-2">Services we run</dt>
+					<dd class="font-serif text-h3 font-medium text-ink mt-1">
+						{client.services.length}
+					</dd>
+					<p class="text-small text-ink-muted mt-2 leading-snug">
+						{client.services.join(' · ')}
+					</p>
+				</div>
+			</dl>
+
+			{client.liveUrl && (
+				<p class="mt-8">
+					<a
+						href={client.liveUrl}
+						rel="noopener"
+						class="font-mono text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+					>
+						{client.liveUrl.replace(/^https?:\/\//, '')} &rarr;
+					</a>
+				</p>
+			)}
+		</div>
+	</section>
+
+	{/* ─── 3 · Narrative body (from src/content/work/*.md) ────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<article
+				class="prose-cs max-w-prose"
+			>
+				<Content />
+			</article>
+		</div>
+	</section>
+
+	{/* ─── 4 · Close ────────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+				Want us running your account the same way?
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message="Hi, I saw the case study — I want to check if the 3.5% model fits my store." />
+			</div>
+			<p class="text-small text-ink-muted mt-8">
+				<a href="/work" class="hover:text-ochre">&larr; All case studies</a>
+			</p>
+		</div>
+	</section>
+
+</BaseLayout>
+
+<style>
+	/* Case-study prose — inherits from the design tokens rather than
+	   Tailwind's typography plugin, which would clash with §8 tone. */
+	.prose-cs :global(h2) {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: var(--text-h2);
+		line-height: var(--text-h2--line-height);
+		letter-spacing: var(--text-h2--letter-spacing);
+		color: var(--color-ink);
+		margin-top: 3rem;
+		margin-bottom: 1rem;
+	}
+	.prose-cs :global(h2:first-child) {
+		margin-top: 0;
+	}
+	.prose-cs :global(h3) {
+		font-family: var(--font-serif);
+		font-weight: 500;
+		font-size: var(--text-h3);
+		line-height: var(--text-h3--line-height);
+		color: var(--color-ink);
+		margin-top: 2.25rem;
+		margin-bottom: 0.75rem;
+	}
+	.prose-cs :global(p) {
+		font-family: var(--font-sans);
+		font-size: var(--text-base);
+		line-height: 1.7;
+		color: var(--color-ink-muted);
+		margin-bottom: 1.25rem;
+	}
+	.prose-cs :global(p strong),
+	.prose-cs :global(li strong) {
+		color: var(--color-ink);
+		font-weight: 500;
+	}
+	.prose-cs :global(ul) {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 1.5rem;
+		border-top: 1px solid var(--color-rule);
+	}
+	.prose-cs :global(ul li) {
+		font-family: var(--font-sans);
+		font-size: var(--text-base);
+		line-height: 1.6;
+		color: var(--color-ink-muted);
+		padding: 0.75rem 0 0.75rem 1.5rem;
+		border-bottom: 1px solid var(--color-rule);
+		position: relative;
+	}
+	.prose-cs :global(ul li::before) {
+		content: '—';
+		position: absolute;
+		left: 0;
+		color: var(--color-ochre);
+		font-family: var(--font-mono);
+	}
+	.prose-cs :global(a) {
+		color: var(--color-ochre);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
+	}
+	.prose-cs :global(a:hover) {
+		color: var(--color-ochre-hover);
+	}
+</style>
