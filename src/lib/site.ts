@@ -11,8 +11,15 @@ export const SITE = {
   name: 'Orcas Prime',
   legalName: 'Orcas Prime',
 
-  // TODO: replace with the real production domain before deploy.
-  url: 'https://orcasprime.com',
+  /*
+    Canonical origin, resolved at build time by astro.config.mjs and mirrored
+    here so schema @ids match the canonical tags exactly. Set SITE_URL in the
+    hosting environment once the real domain is live; on Vercel it falls back
+    to the deployment URL automatically.
+  */
+  url:
+    import.meta.env.SITE?.replace(/\/$/, '') ||
+    'http://localhost:4321',
 
   tagline: 'No retainer. We take 3.5% of what your customers actually keep.',
 
