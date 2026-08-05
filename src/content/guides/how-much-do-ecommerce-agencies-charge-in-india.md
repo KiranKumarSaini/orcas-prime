@@ -12,7 +12,9 @@ faqs:
     answer: Published pricing removes negotiating room and invites direct comparison. It also commits the agency to a number it has to defend. The practical effect is that a seller has to run several discovery calls just to learn the range, which is why the question gets asked so often.
   - question: What should be included in the fee?
     answer: At minimum — campaign management, creative production, reporting, and the day-to-day platform work. Watch for agencies that quote a management fee and then bill separately for creative, landing pages, setup, or reporting. Ask for the all-in number before comparing two quotes.
-related: []
+related:
+  - gross-vs-net-revenue-agency
+  - agency-or-in-house
 ---
 
 ## The three pricing models
