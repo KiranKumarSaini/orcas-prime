@@ -1,0 +1,224 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import Schema from '../components/Schema.astro';
+import { faqPage, breadcrumb, service } from '../lib/schema';
+
+/*
+  /amazon-free-onboarding — the wedge offer per §3 message #6 and §6.
+  Zero-risk entry point for sellers not yet on Amazon.
+
+  Honesty rule: this page describes the offer from what we know publicly
+  about Amazon's Service Provider Network. Exact commission %, exact
+  eligibility terms, and month-by-month deliverables are marked
+  TODO(§13) until the operator confirms the specifics.
+*/
+
+// TODO(§13): confirm exact SPN commission structure and any eligibility caps
+// that should be flagged on this page before launch.
+
+const whatWeDo = [
+  {
+    when: 'Week 1',
+    title: 'Seller account opens under your business',
+    detail: 'GST, PAN, bank details, brand registry — we walk you through the paperwork, you sign it. The account is in your name, not ours.',
+  },
+  {
+    when: 'Weeks 2–3',
+    title: 'First listings go live',
+    detail: 'Product titles, bullets, backend keywords, A+ content wherever it applies. Photos and copy come from you; the listing structure is ours.',
+  },
+  {
+    when: 'Weeks 3–4',
+    title: 'Sponsored Products campaigns start',
+    detail: 'Small budgets to begin. We watch ACoS by SKU and prune aggressively before scaling anything.',
+  },
+  {
+    when: 'Weeks 4–12',
+    title: 'Optimise, restock, respond',
+    detail: 'Weekly listing review, inventory alerts, buyer messages answered inside SLAs, A-to-Z claims filed when they come up.',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Why is this free? What\'s the catch?',
+    answer:
+      'Amazon operates a Service Provider Network that pays partners a referral commission for onboarding new sellers who launch successfully. That commission covers our work during your first three months. There is no catch and no charge to you during the free period.',
+  },
+  {
+    question: 'What happens after month three?',
+    answer:
+      'If you also want us to run your Shopify store, marketplace management folds into the 3.5% + GST of net sales bundle. If you only want us on marketplaces, we agree on a separate management rate before month three ends — you see the number and you decide. If you want to run Amazon yourself from month four, the account is already yours; we hand it over cleanly.',
+  },
+  {
+    question: 'Is there a lock-in?',
+    answer:
+      'No. You can end the arrangement in any month, including during the free three months, by giving 30 days\' notice so we can hand over. No exit fee.',
+  },
+  {
+    question: 'What do I need to have ready?',
+    answer:
+      'A registered business (proprietorship / LLP / private limited), GST number, PAN, a current account, and product photos. If any of these are missing we can point you to the right vendor to get them, though we don\'t handle registrations ourselves.',
+  },
+  {
+    question: 'Who owns the Amazon account?',
+    answer:
+      'You do. The account is registered under your business, in your name, from day one. We manage it with a limited-access user role that you can revoke any time from your seller central.',
+  },
+];
+
+const ctaMsg = 'Hi, I want to start the free 3-month Amazon onboarding.';
+---
+
+<BaseLayout
+	title="Free 3-month Amazon onboarding"
+	description="Not on Amazon yet? We'll open your seller account, list your products, and run it for three months at no cost. Amazon pays us a referral commission — that's how it works. No lock-in."
+	canonicalPath="/amazon-free-onboarding"
+>
+	<Schema
+		slot="head"
+		data={[
+			service({
+				name: 'Amazon seller account onboarding',
+				description:
+					'Zero-risk onboarding for Indian D2C brands not yet on Amazon. Account setup, listing creation, and full management for three months at no cost, via Amazon\'s seller referral programme.',
+				slug: 'amazon-account-management',
+				priceDescription: 'Free for the first 3 months, no lock-in',
+			}),
+			faqPage(faqs),
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'Free 3 months on Amazon', path: '/amazon-free-onboarding' },
+			]),
+		]}
+	/>
+
+	{/* ─── 1 · Direct answer ────────────────────────────────────────── */}
+	<section>
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">Wedge offer</p>
+			<h1 class="text-display font-serif font-medium max-w-[18ch]">
+				Not on Amazon yet? Start there for <span class="text-ochre">free</span>.
+			</h1>
+			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
+				We'll open your Amazon seller account, list your first products, and run
+				it for <span class="num">three months</span> at no cost to you. Amazon pays
+				us a referral commission for bringing new sellers on &mdash; that's how it
+				works. There is no lock-in after month three. If it hasn't worked by then,
+				walk away.
+			</p>
+			<div class="mt-10">
+				<WhatsAppCTA message={ctaMsg} label="Start free on WhatsApp" />
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 2 · What we do in the three months ──────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">The three months</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				What we do, week by week.
+			</h2>
+
+			<ol class="mt-12 border-t border-rule">
+				{whatWeDo.map((step) => (
+					<li class="grid md:grid-cols-[10rem_1fr] gap-3 md:gap-10 py-6 border-b border-rule items-baseline">
+						<div class="font-mono text-micro uppercase tracking-wider text-ochre">
+							{step.when}
+						</div>
+						<div>
+							<h3 class="font-serif text-h3 font-medium text-ink">{step.title}</h3>
+							<p class="text-base text-ink-muted leading-relaxed mt-2">{step.detail}</p>
+						</div>
+					</li>
+				))}
+			</ol>
+		</div>
+	</section>
+
+	{/* ─── 3 · What happens after ───────────────────────────────────── */}
+	<section class="border-t border-rule bg-ochre-wash/40">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">After month three</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				Three ways this can end. All of them fine.
+			</h2>
+
+			<div class="mt-12 grid gap-8 md:grid-cols-3">
+				<div class="bg-paper border border-rule rounded p-6">
+					<p class="kicker mb-3">One</p>
+					<p class="font-serif text-h3 font-medium text-ink mb-3">
+						You bundle it with Shopify.
+					</p>
+					<p class="text-base text-ink-muted leading-relaxed">
+						Amazon management folds into the <span class="num text-ochre">3.5% + GST</span> of net sales you're already paying us for the store.
+					</p>
+				</div>
+				<div class="bg-paper border border-rule rounded p-6">
+					<p class="kicker mb-3">Two</p>
+					<p class="font-serif text-h3 font-medium text-ink mb-3">
+						You keep us on marketplaces only.
+					</p>
+					<p class="text-base text-ink-muted leading-relaxed">
+						We agree on a separate rate before month three ends. You see the number
+						first and decide.
+					</p>
+				</div>
+				<div class="bg-paper border border-rule rounded p-6">
+					<p class="kicker mb-3">Three</p>
+					<p class="font-serif text-h3 font-medium text-ink mb-3">
+						You take it in-house.
+					</p>
+					<p class="text-base text-ink-muted leading-relaxed">
+						The account is already yours. We hand over access cleanly and step away.
+						No exit fee.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 4 · FAQ ──────────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Questions</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+				Questions people ask before starting.
+			</h2>
+
+			<div class="mt-12 max-w-prose border-t border-rule">
+				{faqs.map((qa) => (
+					<details class="group border-b border-rule py-5" open>
+						<summary class="cursor-pointer list-none flex items-start gap-4">
+							<span aria-hidden="true" class="kicker mt-2 text-ochre num">Q</span>
+							<h3 class="font-serif text-h3 font-medium text-ink flex-1">
+								{qa.question}
+							</h3>
+						</summary>
+						<p class="mt-4 pl-9 text-base text-ink-muted leading-relaxed">
+							{qa.answer}
+						</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 5 · Close ────────────────────────────────────────────────── */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+				If you've been meaning to get on Amazon, this is the version with no downside.
+			</p>
+			<p class="text-lead text-ink-muted mt-4">
+				One WhatsApp message. Message is written &mdash; just hit send.
+			</p>
+			<div class="mt-8 flex justify-center">
+				<WhatsAppCTA message={ctaMsg} label="Start free on WhatsApp" />
+			</div>
+		</div>
+	</section>
+
+</BaseLayout>
