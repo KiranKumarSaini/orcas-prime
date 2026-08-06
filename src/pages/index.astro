@@ -5,30 +5,65 @@ import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import { results, headline, fmtINR } from '../data/results';
 
 /*
-  Homepage. Section plan approved by operator:
-    1. Hero + pricing comparison  (msg #1, #2)
-    2. The two ways agencies get paid — and why we chose the third  (msg #2)
-    3. What the 3.5% covers  (msg #4)
-    4. Every result below is from an account we're running right now  (msg #5)
-    5. [skipped — founders section deferred until bios/photos arrive]
-    6. Not on Amazon yet? Start there for free  (msg #6)
-    7. Final close  (msg #7)
+  Homepage.
 
+  Section order was restructured after a cold-read review: the original build
+  put "what we actually do" in section 3, so the words "ads", "Meta" and
+  "Google" did not appear until 38% down the page. A visitor arriving from a
+  Meta ad read the price and the billing-model argument before learning what
+  the service is. Naming the work now comes first, and the pricing argument
+  follows it.
+
+    1. Hero — locked headline/subhead + what we run + pricing table
+    2. What we actually do  (msg #4, moved up from 3)
+    3. Why our pricing is different  (msg #2)
+    4. Proof — numbers + real stores  (msg #5)
+    5. Who this is for — honest self-qualification
+    6. Amazon free program  (msg #6)
+    7. Close  (msg #7)
+
+  Founders section still deferred until real photos exist.
   Sourced numbers come from src/data/results.json (§5). Never hardcode a metric.
 */
 
 const roas = headline.roas;
 const roasClient = results.clients.find((c) => c.slug === roas.clientSlug)!;
 
+// Named up front, in the hero, so the service is unmistakable in the first screen.
+const channels = [
+  'Shopify store builds',
+  'Meta & Google Ads',
+  'Amazon · Flipkart · Meesho',
+  'Returns & RTO handling',
+];
+
 // A-to-Z scope from §4. Copy-approved with the operator.
 const scope = [
-  { label: 'Store management',      desc: 'The whole Shopify admin, day to day.' },
-  { label: 'Meta and Google Ads',   desc: 'Build, run, adjust, report — all inside your ad account.' },
-  { label: 'Creative production',   desc: 'Ad graphics, product-page assets, banners.' },
-  { label: 'RTO management',        desc: 'Dispute filing, courier follow-ups, address validation.' },
-  { label: 'Catalogue management',  desc: 'Variants, tags, on-page SEO, availability.' },
+  { label: 'Store management',      desc: 'The whole Shopify admin, day to day — products, collections, apps, theme fixes.' },
+  { label: 'Meta and Google Ads',   desc: 'Built, run and adjusted inside your own ad accounts. We never mark up your spend.' },
+  { label: 'Creative production',   desc: 'Ad graphics, video cuts, product-page assets, banners.' },
+  { label: 'RTO management',        desc: 'Address validation, courier follow-ups, dispute filing on refused deliveries.' },
+  { label: 'Catalogue management',  desc: 'Variants, tags, on-page SEO, availability, marketplace listings.' },
   { label: 'Logistics + checkout',  desc: 'Payment gateway integration, shipping partners, cart-to-doorstep flow.' },
   { label: 'Monthly reporting',     desc: 'The numbers, plain, plus what changed and what we changed next.' },
+];
+
+// Real screenshots captured from the live stores (scripts/capture-stores.mjs).
+const showcase = [
+  {
+    slug: 'ladakh-berry',
+    name: 'Ladakh Berry',
+    url: 'https://ladakhberry.in',
+    img: '/work/ladakh-berry.jpg',
+    note: 'Shopify, Google Ads, Meta Ads, creative',
+  },
+  {
+    slug: 'vastramahal',
+    name: 'Vastramahal',
+    url: 'https://thevastramahal.in',
+    img: '/work/vastramahal.jpg',
+    note: 'Shopify, Google Ads, Meta Ads, creative',
+  },
 ];
 
 const ctaMsg = {
@@ -39,12 +74,12 @@ const ctaMsg = {
 
 <BaseLayout
 	title="Ecommerce agency in Jaipur — no retainer, 3.5% of net sales"
-	description="Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns. No retainer, no lock-in."
+	description="We run Shopify stores, Meta and Google ads, and Amazon, Flipkart and Meesho accounts for Indian D2C brands. 3.5% + GST of net sales after returns. No retainer."
 	titleTemplate="none"
 	canonicalPath="/"
 >
 
-	{/* ─── 1 · Hero + pricing comparison ─────────────────────────────── */}
+	{/* ─── 1 · Hero ──────────────────────────────────────────────────── */}
 	<section class="border-b border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-16 md:pb-24">
 			<h1 class="text-display font-serif font-medium max-w-[24ch]">
@@ -56,8 +91,25 @@ const ctaMsg = {
 				Nothing charged on returns or RTOs.
 			</p>
 
+			{/* Names the actual service in the first screen. */}
+			<ul class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2">
+				{channels.map((c, i) => (
+					<>
+						{i > 0 && <li aria-hidden="true" class="font-mono text-micro text-rule-strong">/</li>}
+						<li class="font-mono text-micro uppercase tracking-wider text-ink">{c}</li>
+					</>
+				))}
+			</ul>
+
 			<div class="mt-12 md:mt-16 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-				<PricingTable id="pricing-preview" />
+				<div>
+					<PricingTable id="pricing-preview" />
+					<p class="text-small text-ink-muted mt-4 max-w-[42rem] leading-relaxed">
+						<span class="text-ink">Net sales</span> is what's left after refunds, returns and
+						RTOs come out — the money that actually stayed in your account. We bill on that,
+						not on orders placed.
+					</p>
+				</div>
 				<div class="flex flex-col items-start gap-3">
 					<WhatsAppCTA message={ctaMsg.general} />
 					<a href="/pricing" class="text-small text-ink-muted hover:text-ochre font-mono">
@@ -68,7 +120,36 @@ const ctaMsg = {
 		</div>
 	</section>
 
-	{/* ─── 2 · The contract difference ───────────────────────────────── */}
+	{/* ─── 2 · What we actually do ───────────────────────────────────── */}
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">What we do</p>
+			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+				We run the store and the advertising, as one job.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose">
+				Most brands hire an agency for ads, a freelancer for the store, and someone
+				else for creative — then spend their week translating between them. We do all
+				of it, and the <span class="num text-ochre">3.5%</span> covers the lot.
+			</p>
+
+			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
+				{scope.map((item) => (
+					<div class="grid grid-cols-[1fr_2fr] gap-6 py-5 border-b border-rule items-baseline">
+						<dt class="font-serif text-h3 font-medium text-ink">{item.label}</dt>
+						<dd class="text-base text-ink-muted leading-relaxed">{item.desc}</dd>
+					</div>
+				))}
+			</dl>
+
+			<p class="text-small text-ink-muted mt-8 font-mono">
+				No setup fee, no onboarding fee, no creative fee, no reporting fee.
+				You supply product images and titles; we do the rest.
+			</p>
+		</div>
+	</section>
+
+	{/* ─── 3 · Why the pricing is different ──────────────────────────── */}
 	<section class="border-b border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">The contract</p>
@@ -103,34 +184,7 @@ const ctaMsg = {
 		</div>
 	</section>
 
-	{/* ─── 3 · What's covered ────────────────────────────────────────── */}
-	<section class="border-b border-rule">
-		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
-			<p class="kicker mb-4">What's covered</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
-				What the <span class="num text-ochre">3.5%</span> covers.
-			</h2>
-			<p class="text-lead text-ink-muted mt-6 max-w-prose">
-				One fee. Everything you need to run and grow the store. You supply the
-				product images and titles. We do the rest.
-			</p>
-
-			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
-				{scope.map((item) => (
-					<div class="grid grid-cols-[1fr_2fr] gap-6 py-5 border-b border-rule items-baseline">
-						<dt class="font-serif text-h3 font-medium text-ink">{item.label}</dt>
-						<dd class="text-base text-ink-muted leading-relaxed">{item.desc}</dd>
-					</div>
-				))}
-			</dl>
-
-			<p class="text-small text-ink-muted mt-8 font-mono">
-				No separate fee for any of it. No setup, no onboarding, no creative, no reporting fees.
-			</p>
-		</div>
-	</section>
-
-	{/* ─── 4 · Proof — the numbers ───────────────────────────────────── */}
+	{/* ─── 4 · Proof ─────────────────────────────────────────────────── */}
 	<section class="border-b border-rule bg-ochre-wash/40">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">Proof</p>
@@ -149,7 +203,10 @@ const ctaMsg = {
 						{roas.display}
 					</p>
 					<p class="text-base text-ink mt-4 max-w-sm">
-						{roas.description} — <span class="text-ink-muted">{roasClient.name}, {roas.period}.</span>
+						Return on ad spend from Google Ads — <span class="text-ink-muted">{roasClient.name}, {roas.period}.</span>
+					</p>
+					<p class="text-small text-ink-muted mt-2 max-w-sm leading-relaxed">
+						For every <span class="num">₹1</span> spent on ads, <span class="num">₹5.10</span> came back in tracked sales.
 					</p>
 					<dl class="mt-6 pt-6 border-t border-rule grid grid-cols-2 gap-x-8 gap-y-2 text-small">
 						<dt class="text-ink-muted">Revenue</dt>
@@ -161,8 +218,6 @@ const ctaMsg = {
 					</dl>
 				</div>
 
-				{/* A <dl> may only contain dt/dd (optionally wrapped in a div). The
-				    caption text lives inside the <dd>, not as a sibling <p>. */}
 				<dl class="grid gap-6">
 					<div class="border border-rule bg-paper rounded p-6">
 						<dt class="kicker mb-2">Total tracked revenue</dt>
@@ -195,10 +250,80 @@ const ctaMsg = {
 
 			</div>
 
+			{/* Real stores, real screenshots. */}
+			<div class="mt-14 md:mt-20">
+				<p class="kicker mb-6">Stores we built and run</p>
+				<div class="grid gap-6 md:grid-cols-2">
+					{showcase.map((s) => (
+						<article class="bg-paper border border-rule rounded overflow-hidden">
+							<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">
+								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+								<span class="ml-3 font-mono text-micro text-ink-muted truncate">
+									{s.url.replace(/^https?:\/\//, '')}
+								</span>
+							</div>
+							<img
+								src={s.img}
+								alt={`${s.name} storefront`}
+								width="1200"
+								height="900"
+								loading="lazy"
+								decoding="async"
+								class="w-full h-auto block border-b border-rule"
+							/>
+							<div class="p-5 flex items-baseline justify-between gap-4">
+								<div class="min-w-0">
+									<h3 class="font-serif text-h3 font-medium text-ink">{s.name}</h3>
+									<p class="font-mono text-micro text-ink-muted mt-1 truncate">{s.note}</p>
+								</div>
+								<a
+									href={s.url}
+									rel="noopener"
+									class="font-mono text-small text-ochre hover:text-ochre-hover whitespace-nowrap"
+								>
+									Visit →
+								</a>
+							</div>
+						</article>
+					))}
+				</div>
+			</div>
+
 			<div class="mt-10">
 				<a href="/work" class="font-sans text-base text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4">
 					See every case study →
 				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* ─── 5 · Who this is for ───────────────────────────────────────── */}
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
+				<div>
+					<p class="kicker mb-4">Who this is for</p>
+					<h2 class="text-h1 font-serif font-medium">
+						Honest about the fit.
+					</h2>
+				</div>
+				<div class="max-w-prose">
+					<p class="text-lead text-ink leading-relaxed">
+						This works best for Indian D2C brands doing roughly <span class="num text-ochre">₹3–50 lakh</span> a month in net sales, selling on Shopify, marketplaces, or both.
+					</p>
+					<p class="text-base text-ink-muted leading-relaxed mt-5">
+						Below that, a percentage of your sales probably won't fund the work
+						properly — and we'll say so in the first conversation rather than take
+						the account. Above it, the model still works, but a fixed retainer may
+						suit you better and we'll tell you that too.
+					</p>
+					<p class="text-base text-ink-muted leading-relaxed mt-5">
+						If you're not selling online yet, start with the free Amazon onboarding
+						below. It costs you nothing to find out whether the product moves.
+					</p>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -234,7 +359,7 @@ const ctaMsg = {
 		</div>
 	</section>
 
-	{/* ─── 7 · Final close ───────────────────────────────────────────── */}
+	{/* ─── 7 · Close ─────────────────────────────────────────────────── */}
 	<section>
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
 			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">

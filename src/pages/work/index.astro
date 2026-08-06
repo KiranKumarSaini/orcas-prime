@@ -19,18 +19,25 @@ const clients = getClients();
 const caseStudies = await getCollection('work');
 const studyMap = new Map(caseStudies.map((c) => [c.data.slug, c]));
 
-// §8: three specific stores anchor the showcase.
-const showcaseSlugs = ['ladakh-berry', 'vastramahal', 'savana-kurti'];
-const showcase = showcaseSlugs
-  .map((s) => clients.find((c) => c.slug === s))
-  .filter((c): c is NonNullable<typeof c> => Boolean(c));
+/*
+  §8 named three stores for the showcase, but thesavanakurti.com currently has
+  no DNS record — the domain does not resolve, so the old "Visit" link was a
+  dead outbound link on a page whose whole job is proving we ship working
+  stores. Showcasing only stores that are actually live and verifiable.
+  Savana Kurti still appears in the full client list below.
 
-// Each showcase gets a distinct "colour world" hint (no fake screenshots).
-const showcaseTints: Record<string, string> = {
-  'ladakh-berry':  'linear-gradient(180deg, #F2E0E7 0%, #D6C8F2 60%, #B49CD6 100%)',
-  'vastramahal':   'linear-gradient(180deg, #F7E3C4 0%, #E5A55A 60%, #A2431F 100%)',
-  'savana-kurti':  'linear-gradient(180deg, #EDE7D9 0%, #C8B896 60%, #7A6A48 100%)',
-};
+  Screenshots are real, captured from the live sites by
+  scripts/capture-stores.mjs. Re-run it to refresh them.
+*/
+const showcase = [
+  { slug: 'ladakh-berry', img: '/work/ladakh-berry.jpg' },
+  { slug: 'vastramahal',  img: '/work/vastramahal.jpg' },
+]
+  .map((s) => {
+    const client = clients.find((c) => c.slug === s.slug);
+    return client ? { ...s, client } : null;
+  })
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
 const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 ---
@@ -62,36 +69,38 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 		</div>
 	</section>
 
-	{/* ─── 2 · The three-store showcase (§8 "device frames") ───────── */}
+	{/* ─── 2 · Store showcase — real screenshots of live stores ────── */}
 	<section class="border-t border-rule bg-ochre-wash/40">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
-			<p class="kicker mb-4">Three colour worlds</p>
+			<p class="kicker mb-4">Live storefronts</p>
 			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
 				Stores we built, running now.
 			</h2>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose">
-				Same team. Three brands. Deliberately unlike each other.
+				Same team, deliberately unlike each other. Click through and buy something
+				&mdash; these are trading stores, not mockups.
 			</p>
 
-			<div class="mt-12 grid gap-6 md:grid-cols-3">
-				{showcase.map((client) => (
+			<div class="mt-12 grid gap-6 md:grid-cols-2">
+				{showcase.map(({ client, img }) => (
 					<article class="bg-paper border border-rule rounded overflow-hidden">
-						{/* Browser-window placeholder — real screenshots go here once ready (§13). */}
-						<div class="border-b border-rule">
-							<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule bg-paper">
-								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
-								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
-								<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
-								<span class="ml-3 font-mono text-micro text-ink-muted truncate">
-									{client.liveUrl?.replace(/^https?:\/\//, '')}
-								</span>
-							</div>
-							<div
-								class="aspect-[4/3]"
-								style={`background: ${showcaseTints[client.slug]};`}
-								aria-hidden="true"
-							></div>
+						<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">
+							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
+							<span class="ml-3 font-mono text-micro text-ink-muted truncate">
+								{client.liveUrl?.replace(/^https?:\/\//, '')}
+							</span>
 						</div>
+						<img
+							src={img}
+							alt={`${client.name} storefront`}
+							width="1200"
+							height="900"
+							loading="lazy"
+							decoding="async"
+							class="w-full h-auto block border-b border-rule"
+						/>
 						<div class="p-5">
 							<h3 class="font-serif text-h3 font-medium text-ink">{client.name}</h3>
 							<p class="font-mono text-micro text-ink-muted mt-1">
@@ -110,11 +119,6 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 					</article>
 				))}
 			</div>
-
-			<p class="font-mono text-micro text-ink-muted mt-6">
-				Screenshots to be added.
-				{/* TODO(§13): swap the tinted placeholders for real store screenshots. */}
-			</p>
 		</div>
 	</section>
 
