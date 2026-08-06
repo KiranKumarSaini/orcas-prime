@@ -7,16 +7,24 @@ import { results, headline, fmtINR } from '../data/results';
 /*
   Homepage.
 
-  Section order was restructured after a cold-read review: the original build
-  put "what we actually do" in section 3, so the words "ads", "Meta" and
-  "Google" did not appear until 38% down the page. A visitor arriving from a
-  Meta ad read the price and the billing-model argument before learning what
-  the service is. Naming the work now comes first, and the pricing argument
-  follows it.
+  Section order, restructured twice after operator review:
 
-    1. Hero — locked headline/subhead + what we run + pricing table
-    2. What we actually do  (msg #4, moved up from 3)
-    3. Why our pricing is different  (msg #2)
+  Pass 1 (cold-read review): the original build put "what we actually do"
+  in section 3, so "ads", "Meta" and "Google" did not appear until 38% down
+  the page. Moved a channel strip into the hero and pulled the scope section
+  up to position 2.
+
+  Pass 2 (operator instruction): pricing — including the comparison table —
+  still came before "what we do" in the page body (only the locked headline
+  is price-first now). Moved the table and the "why our pricing differs"
+  argument out of the hero and below the scope section entirely, so a
+  visitor reads what the service is before reading what it costs. Only the
+  locked H1/subhead (§3, price-first, verbatim, non-negotiable) still leads
+  with price — everything below it now leads with the work.
+
+    1. Hero — locked headline/subhead + what we run (no table here anymore)
+    2. What we actually do  (msg #4)
+    3. Pricing — why it's different + the comparison table  (msg #2)
     4. Proof — numbers + real stores  (msg #5)
     5. Who this is for — honest self-qualification
     6. Amazon free program  (msg #6)
@@ -64,6 +72,13 @@ const showcase = [
     img: '/work/vastramahal.jpg',
     note: 'Shopify, Google Ads, Meta Ads, creative',
   },
+  {
+    slug: 'savana-kurti',
+    name: 'Savana Kurti',
+    url: 'https://savanakurti.com',
+    img: '/work/savana-kurti.jpg',
+    note: 'Shopify management',
+  },
 ];
 
 const ctaMsg = {
@@ -101,21 +116,8 @@ const ctaMsg = {
 				))}
 			</ul>
 
-			<div class="mt-12 md:mt-16 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-				<div>
-					<PricingTable id="pricing-preview" />
-					<p class="text-small text-ink-muted mt-4 max-w-[42rem] leading-relaxed">
-						<span class="text-ink">Net sales</span> is what's left after refunds, returns and
-						RTOs come out — the money that actually stayed in your account. We bill on that,
-						not on orders placed.
-					</p>
-				</div>
-				<div class="flex flex-col items-start gap-3">
-					<WhatsAppCTA message={ctaMsg.general} />
-					<a href="/pricing" class="text-small text-ink-muted hover:text-ochre font-mono">
-						See full pricing →
-					</a>
-				</div>
+			<div class="mt-10">
+				<WhatsAppCTA message={ctaMsg.general} />
 			</div>
 		</div>
 	</section>
@@ -130,7 +132,7 @@ const ctaMsg = {
 			<p class="text-lead text-ink-muted mt-6 max-w-prose">
 				Most brands hire an agency for ads, a freelancer for the store, and someone
 				else for creative — then spend their week translating between them. We do all
-				of it, and the <span class="num text-ochre">3.5%</span> covers the lot.
+				of it, and one fee covers the lot.
 			</p>
 
 			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
@@ -149,7 +151,7 @@ const ctaMsg = {
 		</div>
 	</section>
 
-	{/* ─── 3 · Why the pricing is different ──────────────────────────── */}
+	{/* ─── 3 · Pricing — why it's different + the comparison table ──── */}
 	<section class="border-b border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">The contract</p>
@@ -179,6 +181,23 @@ const ctaMsg = {
 						after refunds, returns, and RTOs. When a shipment gets refused, we
 						absorb that with you.
 					</p>
+				</div>
+			</div>
+
+			<div class="mt-14 md:mt-16 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+				<div>
+					<PricingTable id="pricing-preview" />
+					<p class="text-small text-ink-muted mt-4 max-w-[42rem] leading-relaxed">
+						<span class="text-ink">Net sales</span> is what's left after refunds, returns and
+						RTOs come out — the money that actually stayed in your account. We bill on that,
+						not on orders placed.
+					</p>
+				</div>
+				<div class="flex flex-col items-start gap-3">
+					<WhatsAppCTA message={ctaMsg.general} />
+					<a href="/pricing" class="text-small text-ink-muted hover:text-ochre font-mono">
+						See full pricing →
+					</a>
 				</div>
 			</div>
 		</div>
@@ -253,7 +272,7 @@ const ctaMsg = {
 			{/* Real stores, real screenshots. */}
 			<div class="mt-14 md:mt-20">
 				<p class="kicker mb-6">Stores we built and run</p>
-				<div class="grid gap-6 md:grid-cols-2">
+				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{showcase.map((s) => (
 						<article class="bg-paper border border-rule rounded overflow-hidden">
 							<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">
@@ -276,7 +295,7 @@ const ctaMsg = {
 							<div class="p-5 flex items-baseline justify-between gap-4">
 								<div class="min-w-0">
 									<h3 class="font-serif text-h3 font-medium text-ink">{s.name}</h3>
-									<p class="font-mono text-micro text-ink-muted mt-1 truncate">{s.note}</p>
+									<p class="font-mono text-micro text-ink-muted mt-1 leading-snug">{s.note}</p>
 								</div>
 								<a
 									href={s.url}

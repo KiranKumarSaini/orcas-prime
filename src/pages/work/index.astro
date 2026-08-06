@@ -20,18 +20,16 @@ const caseStudies = await getCollection('work');
 const studyMap = new Map(caseStudies.map((c) => [c.data.slug, c]));
 
 /*
-  §8 named three stores for the showcase, but thesavanakurti.com currently has
-  no DNS record — the domain does not resolve, so the old "Visit" link was a
-  dead outbound link on a page whose whole job is proving we ship working
-  stores. Showcasing only stores that are actually live and verifiable.
-  Savana Kurti still appears in the full client list below.
+  §8's three-store showcase. Screenshots are real, captured from the live
+  sites by scripts/capture-stores.mjs — re-run it to refresh them.
 
-  Screenshots are real, captured from the live sites by
-  scripts/capture-stores.mjs. Re-run it to refresh them.
+  Note: the domain is savanakurti.com, not thesavanakurti.com — the "the"
+  variant has no DNS record and was pointing at a dead link until corrected.
 */
 const showcase = [
   { slug: 'ladakh-berry', img: '/work/ladakh-berry.jpg' },
   { slug: 'vastramahal',  img: '/work/vastramahal.jpg' },
+  { slug: 'savana-kurti', img: '/work/savana-kurti.jpg' },
 ]
   .map((s) => {
     const client = clients.find((c) => c.slug === s.slug);
@@ -81,7 +79,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 				&mdash; these are trading stores, not mockups.
 			</p>
 
-			<div class="mt-12 grid gap-6 md:grid-cols-2">
+			<div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 				{showcase.map(({ client, img }) => (
 					<article class="bg-paper border border-rule rounded overflow-hidden">
 						<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">

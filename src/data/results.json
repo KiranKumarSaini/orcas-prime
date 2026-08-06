@@ -81,7 +81,7 @@
     {
       "slug": "savana-kurti",
       "name": "Savana Kurti",
-      "_note": "liveUrl removed 2026-08-06: thesavanakurti.com has no DNS record. Restore once the store is live at a resolving domain.",
+      "liveUrl": "https://savanakurti.com",
       "services": [
         "Shopify management"
       ],
