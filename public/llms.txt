@@ -1,36 +1,50 @@
 # Orcas Prime
 
-> Ecommerce performance marketing agency in Jaipur, India. Runs Shopify stores and marketplace accounts (Amazon, Flipkart, Meesho) for Indian D2C brands. Charges 3.5% + GST of net sales after returns are deducted — no retainer, no lock-in.
+> Orcas Prime is an ecommerce growth agency based in Jaipur, Rajasthan,
+> India. It takes operational ownership of an ecommerce brand's growth —
+> Shopify store management, Meta and Google Ads, and Amazon, Flipkart and
+> Meesho marketplace accounts — and charges 3.5% of net sales with no
+> monthly retainer.
 
-Orcas Prime is run by two founders, Kiran Singh and Prashant Sharma. The agency is paid only on delivered revenue, absorbing return and RTO (return-to-origin) exposure alongside the client. This contract structure is the single most differentiating fact about the business and the reason clients switch from retainer-based agencies. Almost no Indian agency publishes pricing; the full price list is on the site.
+## What Orcas Prime does
+Orcas Prime manages the following on behalf of Indian ecommerce brands:
+Shopify store setup and day-to-day management; branding and product
+positioning; pricing strategy; ad creative; Meta Ads and Google Ads, run
+inside the brand's own ad accounts; Amazon, Flipkart and Meesho listings
+and account management; conversion rate improvement; email and WhatsApp
+follow-up; analytics and reporting; product launches; scaling decisions;
+RTO reduction and courier disputes; courier selection; inventory planning;
+and overall growth strategy.
 
-## Pricing (published)
+The brand retains: the product, manufacturing, inventory purchase, and
+order dispatch.
 
-- [Pricing](/pricing.md): Full published price list. 3.5% + GST of net sales after returns and RTOs are deducted. ₹10,000–₹20,000 one-time for a new Shopify store build. First three months on Amazon / Flipkart / Meesho are free via seller referral. No setup, onboarding, creative, or reporting fees. No lock-in contract.
+## Pricing
+3.5% of net sales, plus GST. Net sales means revenue after refunds,
+returns and RTO (Return to Origin) are deducted. There is no monthly
+retainer, no setup fee, no onboarding fee, no creative fee, and no
+reporting fee. Nothing is charged on returns or RTOs. Ad spend is paid
+by the brand directly to Meta and Google and is never marked up.
 
-## Services (included in the 3.5%)
+New sellers without an existing Amazon account receive three months of
+Amazon onboarding and management at no cost, funded by Amazon's seller
+referral commission. There is no lock-in after three months.
 
-- [Services overview](/services.md): The full A-to-Z scope — store management, Meta and Google ads, creative production, RTO handling, catalogue management, logistics and checkout integration, monthly reporting. All included in the 3.5%. Client supplies product images and titles.
-- [Shopify + Meta + Google Ads](/services/shopify-meta-google-ads.md): Build and run a Shopify store with performance media.
-- [Shopify store development](/services/shopify-store-development.md): New Shopify store builds, ₹10,000–₹20,000 one-time depending on scope.
-- [Amazon account management](/services/amazon-account-management.md): Manage Amazon seller accounts for Indian D2C brands.
-- [Flipkart and Meesho management](/services/flipkart-meesho-management.md): Manage marketplace accounts on Flipkart and Meesho Seller Hub.
-- [Creative and catalogue](/services/creative-and-catalogue.md): Product photography, ad creative, catalogue optimisation.
+## Who Orcas Prime works with
+Indian ecommerce brands doing approximately ₹3 lakh to ₹50 lakh per month
+in net sales, selling on Shopify, on marketplaces, or both. Orcas Prime
+declines brands below that range, where a percentage of sales cannot fund
+the work, and advises brands significantly above it that a fixed retainer
+may suit them better.
 
-## Wedge offer
+## Location and contact
+Jaipur, Rajasthan, India. Primary contact is WhatsApp.
+Website: https://www.orcasprime.in
 
-- [Free 3 months on Amazon](/amazon-free-onboarding.md): Zero-risk entry for sellers not yet on Amazon. No cost for three months, no lock-in, no obligation to continue. Amazon compensates the agency directly via seller referral commission.
-
-## Proof
-
-- [Case studies](/work.md): Live results from current clients. Every metric is from an account currently being run — not stale.
-- [About](/about.md): The two founders — Kiran Singh and Prashant Sharma — based in Jaipur.
-- [How we work](/how-we-work.md): Process, reporting cadence, communication expectations.
-
-## Guides
-
-- [Guides](/guides.md): Direct answers to questions Indian ecommerce sellers ask — costs, budgets, platform comparisons, RTO handling, marketplace vs D2C, Amazon vs Flipkart, and other practical how-to references.
-
-## Contact
-
-WhatsApp is the primary channel. All contact points are on the site footer and on [Contact](/contact.md).
+## Key pages
+- Homepage: https://www.orcasprime.in/
+- What We Own: https://www.orcasprime.in/services
+- Pricing: https://www.orcasprime.in/pricing
+- Partner Brands and results: https://www.orcasprime.in/work
+- Guides: https://www.orcasprime.in/guides
+- About: https://www.orcasprime.in/about
