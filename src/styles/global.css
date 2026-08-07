@@ -132,6 +132,21 @@
     line-height: 1.65;
   }
 
+  /* Paper grain (Module 10 §5). A fractal-noise SVG at ~3% opacity over the
+     whole page. This is the cheapest "expensive" cue there is — it's why
+     Aesop and Monocle read as printed matter rather than as screens. Inline
+     data URI, no network request, pointer-events off so it never intercepts
+     a tap. Admitted decoration; the good kind. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   /* Serif headings. Playfair Display Variable's full weight axis (400-900)
      replaces the flat regular-only weight Instrument Serif was stuck at —
      real hierarchy now: h1 carries genuine presence, h2/h3 step down, so
@@ -263,7 +278,16 @@
      Applied to the <section>. Retunes the inherited palette so children
      don't each need dark-mode variants. */
   .surface-dark {
-    background: var(--color-ink-deep);
+    /* A flat near-black fill reads as a rectangle dropped on the page. This
+       barely-there warm radial behind the top-left gives it depth without
+       being a "gradient" in the banned decorative sense (Module 10 §5). */
+    background:
+      radial-gradient(
+        120% 90% at 15% 0%,
+        rgba(140, 179, 154, 0.09) 0%,
+        rgba(20, 18, 15, 0) 60%
+      ),
+      var(--color-ink-deep);
     color: var(--color-paper);
   }
   .surface-dark h1,

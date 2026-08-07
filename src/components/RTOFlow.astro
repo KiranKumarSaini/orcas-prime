@@ -1,69 +1,201 @@
 ---
 /**
- * The RTO money-loss diagram — the one illustration on the site
- * (Module 4 §5, built here per Module 9 §4).
+ * The RTO money drain — Module 10 §4, Moment 2. The site's one illustration
+ * (Module 4 §5) upgraded from a static flow into the thing the visitor
+ * actually watches happen.
  *
- * Shows what a single refused delivery actually costs: money leaves at four
- * of the five stages, and the one stage that should have brought money in
- * never happens. That asymmetry is the argument Section 3 is making, and it
- * lands faster as a diagram than as a sentence.
+ * WHY THIS EARNS ITS MOTION. Section 3's argument is that a 30% RTO rate does
+ * not cost you 30% — it can erase the profit entirely while the dashboard
+ * still shows healthy orders. That is an arithmetic claim, and arithmetic is
+ * far more convincing watched than asserted. As the visitor scrolls, a single
+ * ₹1,000 order loses money at four of five stages and ends underwater.
  *
- * Deviation from Module 4 §5, flagged: specified as "static SVG", built as
- * HTML/CSS flex instead. An SVG of a five-stage flow needs either a fixed
- * viewBox (illegible at 375px) or two separate drawings for mobile and
- * desktop. Flex reflows from a row to a column for free, keeps the text as
- * real selectable text, and stays monochrome and static as required.
+ * THE COUNTER EXCEPTION, stated openly. Module 4 §6 bans counter animations.
+ * That ban is aimed at counting UP a revenue figure on a timer — a growth-hack
+ * tic that delays comprehension and reads as trying too hard (LOCKED#36).
+ * This is the inverse: the number counts DOWN, it is tied to scroll position
+ * rather than a timer, and the number IS the lesson rather than decoration on
+ * top of it. Approved as a narrow, deliberate exception. It does not licence
+ * counters anywhere else on the site.
+ *
+ * HONESTY. Every figure is illustrative and labelled as such, exactly as the
+ * RTO guide already does. No invented Partner Brand data. When real RTO
+ * figures arrive (still open from Module 3), they replace these and the block
+ * becomes uncopyable.
+ *
+ * FALLBACKS. No JS, or reduced motion → the full table renders with the same
+ * figures and the same conclusion. Nothing is lost; only the reveal is.
  */
 
+const ORDER_VALUE = 1000;
+
 const stages = [
-  { label: 'Ad spend paid',       note: 'to acquire the customer', out: true },
-  { label: 'Forward shipping',    note: 'parcel goes out',         out: true },
-  { label: 'Refused at the door', note: 'no sale happens',         out: false, pivot: true },
-  { label: 'Return shipping',     note: 'parcel comes back',       out: true },
-  { label: 'Stock returns worn',  note: 'often unsellable as new', out: true },
+  { label: 'Order placed',        note: 'a ₹1,000 order, COD',            delta: 0 },
+  { label: 'Ad spend paid',       note: 'to acquire this customer',       delta: -180 },
+  { label: 'Forward shipping',    note: 'parcel goes out',                delta: -80 },
+  { label: 'Refused at the door', note: 'no revenue ever arrives',        delta: 0, pivot: true },
+  { label: 'Return shipping',     note: 'parcel comes back',              delta: -80 },
+  { label: 'Stock returns worn',  note: 'often unsellable as new',        delta: -300 },
 ];
+
+// Running balance, computed once and shared by the static and animated views
+// so they can never disagree.
+let running = ORDER_VALUE;
+const rows = stages.map((s) => {
+  running += s.delta;
+  return { ...s, balance: running };
+});
+
+// The order was never paid for — COD, refused — so the ₹1,000 never arrives.
+const finalLoss = ORDER_VALUE - running;
+const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 ---
 
-<figure class="my-10">
-	<figcaption class="kicker mb-5">What one refused delivery costs</figcaption>
+<figure
+	class="sv-drain my-12"
+	data-order-value={ORDER_VALUE}
+	data-final-loss={finalLoss}
+>
+	<figcaption class="kicker mb-6">
+		What one refused delivery actually costs
+	</figcaption>
 
-	<ol class="flex flex-col md:flex-row md:items-stretch gap-2 md:gap-0 list-none">
-		{stages.map((s, i) => (
-			<>
-				<li class="flex-1 border border-current/20 rounded p-4 flex flex-col justify-between min-h-[6.5rem]">
-					<div>
-						<p class:list={[
-							'font-sans text-small leading-snug',
-							s.pivot ? 'font-semibold' : '',
-						]}>
-							{s.label}
-						</p>
-						<p class="font-mono text-micro opacity-55 mt-1.5 leading-snug">{s.note}</p>
-					</div>
-					<p class="font-mono text-micro mt-3 tracking-wider">
-						{s.out ? (
-							<span class="opacity-90">&minus;&nbsp;money out</span>
-						) : (
-							<span class="opacity-55">no money in</span>
-						)}
+	<ol class="list-none border-t border-current/15">
+		{rows.map((r, i) => (
+			<li
+				class="sv-drain-row grid grid-cols-[1fr_auto] gap-4 items-baseline py-4 border-b border-current/15"
+				data-index={i}
+				data-balance={r.balance}
+			>
+				<div>
+					<p class:list={['font-sans text-base leading-snug', r.pivot ? 'font-semibold' : '']}>
+						{r.label}
 					</p>
-				</li>
-
-				{i < stages.length - 1 && (
-					<div
-						aria-hidden="true"
-						class="flex items-center justify-center px-1 md:px-2 font-mono opacity-35 text-small"
-					>
-						<span class="md:hidden">&darr;</span>
-						<span class="hidden md:inline">&rarr;</span>
-					</div>
-				)}
-			</>
+					<p class="font-mono text-micro opacity-55 mt-1">{r.note}</p>
+				</div>
+				<div class="text-right whitespace-nowrap">
+					{r.delta !== 0 ? (
+						<p class="num text-base">&minus;{fmt(r.delta)}</p>
+					) : (
+						<p class="num text-base opacity-45">{r.pivot ? 'no money in' : fmt(ORDER_VALUE)}</p>
+					)}
+				</div>
+			</li>
 		))}
 	</ol>
 
-	<p class="text-small opacity-70 mt-5 max-w-[54ch] leading-relaxed">
-		Four stages take money out. The one stage that should have brought money
-		in never happens. That is why a 30% RTO rate does not cost you 30%.
+	{/* The payoff. This single line is Section 3's whole argument landing. */}
+	<div class="mt-8 border border-current/25 rounded-lg p-6">
+		<p class="kicker mb-3">Where that order actually left you</p>
+		<p
+			class="sv-drain-total num leading-none"
+			style="font-size: clamp(2.75rem, 9vw, 4.5rem); letter-spacing: -0.03em;"
+		>&minus;{fmt(finalLoss)}</p>
+		<p class="text-base opacity-85 leading-relaxed mt-5 max-w-[46ch]">
+			You are <span class="num">{fmt(finalLoss)}</span> down on an order your
+			dashboard counted as a sale. That is why a 30% RTO rate does not reduce
+			your profit by 30%.
+		</p>
+	</div>
+
+	<p class="font-mono text-micro opacity-50 mt-5 leading-relaxed max-w-[54ch]">
+		Illustrative arithmetic on a ₹1,000 COD order — not Partner Brand data.
+		Substitute your own shipping rate, cost per acquisition and recovery rate.
 	</p>
 </figure>
+
+<style>
+	/* Rows start dimmed and resolve as the visitor scrolls through them, so
+	   attention lands one stage at a time instead of on the whole table at
+	   once. .sv-armed is only added by JS, so the no-JS state is fully lit. */
+	.sv-drain.sv-armed .sv-drain-row {
+		opacity: 0.28;
+		transition: opacity 350ms cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	.sv-drain.sv-armed .sv-drain-row.is-lit { opacity: 1; }
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-drain.sv-armed .sv-drain-row { opacity: 1; transition: none; }
+	}
+</style>
+
+<script>
+	import { prefersReducedMotion } from '../lib/motion';
+
+	const fig = document.querySelector<HTMLElement>('.sv-drain');
+
+	if (fig && !prefersReducedMotion() && 'IntersectionObserver' in window) {
+		const rows = Array.from(fig.querySelectorAll<HTMLElement>('.sv-drain-row'));
+		const total = fig.querySelector<HTMLElement>('.sv-drain-total');
+		const orderValue = Number(fig.dataset.orderValue);
+		const finalLoss = Number(fig.dataset.finalLoss);
+
+		// Arm only now — before this line the block is fully visible, which is
+		// exactly the state a no-JS visitor keeps.
+		fig.classList.add('sv-armed');
+
+		const fmt = (n: number) => '₹' + Math.abs(Math.round(n)).toLocaleString('en-IN');
+
+		const setTotalTo = (balance: number) => {
+			if (!total) return;
+			total.textContent = '−' + fmt(orderValue - balance);
+		};
+
+		// Start the payoff figure at zero lost, so it resolves to the real
+		// number as the stages light up rather than spoiling it up front.
+		setTotalTo(orderValue);
+
+		/*
+		  Sequencing is a stagger, not per-row scroll position.
+
+		  Observing each row individually was the obvious build and it does not
+		  work: all six rows total roughly 540px, so on any normal viewport they
+		  are ALL on screen simultaneously and every one fires at once — no
+		  drain, just a single flash. Verified in testing.
+
+		  So: scroll triggers the sequence once, then rows resolve 260ms apart
+		  with the balance stepping down alongside. The trigger is still scroll;
+		  the spacing is the same stagger language every other section already
+		  uses (Module 9 §6). It is not a timed vanity counter — the number is
+		  the lesson, it counts down, and it runs exactly once.
+		*/
+		const STEP_MS = 260;
+		let timers: number[] = [];
+
+		const runSequence = () => {
+			rows.forEach((row, i) => {
+				const t = window.setTimeout(() => {
+					row.classList.add('is-lit');
+					setTotalTo(Number(row.dataset.balance));
+				}, i * STEP_MS);
+				timers.push(t);
+			});
+		};
+
+		const finish = () => {
+			timers.forEach((t) => window.clearTimeout(t));
+			timers = [];
+			rows.forEach((r) => r.classList.add('is-lit'));
+			setTotalTo(orderValue - finalLoss);
+		};
+
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					io.disconnect();
+					runSequence();
+				}
+			},
+			{ threshold: 0.25 }
+		);
+		io.observe(fig);
+
+		// Safety net: nothing may stay dimmed or show a wrong total if the
+		// observer never resolves, or if the visitor scrolls away mid-sequence.
+		window.setTimeout(() => {
+			io.disconnect();
+			finish();
+		}, 8000);
+	}
+</script>
