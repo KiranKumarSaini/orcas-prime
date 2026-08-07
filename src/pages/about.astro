@@ -49,12 +49,12 @@ const initials = (name: string) =>
 	<section>
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
 			<p class="kicker mb-4">About</p>
-			<h1 class="text-display font-serif font-medium max-w-[22ch]">
+			<h1 class="text-display font-serif max-w-[22ch]">
 				There are two of us. That's the whole pitch.
 			</h1>
 			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
 				Orcas Prime is {founders[0].name} and {founders[1].name}, working out of
-				Jaipur. We run <span class="num text-ochre">{clientCount}</span> ecommerce
+				Jaipur. We run <span class="num text-accent">{clientCount}</span> ecommerce
 				accounts between us. When you message us, you get one of the two people
 				who will actually be inside your ad account and your Shopify admin.
 			</p>
@@ -65,7 +65,7 @@ const initials = (name: string) =>
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">What it means for you</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+			<h2 class="text-h1 font-serif max-w-[24ch]">
 				No account manager in the middle.
 			</h2>
 
@@ -87,8 +87,8 @@ const initials = (name: string) =>
 						the account.
 					</p>
 				</div>
-				<div class="border-l-2 border-ochre pl-6 md:pl-8">
-					<p class="kicker text-ochre mb-3">Ours</p>
+				<div class="border-l-2 border-accent pl-6 md:pl-8">
+					<p class="kicker text-accent mb-3">Ours</p>
 					<p class="text-base leading-relaxed text-ink">
 						You message one of us. That person already knows your RTO rate, your
 						margin, and what we changed last Tuesday. There is no relay because
@@ -100,10 +100,10 @@ const initials = (name: string) =>
 	</section>
 
 	{/* ─── 3 · The two of us ───────────────────────────────────────── */}
-	<section class="border-t border-rule bg-ochre-wash/40">
+	<section class="border-t border-rule bg-accent-wash/40">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">Who we are</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+			<h2 class="text-h1 font-serif max-w-[22ch]">
 				The two of us.
 			</h2>
 
@@ -123,17 +123,17 @@ const initials = (name: string) =>
 							) : (
 								/* TODO(§13): replace with a real portrait. */
 								<div
-									class="w-24 h-24 rounded border border-rule bg-ochre-wash shrink-0 flex items-center justify-center"
+									class="w-24 h-24 rounded border border-rule bg-accent-wash shrink-0 flex items-center justify-center"
 									aria-hidden="true"
 								>
-									<span class="font-serif text-h2 font-medium text-ochre">
+									<span class="font-serif text-h2 font-medium text-accent">
 										{initials(f.name)}
 									</span>
 								</div>
 							)}
 							<div class="min-w-0">
 								<h3 class="font-serif text-h2 font-medium text-ink">{f.name}</h3>
-								<p class="font-mono text-micro uppercase tracking-wider text-ochre mt-1">
+								<p class="font-mono text-micro uppercase tracking-wider text-accent mt-1">
 									{f.role}
 								</p>
 								<p class="font-mono text-micro text-ink-muted mt-1">{f.focus}</p>
@@ -147,7 +147,7 @@ const initials = (name: string) =>
 						<ul class="mt-6 pt-6 border-t border-rule space-y-2.5">
 							{f.does.map((d) => (
 								<li class="grid grid-cols-[1rem_1fr] gap-2 text-small text-ink-muted leading-snug">
-									<span aria-hidden="true" class="font-mono text-ochre">&mdash;</span>
+									<span aria-hidden="true" class="font-mono text-accent">&mdash;</span>
 									<span>{d}</span>
 								</li>
 							))}
@@ -158,7 +158,7 @@ const initials = (name: string) =>
 								<a
 									href={f.linkedin}
 									rel="noopener"
-									class="font-mono text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+									class="font-mono text-small text-accent hover:text-accent-hover underline decoration-1 underline-offset-4"
 								>
 									LinkedIn &rarr;
 								</a>
@@ -176,7 +176,7 @@ const initials = (name: string) =>
 			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
 				<div>
 					<p class="kicker mb-4">Capacity</p>
-					<h2 class="text-h1 font-serif font-medium">
+					<h2 class="text-h1 font-serif">
 						We take on four new clients a quarter.
 					</h2>
 				</div>
@@ -201,7 +201,7 @@ const initials = (name: string) =>
 			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
 				<div>
 					<p class="kicker mb-4">Where</p>
-					<h2 class="text-h1 font-serif font-medium">
+					<h2 class="text-h1 font-serif">
 						Jaipur, Rajasthan.
 					</h2>
 				</div>
@@ -226,18 +226,18 @@ const initials = (name: string) =>
 	{/* ─── 6 · Proof link + close ──────────────────────────────────── */}
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
-			<p class="font-serif font-medium text-h2 max-w-[30ch] mx-auto">
+			<p class="font-serif text-h2 max-w-[30ch] mx-auto">
 				Best way to judge us is the work, not this page.
 			</p>
 			<p class="text-lead text-ink-muted mt-4">
-				<span class="num text-ochre">{headline.roas.display}</span> on Google Ads for
+				<span class="num text-accent">{headline.roas.display}</span> on Google Ads for
 				one client. Flipkart Gold tier for another.
 			</p>
 			<div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
 				<WhatsAppCTA message={ctaMsg} />
 				<a
 					href="/work"
-					class="font-sans text-base text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+					class="font-sans text-base text-accent hover:text-accent-hover underline decoration-1 underline-offset-4"
 				>
 					See the case studies &rarr;
 				</a>

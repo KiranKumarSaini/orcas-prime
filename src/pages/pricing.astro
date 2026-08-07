@@ -121,11 +121,11 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	<section>
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
 			<p class="kicker mb-4">Pricing</p>
-			<h1 class="text-display font-serif font-medium max-w-[16ch]">
+			<h1 class="text-display font-serif max-w-[16ch]">
 				What Orcas Prime charges.
 			</h1>
 			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
-				Orcas Prime takes <span class="num text-ochre">3.5% + GST</span> of net sales after returns are deducted. A Shopify build is <span class="num">₹10,000–₹20,000</span> one-time. Amazon, Flipkart and Meesho are free for the first three months. No retainer, no lock-in, no setup fees.
+				Orcas Prime takes <span class="num text-accent">3.5% + GST</span> of net sales after returns are deducted. A Shopify build is <span class="num">₹10,000–₹20,000</span> one-time. Amazon, Flipkart and Meesho are free for the first three months. No retainer, no lock-in, no setup fees.
 			</p>
 		</div>
 	</section>
@@ -134,7 +134,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">The list</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+			<h2 class="text-h1 font-serif max-w-[22ch]">
 				The full price list.
 			</h2>
 
@@ -142,7 +142,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 				{priceRows.map((row) => (
 					<div class="grid gap-2 md:gap-8 md:grid-cols-[1fr_auto_1.2fr] py-6 border-b border-rule items-baseline">
 						<dt class="font-serif text-h3 font-medium text-ink">{row.item}</dt>
-						<dd class="num text-lead text-ochre md:text-right whitespace-nowrap">{row.price}</dd>
+						<dd class="num text-lead text-accent md:text-right whitespace-nowrap">{row.price}</dd>
 						<dd class="text-small text-ink-muted leading-relaxed">{row.detail}</dd>
 					</div>
 				))}
@@ -151,10 +151,10 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	</section>
 
 	{/* ─── 3 · Comparison + footnoted sources ──────────────────────── */}
-	<section class="border-t border-rule bg-ochre-wash/40">
+	<section class="border-t border-rule bg-accent-wash/40">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">The comparison</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+			<h2 class="text-h1 font-serif max-w-[24ch]">
 				What you’d pay a typical retainer agency.
 			</h2>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose">
@@ -169,12 +169,12 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 			<div class="mt-8 max-w-prose text-small text-ink-muted leading-relaxed space-y-3">
 				<p class="kicker text-ink" id="sources">Sources</p>
 				<p>
-					<sup class="num text-ochre">1</sup>&nbsp;Ranges compiled from publicly available
+					<sup class="num text-accent">1</sup>&nbsp;Ranges compiled from publicly available
 					agency rate pages, industry directory listings on Clutch, DesignRush and Sortlist,
 					and public LinkedIn descriptions for Indian ecommerce agencies as of Q3 2026.
 				</p>
 				<p>
-					<sup class="num text-ochre">2</sup>&nbsp;Retainer range for Indian ecommerce
+					<sup class="num text-accent">2</sup>&nbsp;Retainer range for Indian ecommerce
 					agencies: <span class="num">₹75,000</span>–<span class="num">₹10,00,000</span> per month, most commonly <span class="num">₹1,50,000</span>–<span class="num">₹6,00,000</span>. Percentage-of-ad-spend pricing commonly runs 10–20% of media budget.
 				</p>
 				<p class="pt-2 font-mono text-micro">
@@ -182,7 +182,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 					<a
 						href={correctionHref}
 						rel="noopener"
-						class="text-ochre underline decoration-1 underline-offset-4 hover:text-ochre-hover"
+						class="text-accent underline decoration-1 underline-offset-4 hover:text-accent-hover"
 					>
 						send it over &mdash; we’ll update the footnote.
 					</a>
@@ -195,8 +195,8 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">What’s covered</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
-				What the <span class="num text-ochre">3.5%</span> covers.
+			<h2 class="text-h1 font-serif max-w-[22ch]">
+				What the <span class="num text-accent">3.5%</span> covers.
 			</h2>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose">
 				One fee. Everything you need to run and grow the store.
@@ -222,7 +222,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">Why publish</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+			<h2 class="text-h1 font-serif max-w-[22ch]">
 				Why we publish this.
 			</h2>
 			<div class="mt-8 grid gap-6 md:grid-cols-3 md:gap-10">
@@ -248,7 +248,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">Questions</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[22ch]">
+			<h2 class="text-h1 font-serif max-w-[22ch]">
 				Questions we get before signing.
 			</h2>
 
@@ -256,7 +256,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 				{faqs.map((qa) => (
 					<details class="group border-b border-rule py-5" open>
 						<summary class="cursor-pointer list-none flex items-start gap-4">
-							<span aria-hidden="true" class="kicker mt-2 text-ochre num">Q</span>
+							<span aria-hidden="true" class="kicker mt-2 text-accent num">Q</span>
 							<h3 class="font-serif text-h3 font-medium text-ink flex-1">
 								{qa.question}
 							</h3>
@@ -273,8 +273,8 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	{/* ─── 7 · Close ────────────────────────────────────────────────── */}
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
-			<p class="font-serif font-medium text-h2 max-w-[30ch] mx-auto">
-				If <span class="num text-ochre">3.5%</span> of net sales sounds like it might
+			<p class="font-serif text-h2 max-w-[30ch] mx-auto">
+				If <span class="num text-accent">3.5%</span> of net sales sounds like it might
 				fit, the next step is a two-line WhatsApp message.
 			</p>
 			<p class="text-lead text-ink-muted mt-4">
@@ -285,7 +285,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 			</div>
 			<p class="text-small text-ink-muted mt-6">
 				Or start with the wedge offer:
-				<a href="/amazon-free-onboarding" class="text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4">
+				<a href="/amazon-free-onboarding" class="text-accent hover:text-accent-hover underline decoration-1 underline-offset-4">
 					free 3 months on Amazon &rarr;
 				</a>
 			</p>

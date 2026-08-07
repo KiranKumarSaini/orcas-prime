@@ -5,12 +5,11 @@ const palette = [
   { name: 'paper',          hex: '#FAF7F2', use: 'Page background — warm off-white, never pure white',       swatchClass: 'bg-paper',         needsBorder: true  },
   { name: 'ink',            hex: '#1C1917', use: 'Primary text — near-black with warmth, never #000',        swatchClass: 'bg-ink',           needsBorder: false },
   { name: 'ink-muted',      hex: '#57534E', use: 'Body copy, secondary text, kickers',                       swatchClass: 'bg-ink-muted',     needsBorder: false },
-  { name: 'ochre',          hex: '#B45309', use: 'Accent — links, primary CTAs, one hero number per view',   swatchClass: 'bg-ochre',         needsBorder: false },
-  { name: 'ochre-hover',    hex: '#92400E', use: 'Hover state for ochre links + buttons',                    swatchClass: 'bg-ochre-hover',   needsBorder: false },
-  { name: 'ochre-wash',     hex: '#FDF0E1', use: 'Highlight blocks, table headers, text selection',          swatchClass: 'bg-ochre-wash',    needsBorder: true  },
+  { name: 'accent',          hex: '#2F4739', use: 'Accent — links, primary CTAs, one hero number per view',   swatchClass: 'bg-accent',         needsBorder: false },
+  { name: 'accent-hover',    hex: '#3D5A48', use: 'Hover state for accent links + buttons',                    swatchClass: 'bg-accent-hover',   needsBorder: false },
+  { name: 'accent-wash',     hex: '#EDF1EC', use: 'Highlight blocks, table headers, text selection',          swatchClass: 'bg-accent-wash',    needsBorder: true  },
   { name: 'rule',           hex: '#E7E1D8', use: 'Hairline borders and dividers',                            swatchClass: 'bg-rule',          needsBorder: true  },
   { name: 'rule-strong',    hex: '#D6CFC2', use: 'Emphasized dividers between major sections',               swatchClass: 'bg-rule-strong',   needsBorder: false },
-  { name: 'ledger-green',   hex: '#3F6212', use: 'Positive figures only — used sparingly, never decorative', swatchClass: 'bg-ledger-green',  needsBorder: false },
 ];
 
 // Static class map — Tailwind v4 tree-shakes based on literal source scanning,
@@ -53,7 +52,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<header class="grid md:grid-cols-[1fr_auto] gap-y-4 gap-x-8 pb-10 border-b border-rule">
 				<div>
 					<p class="kicker mb-3">Internal · v1 · 2026-08</p>
-					<h1 class="font-serif font-medium text-h1 leading-[1.08] tracking-[-0.022em]">
+					<h1 class="font-serif text-h1 leading-[1.08] tracking-[-0.022em]">
 						Ledger — the design system
 					</h1>
 					<p class="text-lead text-ink-muted mt-4 max-w-prose">
@@ -71,11 +70,11 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Palette ────────────────────────────────────────────────────────── -->
 			<section class="py-16 border-b border-rule">
 				<p class="kicker mb-3">01 · Palette</p>
-				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
-					Nine colours. No more.
+				<h2 class="font-serif text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Eight colours. No more.
 				</h2>
 				<p class="text-base text-ink-muted max-w-prose mb-10">
-					Ochre is the only accent. Ledger-green appears only next to positive numbers.
+					Deep green is the only accent.
 					Everything else is paper, ink, and warm hairline greys.
 				</p>
 
@@ -101,13 +100,13 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Typography ─────────────────────────────────────────────────────── -->
 			<section class="py-16 border-b border-rule">
 				<p class="kicker mb-3">02 · Typography</p>
-				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
-					Three faces. Fraunces sets the tone; Geist reports the facts.
+				<h2 class="font-serif text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+					Three faces. Instrument Serif sets the tone; Geist reports the facts.
 				</h2>
 				<p class="text-base text-ink-muted max-w-prose mb-12">
-					Fraunces is a variable serif — warm, characterful, editorial. Geist Sans handles
-					body and UI. Every number on the site sets in Geist Mono with tabular figures
-					by default, so columns align without effort.
+					Instrument Serif is a high-contrast transitional serif — warm, characterful, editorial.
+					Geist Sans handles body and UI. Every number on the site sets in Geist Mono with
+					tabular figures by default, so columns align without effort.
 				</p>
 
 				<div class="space-y-10">
@@ -117,7 +116,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 								<div class="font-mono text-micro text-ink uppercase tracking-wider">text-{token}</div>
 								<div class="font-mono text-micro text-ink-muted mt-1">{useCase}</div>
 							</div>
-							<p class:list={[sizeClass, isHeading ? 'font-serif font-medium' : 'font-sans']}>
+							<p class:list={[sizeClass, isHeading ? 'font-serif' : 'font-sans']}>
 								{sample}
 							</p>
 						</div>
@@ -128,7 +127,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Numbers ────────────────────────────────────────────────────────── -->
 			<section class="py-16 border-b border-rule">
 				<p class="kicker mb-3">03 · Numbers</p>
-				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+				<h2 class="font-serif text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
 					Every figure is Geist Mono. Every figure is tabular.
 				</h2>
 				<p class="text-base text-ink-muted max-w-prose mb-10">
@@ -156,7 +155,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 							<div>44,444</div>
 						</div>
 					</div>
-					<div class="border border-ochre-wash bg-ochre-wash rounded p-6">
+					<div class="border border-accent-wash bg-accent-wash rounded p-6">
 						<div class="kicker mb-3">Hero figure</div>
 						<div class="num figure-hero" style="font-size: clamp(2rem, 4vw, 3rem); line-height: 1;">
 							5.1&thinsp;x
@@ -171,7 +170,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Rules & radii ──────────────────────────────────────────────────── -->
 			<section class="py-16 border-b border-rule">
 				<p class="kicker mb-3">04 · Rules and radii</p>
-				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+				<h2 class="font-serif text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
 					Everything sharp. Nothing rounded past 6&nbsp;px.
 				</h2>
 				<p class="text-base text-ink-muted max-w-prose mb-10">
@@ -203,7 +202,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 						<div class="flex items-end gap-6 flex-wrap">
 							{radii.map((r) => (
 								<div>
-									<div class="w-14 h-14 bg-ochre-wash border border-rule" style={`border-radius: ${r.px};`}></div>
+									<div class="w-14 h-14 bg-accent-wash border border-rule" style={`border-radius: ${r.px};`}></div>
 									<div class="font-mono text-micro text-ink mt-2">rounded-{r.token.toLowerCase()}</div>
 									<div class="font-mono text-micro text-ink-muted">{r.px} · {r.use}</div>
 								</div>
@@ -216,23 +215,23 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Buttons ────────────────────────────────────────────────────────── -->
 			<section class="py-16 border-b border-rule">
 				<p class="kicker mb-3">05 · Buttons</p>
-				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+				<h2 class="font-serif text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
 					Three shapes. Ochre carries every conversion.
 				</h2>
 				<p class="text-base text-ink-muted max-w-prose mb-10">
-					Primary is a solid ochre pill-corner rectangle. Secondary is an ink-outlined
+					Primary is a solid accent pill-corner rectangle. Secondary is an ink-outlined
 					ghost. Tertiary is a text link with an underline offset by the same 2&nbsp;px as
 					the smallest radius — small consistency, big impact.
 				</p>
 
 				<div class="flex items-center gap-4 flex-wrap">
-					<button class="bg-ochre text-paper font-sans text-base font-medium px-5 py-3 rounded-md hover:bg-ochre-hover transition-colors">
+					<button class="bg-accent text-paper font-sans text-base font-medium px-5 py-3 rounded-md hover:bg-accent-hover transition-colors">
 						Start on WhatsApp
 					</button>
 					<button class="bg-transparent text-ink border border-ink font-sans text-base font-medium px-5 py-3 rounded-md hover:bg-ink hover:text-paper transition-colors">
 						See how it works
 					</button>
-					<a href="#" class="font-sans text-base text-ochre underline decoration-1 underline-offset-4 hover:text-ochre-hover">
+					<a href="#" class="font-sans text-base text-accent underline decoration-1 underline-offset-4 hover:text-accent-hover">
 						View sample report →
 					</a>
 				</div>
@@ -241,11 +240,11 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Sample data table (the signature element) ─────────────────────── -->
 			<section class="py-16 border-b border-rule">
 				<p class="kicker mb-3">06 · Sample data table</p>
-				<h2 class="font-serif font-medium text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
+				<h2 class="font-serif text-h2 leading-[1.18] tracking-[-0.015em] mb-3">
 					The pricing comparison — this is the layout everything else quiets down for.
 				</h2>
 				<p class="text-base text-ink-muted max-w-prose mb-10">
-					Fraunces headline. Ochre-washed header row. Tabular Geist Mono figures. Hairline
+					Instrument Serif headline. Ochre-washed header row. Tabular Geist Mono figures. Hairline
 					rules, nothing thicker. On mobile the columns stay side-by-side — collapsing to
 					stacked cards would destroy the comparison, which is the entire point.
 				</p>
@@ -253,12 +252,12 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 				<div class="border border-rule-strong rounded overflow-hidden">
 					<table class="w-full border-collapse text-left">
 						<thead>
-							<tr class="bg-ochre-wash">
+							<tr class="bg-accent-wash">
 								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink border-b border-rule-strong">
 									<span class="kicker">Net sales / month</span>
 								</th>
 								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink border-b border-rule-strong">
-									<span class="kicker">Orcas Prime <span class="normal-case text-ochre">(3.5% + GST)</span></span>
+									<span class="kicker">Orcas Prime <span class="normal-case text-accent">(3.5% + GST)</span></span>
 								</th>
 								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink-muted border-b border-rule-strong border-l border-rule">
 									<span class="kicker">Typical agency retainer</span>
@@ -269,7 +268,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 							{pricingRows.map((row, i) => (
 								<tr class={i < pricingRows.length - 1 ? 'border-b border-rule' : ''}>
 									<td class="num p-4 md:p-5 text-base md:text-lead">{fmt(row.net)}</td>
-									<td class="num p-4 md:p-5 text-base md:text-lead text-ochre">{fmt(row.op)}</td>
+									<td class="num p-4 md:p-5 text-base md:text-lead text-accent">{fmt(row.op)}</td>
 									<td class="num p-4 md:p-5 text-base md:text-lead text-ink-muted border-l border-rule">{fmt(row.ret)}+</td>
 								</tr>
 							))}
@@ -285,7 +284,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 			<!-- Colophon ───────────────────────────────────────────────────────── -->
 			<div class="pt-10">
 				<p class="font-mono text-small text-ink-muted">
-					End of ledger. <span class="text-ochre">docs/PROJECT-BRIEF.md §8</span> is the source of truth. Update tokens in <span class="text-ink">src/styles/global.css</span>, never in components.
+					End of ledger. <span class="text-accent">docs/PROJECT-BRIEF.md §8</span> is the source of truth. Update tokens in <span class="text-ink">src/styles/global.css</span>, never in components.
 				</p>
 			</div>
 

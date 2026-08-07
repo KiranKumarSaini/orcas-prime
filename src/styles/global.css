@@ -5,8 +5,8 @@
    heuristic fails (e.g. when working inside a monorepo or during setup). */
 @source "../**/*.{astro,html,ts,tsx,js,jsx,md,mdx}";
 
-/* Fonts — self-hosted via Fontsource. Fraunces variable; Geist per-weight. */
-@import "@fontsource-variable/fraunces/wght.css";
+/* Fonts — self-hosted via Fontsource. Instrument Serif (display); Geist per-weight. */
+@import "@fontsource/instrument-serif/400.css";
 @import "@fontsource/geist-sans/400.css";
 @import "@fontsource/geist-sans/500.css";
 @import "@fontsource/geist-sans/600.css";
@@ -24,19 +24,21 @@
   --color-paper: #FAF7F2;
   --color-ink: #1C1917;
   --color-ink-muted: #57534E;
-  --color-ochre: #B45309;
-  --color-ochre-hover: #92400E;
-  --color-ochre-wash: #FDF0E1;
+  /* Module 4 §2 accent — deep, low-saturation green. Replaces the old ochre
+     accent sitewide; kept as a two-step (base/hover) plus a quiet wash for
+     tinted backgrounds, same pattern as before, new values throughout. */
+  --color-accent: #2F4739;
+  --color-accent-hover: #3D5A48;
+  --color-accent-wash: #EDF1EC;
   --color-rule: #E7E1D8;
   --color-rule-strong: #D6CFC2;
-  --color-ledger-green: #3F6212;
   /* Added Phase 1 (Module 4 §2) — subtle tint for the one section that
      earns visual distinction: How We Think, the intellectual centre of
      the homepage. Nowhere else. */
   --color-paper-sunken: #F3EFE8;
 
   /* ─── Typography ──────────────────────────────────────────────────────── */
-  --font-serif: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
   --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
 
@@ -99,11 +101,13 @@
     line-height: 1.65;
   }
 
-  /* Serif headings by default. Fraunces weight 500 is the editorial sweet spot;
-     700 reads too advertorial for the "auditable document" concept. */
+  /* Serif headings by default. Instrument Serif ships regular weight only
+     (400) — no 500/700 cut exists, so headings set at 400. Its high-contrast
+     transitional forms carry plenty of presence at that weight; a browser-
+     synthesised bold would look worse than committing to regular. */
   h1, h2, h3, h4 {
     font-family: var(--font-serif);
-    font-weight: 500;
+    font-weight: 400;
     color: var(--color-ink);
   }
 
@@ -126,15 +130,15 @@
     margin: 0;
   }
 
-  /* Selection uses the ochre wash — coherent, calm. */
+  /* Selection uses the accent wash — coherent, calm. */
   ::selection {
-    background: var(--color-ochre-wash);
+    background: var(--color-accent-wash);
     color: var(--color-ink);
   }
 
-  /* Focus ring — visible ochre outline. WCAG requirement (§9). */
+  /* Focus ring — visible accent outline. WCAG requirement (§9). */
   :focus-visible {
-    outline: 2px solid var(--color-ochre);
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
   }
@@ -199,7 +203,7 @@
 
   /* Ochre inline highlight — reserved for the single most important number in view. */
   .figure-hero {
-    color: var(--color-ochre);
+    color: var(--color-accent);
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1;
   }

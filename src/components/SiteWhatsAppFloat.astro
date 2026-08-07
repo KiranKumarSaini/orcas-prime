@@ -5,7 +5,7 @@
  *   - Never animates.
  *   - Never demands attention.
  *
- * Fixed bottom-right, small ochre pill on desktop, circle on mobile so it
+ * Fixed bottom-right, small accent pill on desktop, circle on mobile so it
  * doesn't crowd tap targets. Safe-area padding respects notches.
  */
 
@@ -23,7 +23,7 @@ const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 	data-cta="whatsapp-float"
 	class="fixed z-40 right-4 sm:right-6 bottom-[calc(env(safe-area-inset-bottom,0px)+1rem)] sm:bottom-6
 	       inline-flex items-center gap-2
-	       bg-ochre text-paper hover:bg-ochre-hover
+	       bg-accent text-paper hover:bg-accent-hover
 	       rounded-full shadow-sm
 	       transition-colors
 	       h-12 w-12 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5

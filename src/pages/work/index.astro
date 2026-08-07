@@ -57,7 +57,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 	<section>
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
 			<p class="kicker mb-4">Case studies</p>
-			<h1 class="text-display font-serif font-medium max-w-[24ch]">
+			<h1 class="text-display font-serif max-w-[24ch]">
 				We build stores that sell, then we run them.
 			</h1>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose leading-relaxed">
@@ -68,10 +68,10 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 	</section>
 
 	{/* ─── 2 · Store showcase — real screenshots of live stores ────── */}
-	<section class="border-t border-rule bg-ochre-wash/40">
+	<section class="border-t border-rule bg-accent-wash/40">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">Live storefronts</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+			<h2 class="text-h1 font-serif max-w-[24ch]">
 				Stores we built, running now.
 			</h2>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose">
@@ -108,7 +108,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 								<a
 									href={client.liveUrl}
 									rel="noopener"
-									class="mt-3 inline-block font-sans text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4"
+									class="mt-3 inline-block font-sans text-small text-accent hover:text-accent-hover underline decoration-1 underline-offset-4"
 								>
 									Visit {client.liveUrl.replace(/^https?:\/\//, '')} &rarr;
 								</a>
@@ -124,7 +124,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">All clients</p>
-			<h2 class="text-h1 font-serif font-medium max-w-[24ch]">
+			<h2 class="text-h1 font-serif max-w-[24ch]">
 				Every account we run right now.
 			</h2>
 
@@ -143,7 +143,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 								<div class="text-base text-ink-muted leading-relaxed">
 									{client.result.kind === 'quantitative' ? (
 										<span>
-											<span class="num text-ochre text-lead">{fmtINR(client.result.amount)}</span>
+											<span class="num text-accent text-lead">{fmtINR(client.result.amount)}</span>
 											<span> {client.result.metric}, {client.result.period}</span>
 										</span>
 									) : (
@@ -154,7 +154,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 									{study ? (
 										<a
 											href={`/work/${client.slug}`}
-											class="font-sans text-small text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4 whitespace-nowrap"
+											class="font-sans text-small text-accent hover:text-accent-hover underline decoration-1 underline-offset-4 whitespace-nowrap"
 										>
 											Read case study &rarr;
 										</a>
@@ -175,7 +175,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 	{/* ─── 4 · Close ────────────────────────────────────────────────── */}
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
-			<p class="font-serif font-medium text-h2 max-w-[28ch] mx-auto">
+			<p class="font-serif text-h2 max-w-[28ch] mx-auto">
 				If any of this looks like the kind of work you want us doing for you &mdash;
 			</p>
 			<p class="text-lead text-ink-muted mt-4">

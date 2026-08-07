@@ -33,11 +33,11 @@ const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 
 const base: Record<NonNullable<Props['variant']>, string> = {
   primary:
-    'inline-flex items-center gap-2 bg-ochre text-paper hover:bg-ochre-hover px-5 py-3 rounded-md font-sans text-base font-medium transition-colors',
+    'inline-flex items-center gap-2 bg-accent text-paper hover:bg-accent-hover px-5 py-3 rounded-md font-sans text-base font-medium transition-colors',
   ghost:
     'inline-flex items-center gap-2 border border-ink text-ink hover:bg-ink hover:text-paper px-5 py-3 rounded-md font-sans text-base font-medium transition-colors',
   link:
-    'inline-flex items-center gap-1 text-ochre hover:text-ochre-hover underline decoration-1 underline-offset-4 font-sans text-base',
+    'inline-flex items-center gap-1 text-accent hover:text-accent-hover underline decoration-1 underline-offset-4 font-sans text-base',
 };
 ---
 

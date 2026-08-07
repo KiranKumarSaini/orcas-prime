@@ -49,11 +49,11 @@ const year = new Date().getFullYear();
 		<div class="grid gap-12 md:gap-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
 
 			<div>
-				<a href="/" class="font-serif font-medium text-h3 text-ink hover:text-ochre transition-colors">
+				<a href="/" class="font-serif text-h3 text-ink hover:text-accent transition-colors">
 					Orcas Prime
 				</a>
 				<p class="text-small text-ink-muted mt-4 leading-relaxed max-w-xs">
-					We take ownership of your ecommerce growth. <span class="num text-ochre">3.5%</span> of net sales, no retainer.
+					We take ownership of your ecommerce growth. <span class="num text-accent">3.5%</span> of net sales, no retainer.
 				</p>
 				<p class="text-small text-ink-muted mt-6 leading-relaxed">
 					Built and run by<br />
@@ -67,7 +67,7 @@ const year = new Date().getFullYear();
 				<ul class="space-y-2.5">
 					{footerNav.work.map((item) => (
 						<li>
-							<a href={item.href} class="font-sans text-small text-ink hover:text-ochre transition-colors">
+							<a href={item.href} class="font-sans text-small text-ink hover:text-accent transition-colors">
 								{item.label}
 							</a>
 						</li>
@@ -80,7 +80,7 @@ const year = new Date().getFullYear();
 				<ul class="space-y-2.5">
 					{footerNav.proof.map((item) => (
 						<li>
-							<a href={item.href} class="font-sans text-small text-ink hover:text-ochre transition-colors">
+							<a href={item.href} class="font-sans text-small text-ink hover:text-accent transition-colors">
 								{item.label}
 							</a>
 						</li>
@@ -93,7 +93,7 @@ const year = new Date().getFullYear();
 				<ul class="space-y-2.5">
 					{footerNav.start.map((item) => (
 						<li>
-							<a href={item.href} class="font-sans text-small text-ink hover:text-ochre transition-colors">
+							<a href={item.href} class="font-sans text-small text-ink hover:text-accent transition-colors">
 								{item.label}
 							</a>
 						</li>
@@ -105,13 +105,13 @@ const year = new Date().getFullYear();
 					<p>
 						<a
 							href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g,'')}`}
-							class="text-ink hover:text-ochre transition-colors"
+							class="text-ink hover:text-accent transition-colors"
 						>
 							WhatsApp <span class="num text-ink-muted">{contact.whatsapp}</span>
 						</a>
 					</p>
 					<p>
-						<a href={`mailto:${contact.email}`} class="text-ink hover:text-ochre transition-colors">
+						<a href={`mailto:${contact.email}`} class="text-ink hover:text-accent transition-colors">
 							{contact.email}
 						</a>
 					</p>
