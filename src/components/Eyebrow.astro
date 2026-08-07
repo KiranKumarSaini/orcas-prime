@@ -1,0 +1,12 @@
+---
+/**
+ * Small uppercase label that opens a section. Module 4 §7 spec — reuses the
+ * existing `.kicker` global class (mono, micro, tracked, --ink-muted) rather
+ * than introducing a parallel token set for the same thing.
+ */
+export interface Props {
+  class?: string;
+}
+const { class: extraClass = '' } = Astro.props;
+---
+<p class:list={['kicker', extraClass]}><slot /></p>

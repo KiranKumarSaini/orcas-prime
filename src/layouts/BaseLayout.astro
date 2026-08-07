@@ -82,5 +82,31 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		</main>
 		<SiteFooter />
 		<SiteWhatsAppFloat />
+
+		{/* Entrance animation, Phase 1 (Module 4 §6). Progressive enhancement —
+		    .js-ready is only added once this script runs, so [data-animate]
+		    content stays fully visible with JS disabled (global.css). Fires
+		    once per element, never re-animates on scroll-back. */}
+		<script>
+			document.documentElement.classList.add('js-ready');
+
+			const targets = document.querySelectorAll('[data-animate]');
+			if ('IntersectionObserver' in window && targets.length) {
+				const io = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('is-visible');
+								io.unobserve(entry.target);
+							}
+						}
+					},
+					{ threshold: 0.15 }
+				);
+				targets.forEach((el) => io.observe(el));
+			} else {
+				targets.forEach((el) => el.classList.add('is-visible'));
+			}
+		</script>
 	</body>
 </html>

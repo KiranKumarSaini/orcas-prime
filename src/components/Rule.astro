@@ -1,0 +1,13 @@
+---
+/**
+ * Thin horizontal rule as structural device (Module 4 §5, §7). `space-12`
+ * above and below. The base `<hr>` styling already lives in global.css —
+ * this component only standardises the spacing where it's used as a
+ * between-block divider inside a section (e.g. Section 3's sub-blocks).
+ */
+export interface Props {
+  class?: string;
+}
+const { class: extraClass = '' } = Astro.props;
+---
+<hr class:list={['my-12', extraClass]} />

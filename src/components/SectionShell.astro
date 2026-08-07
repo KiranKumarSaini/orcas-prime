@@ -1,0 +1,49 @@
+---
+/**
+ * Every homepage section goes through this. Enforces the consistent vertical
+ * rhythm and container width Module 4 §4 requires — irregular section
+ * spacing is the fastest way a site reads as amateur.
+ *
+ * width:
+ *   'wide'    — max-w-[76rem]  (1216px). Sections with side-by-side content
+ *               (4, 6). Matches the container already used by header/footer
+ *               sitewide — kept for alignment rather than switching to
+ *               Module 4's 1080px, which would misalign against them.
+ *   'reading' — max-w-[44rem]  (~680px, Module 4 §4 container-reading).
+ *               Long-form sections (2, 3, 5).
+ *   'narrow'  — max-w-[37.5rem] (600px, Module 4 §4). Section 8 only.
+ */
+export interface Props {
+  width?: 'wide' | 'reading' | 'narrow';
+  border?: boolean;
+  tint?: boolean;
+  animate?: boolean;
+  id?: string;
+  class?: string;
+}
+const {
+  width = 'wide',
+  border = true,
+  tint = false,
+  animate = true,
+  id,
+  class: extraClass = '',
+} = Astro.props;
+
+const widths: Record<NonNullable<Props['width']>, string> = {
+  wide: 'max-w-[76rem]',
+  reading: 'max-w-[44rem]',
+  narrow: 'max-w-[37.5rem]',
+};
+---
+<section
+	id={id}
+	class:list={[border ? 'border-b border-rule' : '', tint ? 'bg-paper-sunken' : '']}
+>
+	<div
+		class:list={[widths[width], 'mx-auto px-6 md:px-10 py-16 md:py-24', extraClass]}
+		data-animate={animate ? '' : undefined}
+	>
+		<slot />
+	</div>
+</section>
