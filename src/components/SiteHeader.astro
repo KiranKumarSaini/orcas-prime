@@ -1,11 +1,18 @@
 ---
-// Minimal header. Wordmark left, nav right. Deliberately not sticky (§9).
+// Minimal header. Wordmark left, nav right.
 // Mobile menu is one vanilla-JS toggle — no framework overhead.
+//
+// Relabelled per Module 3 "Global Elements": Services → What We Own
+// (LOCKED#17, never "Services" in nav/heading/URL — label only, URL kept
+// as /services per Module 7 §11, that route change is still an open item).
+// "Learn" added — omitted in the module spec until guides existed; they
+// now do (10, well past the gate), so it ships.
 
 const nav = [
-  { href: '/pricing',  label: 'Pricing' },
+  { href: '/services', label: 'What We Own' },
   { href: '/work',     label: 'Work' },
-  { href: '/services', label: 'Services' },
+  { href: '/pricing',  label: 'Pricing' },
+  { href: '/guides',   label: 'Learn' },
   { href: '/about',    label: 'About' },
 ];
 

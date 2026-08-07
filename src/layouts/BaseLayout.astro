@@ -86,7 +86,13 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		{/* Entrance animation, Phase 1 (Module 4 §6). Progressive enhancement —
 		    .js-ready is only added once this script runs, so [data-animate]
 		    content stays fully visible with JS disabled (global.css). Fires
-		    once per element, never re-animates on scroll-back. */}
+		    once per element, never re-animates on scroll-back.
+
+		    Safety net: a target the observer never resolves (backgrounded tab,
+		    a target taller than the viewport that never crosses threshold, any
+		    other edge case) must not stay invisible forever — Module 4 §6 is
+		    explicit that content must never ship blank. Anything still hidden
+		    2s after its section has had a chance to load is forced visible. */}
 		<script>
 			document.documentElement.classList.add('js-ready');
 
@@ -104,6 +110,11 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 					{ threshold: 0.15 }
 				);
 				targets.forEach((el) => io.observe(el));
+
+				setTimeout(() => {
+					targets.forEach((el) => el.classList.add('is-visible'));
+					io.disconnect();
+				}, 2000);
 			} else {
 				targets.forEach((el) => el.classList.add('is-visible'));
 			}
