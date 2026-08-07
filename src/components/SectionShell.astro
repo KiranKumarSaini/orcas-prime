@@ -1,23 +1,32 @@
 ---
 /**
- * Every homepage section goes through this. Enforces the consistent vertical
- * rhythm and container width Module 4 §4 requires — irregular section
- * spacing is the fastest way a site reads as amateur.
+ * Every homepage section goes through this.
  *
- * `surface` implements Module 9 §3's alternation. Eight sections on one
- * background was the single biggest reason the page read as a document;
- * light / tinted / dark now mark where the page changes register.
+ * REVISED 2026-08-08 after operator review on a real phone: the dark
+ * surfaces are gone and sections are now rounded panels floating on a deeper
+ * page colour.
+ *
+ * Why the change. Module 9 §3 alternated light/dark to mark changes of
+ * register. On desktop that worked; on a phone the dark sections are so tall
+ * that they read as "a long dark zone" rather than as a beat in a rhythm, and
+ * the hairline borders separating light sections are effectively invisible at
+ * that width — so the whole page still scanned as one continuous document.
+ *
+ * Separation now comes from geometry rather than darkness: each section is a
+ * physically separate rounded object with its own tint. Light-only, per
+ * operator instruction.
  *
  * width:
- *   'wide'    — max-w-[76rem]. Side-by-side content (4, 6). Matches the
- *               header/footer container so edges align sitewide.
- *   'reading' — max-w-[44rem]. Long-form sections (2, 3, 5).
- *   'narrow'  — max-w-[37.5rem]. Section 8 only.
+ *   'wide'    — side-by-side content (4, 6)
+ *   'reading' — long-form (2, 3, 5)
+ *   'narrow'  — the close (8)
  */
 export interface Props {
   width?: 'wide' | 'reading' | 'narrow';
-  surface?: 'paper' | 'sunken' | 'dark';
-  border?: boolean;
+  /** Panel tint. All light — see the note above. */
+  surface?: 'paper' | 'sunken' | 'accent' | 'raised';
+  /** Render as a floating rounded panel. Off only for full-bleed sections. */
+  panel?: boolean;
   animate?: boolean;
   id?: string;
   class?: string;
@@ -25,7 +34,7 @@ export interface Props {
 const {
   width = 'wide',
   surface = 'paper',
-  border = true,
+  panel = true,
   animate = true,
   id,
   class: extraClass = '',
@@ -38,21 +47,25 @@ const widths = {
 } as const;
 
 const surfaces = {
-  paper: '',
+  paper: 'bg-paper',
   sunken: 'bg-paper-sunken',
-  dark: 'surface-dark',
+  accent: 'bg-accent-wash',
+  raised: 'bg-paper-raised',
 } as const;
-
-// A dark section supplies its own edge; a border on top of it just reads as
-// a seam.
-const showBorder = border && surface !== 'dark';
 ---
 <section
 	id={id}
-	class:list={[surfaces[surface], showBorder ? 'border-b border-rule' : '']}
+	class:list={[
+		surfaces[surface],
+		panel ? 'panel my-3 md:my-4' : '',
+	]}
 >
 	<div
-		class:list={[widths[width], 'mx-auto px-6 md:px-10 py-20 md:py-28', extraClass]}
+		class:list={[
+			widths[width],
+			'mx-auto px-6 md:px-10 py-16 md:py-24',
+			extraClass,
+		]}
 		data-animate-group={animate ? '' : undefined}
 	>
 		<slot />

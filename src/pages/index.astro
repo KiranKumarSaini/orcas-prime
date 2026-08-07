@@ -136,23 +136,59 @@ const payModels = [
 /* ─── Section 4 — What We Own. */
 const youKeep = ['Your product', 'Manufacturing', 'Buying inventory', 'Dispatching orders'];
 
-const weTake = [
-	'Your Shopify store — the whole admin, day to day',
-	'Branding and how the product is positioned',
-	'Pricing strategy',
-	'Ad creative — graphics, video cuts, banners',
-	'Meta and Google Ads, run inside your own accounts',
-	'Amazon, Flipkart and Meesho — listings and accounts',
-	'Conversion improvements on the store',
-	'Email and WhatsApp follow-up',
-	'Analytics and reporting',
-	'Product launches',
-	'Scaling decisions',
-	'RTO reduction and courier disputes',
-	'Which courier to use, and where',
-	'Inventory planning',
-	'Overall growth strategy',
+/*
+  The same 15 items from Module 3 §4, wording untouched, grouped into five
+  clusters.
+
+  Flat, they were 15 long phrases in a column — which is a wall of text no
+  matter how it's styled, and it's what made this section read as a document.
+  Chips didn't fix it either: these are sentences, not labels, so they wrapped
+  into blobs. Clustering is the actual fix — a reader takes in five headings
+  and can stop there, or read the detail under any one. Nothing is cut, and
+  the 4-vs-15 count still holds.
+*/
+const weTakeClusters = [
+	{
+		title: 'Your store',
+		items: [
+			'Your Shopify store — the whole admin, day to day',
+			'Branding and how the product is positioned',
+			'Pricing strategy',
+			'Conversion improvements on the store',
+		],
+	},
+	{
+		title: 'Advertising',
+		items: [
+			'Meta and Google Ads, run inside your own accounts',
+			'Ad creative — graphics, video cuts, banners',
+		],
+	},
+	{
+		title: 'Marketplaces',
+		items: ['Amazon, Flipkart and Meesho — listings and accounts'],
+	},
+	{
+		title: 'Orders and logistics',
+		items: [
+			'RTO reduction and courier disputes',
+			'Which courier to use, and where',
+			'Inventory planning',
+		],
+	},
+	{
+		title: 'Growth',
+		items: [
+			'Product launches',
+			'Scaling decisions',
+			'Email and WhatsApp follow-up',
+			'Analytics and reporting',
+			'Overall growth strategy',
+		],
+	},
 ];
+
+const weTakeCount = weTakeClusters.reduce((n, c) => n + c.items.length, 0);
 
 /* ─── Section 5 — How We Think. */
 const decisions = [
@@ -239,8 +275,8 @@ const learnGuides = learnSlugs
 <Schema slot="head" data={[rtoFaqs, ...ownershipServices]} />
 
 	{/* ─── 1 · Hero ──────────────────────────────────────────────────── */}
-	<section class="border-b border-rule">
-		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-16 pb-20 md:pt-28 md:pb-32" data-animate-group>
+	<section class="bg-paper panel mt-3 md:mt-4">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-16 pb-20 md:pt-24 md:pb-28" data-animate-group>
 			<h1 class="text-display font-serif max-w-[18ch]" data-animate-item style="--i:0">
 				Stop managing five different agencies.<br />
 				We're one team that owns your ecommerce growth.
@@ -273,7 +309,7 @@ const learnGuides = learnSlugs
 	</section>
 
 	{/* ─── 2 · The Founder's Reality ──────────────────────────────────── */}
-	<SectionShell width="wide">
+	<SectionShell width="wide" surface="raised">
 		<div class="max-w-[34ch]" data-animate-item style="--i:0">
 			<Eyebrow n={2} class="mb-4">Before Orcas Prime</Eyebrow>
 			<h2 class="text-h1 font-serif">
@@ -300,7 +336,7 @@ const learnGuides = learnSlugs
 	</SectionShell>
 
 	{/* ─── 3 · The Broken System — dark ───────────────────────────────── */}
-	<SectionShell width="reading" surface="dark">
+	<SectionShell width="reading" surface="accent">
 		<div data-animate-item style="--i:0">
 			<Eyebrow n={3} class="mb-4">Why it's this hard</Eyebrow>
 			<h2 class="text-h1 font-serif">
@@ -367,10 +403,10 @@ const learnGuides = learnSlugs
 					<div
 						class:list={[
 							'border rounded p-5 grid gap-2 sm:grid-cols-[13rem_1fr] sm:gap-6 sm:items-baseline',
-							m.ours ? 'border-current/40 bg-white/5' : 'border-current/20',
+							m.ours ? 'border-accent bg-paper-raised' : 'border-rule-strong bg-paper/60',
 						]}
 					>
-						<p class:list={['font-sans text-small', m.ours ? 'text-accent-on-dark' : '']}>
+						<p class:list={['font-sans text-small', m.ours ? 'text-accent font-medium' : 'text-ink']}>
 							{m.model}
 							{m.ours && <span class="font-mono text-micro tracking-wider ml-2 opacity-80">OURS</span>}
 						</p>
@@ -412,30 +448,44 @@ const learnGuides = learnSlugs
 		</div>
 
 		{/* The asymmetry IS the message — 4 against 15, legible before a word is
-		    read. Do not balance these columns (Module 3 §4). */}
-		<div class="mt-14 grid gap-10 md:grid-cols-[1fr_2fr] md:gap-14 items-start">
-			<div data-animate-item style="--i:1">
-				<div class="flex items-baseline gap-3 mb-5">
-					<span class="num text-h2 text-ink-muted">4</span>
-					<span class="kicker">You keep</span>
+		    read (Module 3 §4). Rendered as chips rather than list rows: as rows
+		    with hairline dividers this was a table of contents, and the whole
+		    point — the difference in MASS between the two sides — was invisible
+		    because both columns just looked like text. */}
+		<div class="mt-14 grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.9fr)] md:gap-12 items-start">
+			<div class="bg-paper-raised border border-rule rounded-2xl p-6 md:p-7" data-animate-item style="--i:1">
+				<div class="flex items-baseline gap-3">
+					<span class="num text-h1 text-ink-muted leading-none">4</span>
+					<span class="kicker">things stay<br />with you</span>
 				</div>
-				<ul>
+				<ul class="flex flex-wrap gap-2 mt-6">
 					{youKeep.map((item) => (
-						<li class="text-base text-ink-muted border-b border-rule py-2.5">{item}</li>
+						<li><span class="chip-keep">{item}</span></li>
 					))}
 				</ul>
 			</div>
 
 			<div data-animate-item style="--i:2">
-				<div class="flex items-baseline gap-3 mb-5">
-					<span class="num text-h2 text-accent">15</span>
-					<span class="kicker text-accent">We take</span>
+				<div class="flex items-baseline gap-3 mb-5 pl-1">
+					<span class="num text-h1 text-accent leading-none">{weTakeCount}</span>
+					<span class="kicker text-accent">become ours</span>
 				</div>
-				<ul class="grid sm:grid-cols-2 gap-x-10">
-					{weTake.map((item) => (
-						<li class="text-base text-ink border-b border-rule py-2.5 leading-snug">{item}</li>
+
+				<div class="grid gap-3 sm:grid-cols-2">
+					{weTakeClusters.map((cluster) => (
+						<div class="bg-paper-raised border border-accent/20 rounded-2xl p-5">
+							<p class="kicker text-accent mb-3">{cluster.title}</p>
+							<ul class="space-y-2.5">
+								{cluster.items.map((item) => (
+									<li class="grid grid-cols-[0.5rem_1fr] gap-2.5 items-baseline">
+										<span aria-hidden="true" class="w-1.5 h-1.5 rounded-full bg-accent/45 translate-y-[-0.15rem]"></span>
+										<span class="text-small text-ink leading-snug">{item}</span>
+									</li>
+								))}
+							</ul>
+						</div>
 					))}
-				</ul>
+				</div>
 			</div>
 		</div>
 
@@ -499,7 +549,7 @@ const learnGuides = learnSlugs
 	</SectionShell>
 
 	{/* ─── 6 · Proof ──────────────────────────────────────────────────── */}
-	<SectionShell width="wide">
+	<SectionShell width="wide" surface="raised">
 		<div data-animate-item style="--i:0">
 			<Eyebrow n={6} class="mb-4">Proof</Eyebrow>
 			<h2 class="text-h1 font-serif max-w-[24ch]">
@@ -692,7 +742,7 @@ const learnGuides = learnSlugs
 	</SectionShell>
 
 	{/* ─── 8 · Start — dark close ─────────────────────────────────────── */}
-	<SectionShell width="narrow" surface="dark" border={false} class="text-center">
+	<SectionShell width="narrow" surface="accent" class="text-center">
 		<h2 class="font-serif text-h1 max-w-[24ch] mx-auto" data-animate-item style="--i:0">
 			If any of this made sense, the next step is a two-line WhatsApp message.
 		</h2>
@@ -708,7 +758,7 @@ const learnGuides = learnSlugs
 				href={closeCtaHref}
 				rel="noopener"
 				data-cta="whatsapp"
-				class="inline-flex items-center gap-2 bg-paper text-ink hover:bg-white px-7 py-4 rounded-md font-sans text-base font-medium transition-colors"
+				class="inline-flex items-center gap-2 bg-accent text-paper hover:bg-accent-hover px-7 py-4 rounded-md font-sans text-base font-medium transition-colors"
 			>
 				Start on WhatsApp
 				<span aria-hidden="true" class="num">&rarr;</span>
@@ -721,7 +771,7 @@ const learnGuides = learnSlugs
 
 		{/* The wedge offer — a distinct alternative path, not a second pitch. */}
 		<div
-			class="mt-16 border border-current/20 rounded-lg p-8 text-left"
+			class="mt-16 border border-rule-strong bg-paper-raised rounded-2xl p-8 text-left"
 			data-animate-item
 			style="--i:4"
 		>
@@ -737,7 +787,7 @@ const learnGuides = learnSlugs
 					href={`https://wa.me/${waDigits}?text=${encodeURIComponent(ctaMsg.amazon)}`}
 					rel="noopener"
 					data-cta="whatsapp"
-					class="inline-flex items-center gap-2 border border-current/40 hover:bg-paper hover:text-ink px-5 py-3 rounded-md font-sans text-base font-medium transition-colors"
+					class="inline-flex items-center gap-2 border border-ink text-ink hover:bg-ink hover:text-paper px-5 py-3 rounded-md font-sans text-base font-medium transition-colors"
 				>
 					Start free on WhatsApp
 					<span aria-hidden="true" class="num">&rarr;</span>

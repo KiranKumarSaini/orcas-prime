@@ -50,14 +50,18 @@
      the homepage. Nowhere else. */
   --color-paper-sunken: #F3EFE8;
 
-  /* ─── Dark surface (Module 9 §3) ───────────────────────────────────────
-     Two sections only — The Broken System (the diagnosis) and Start (the
-     close). The accent green is unreadable on dark, so it has a light twin;
-     never swap the two. */
+  /* ─── Section surfaces — LIGHT ONLY (Module 9 §3, revised 2026-08-08) ──
+     The dark sections are gone. On a real phone they read as one long black
+     zone rather than as a change of register, which is the opposite of the
+     intended effect. Separation now comes from tinted panels floating on a
+     deeper page colour — segments look separate because they physically are.
+     Every tint below carries --color-ink text at >12:1. */
+  --color-page: #EAE4DA;        /* the page behind the panels */
+  --color-paper-raised: #FFFFFF; /* cards sitting on a panel */
+
+  /* Retained only so any straggling reference still resolves to something
+     legible. Nothing should use these; grep before reintroducing. */
   --color-ink-deep: #14120F;
-  --color-muted-on-dark: #A8A29A;
-  --color-accent-on-dark: #8CB39A;
-  --color-rule-on-dark: rgba(250, 247, 242, 0.14);
 
   /* ─── Elevation — barely there, cards only (Module 4 §2) ──────────────── */
   --shadow-card: 0 1px 3px rgba(20, 18, 15, 0.06);
@@ -125,7 +129,9 @@
   }
 
   body {
-    background: var(--color-paper);
+    /* Deeper than the panels, so panels read as objects sitting ON the page
+       rather than as arbitrary bands of colour within it. */
+    background: var(--color-page);
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: var(--text-base);
@@ -277,27 +283,21 @@
   /* ─── Dark-surface section (Module 9 §3) ──────────────────────────────
      Applied to the <section>. Retunes the inherited palette so children
      don't each need dark-mode variants. */
-  .surface-dark {
-    /* A flat near-black fill reads as a rectangle dropped on the page. This
-       barely-there warm radial behind the top-left gives it depth without
-       being a "gradient" in the banned decorative sense (Module 10 §5). */
-    background:
-      radial-gradient(
-        120% 90% at 15% 0%,
-        rgba(140, 179, 154, 0.09) 0%,
-        rgba(20, 18, 15, 0) 60%
-      ),
-      var(--color-ink-deep);
-    color: var(--color-paper);
+  /* ─── Section panels (revised 2026-08-08) ─────────────────────────────
+     Each section is a rounded panel on the deeper page colour. This is what
+     makes segments read as separate rather than as one continuous document —
+     the previous build separated them only with a hairline, which at phone
+     width is invisible. */
+  .panel {
+    border-radius: 1.5rem;
+    margin-inline: 0.75rem;
   }
-  .surface-dark h1,
-  .surface-dark h2,
-  .surface-dark h3,
-  .surface-dark h4 { color: var(--color-paper); }
-  .surface-dark .kicker { color: var(--color-muted-on-dark); }
-  .surface-dark hr { border-top-color: var(--color-rule-on-dark); }
-  .surface-dark a:not([data-cta]) { color: var(--color-accent-on-dark); }
-  .surface-dark :focus-visible { outline-color: var(--color-accent-on-dark); }
+  @media (min-width: 768px) {
+    .panel { border-radius: 2rem; margin-inline: 1.5rem; }
+  }
+  @media (min-width: 1280px) {
+    .panel { margin-inline: auto; max-width: 82rem; }
+  }
 
   /* ─── Card — lift on hover, never scale (Module 9 §6) ─────────────────── */
   .card {
@@ -314,14 +314,42 @@
     box-shadow: var(--shadow-card-hover);
     border-color: var(--color-rule-strong);
   }
-  .surface-dark .card {
-    background: rgba(250, 247, 242, 0.04);
-    border-color: var(--color-rule-on-dark);
-    box-shadow: none;
+  /* Cards sit on panels, so they lift to white to stay distinct from
+     whatever tint the panel is carrying. */
+  .card { background: var(--color-paper-raised); }
+
+  /* ─── Chip grid — the ownership lists (2026-08-08) ─────────────────────
+     Fifteen rows of text with hairline dividers rendered as a table of
+     contents, which is exactly what the operator flagged. As chips, the
+     4-vs-15 mass difference becomes the visual, and it scans in one glance
+     instead of being read line by line. */
+  .chip-own {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    font-size: var(--text-small);
+    line-height: 1.35;
+    background: var(--color-accent-wash);
+    color: var(--color-accent);
+    border: 1px solid transparent;
+    transition: border-color 150ms ease-out, transform 150ms ease-out;
   }
-  .surface-dark .card:hover {
-    border-color: rgba(250, 247, 242, 0.28);
-    box-shadow: none;
+  .chip-own:hover { border-color: var(--color-accent); transform: translateY(-1px); }
+
+  .chip-keep {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    font-size: var(--text-small);
+    line-height: 1.35;
+    background: transparent;
+    color: var(--color-ink-muted);
+    border: 1px dashed var(--color-rule-strong);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip-own { transition: none; }
+    .chip-own:hover { transform: none; }
   }
 
   /* Arrow that travels on hover. Pairs with .card or any group-hover link. */

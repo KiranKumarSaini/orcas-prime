@@ -77,7 +77,10 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 	</head>
 	{/* pb-14 on mobile reserves room for StickyMobileCTA so it can never cover
 	    content (Module 9 §5). Desktop has no sticky bar, so no padding. */}
-	<body class="bg-paper text-ink min-h-screen flex flex-col pb-14 md:pb-0">
+	{/* bg-page, not bg-paper: the page sits DARKER than the panels so each
+	    section reads as a separate object on it. A bg-paper utility here was
+	    silently overriding the base rule and flattening the whole effect. */}
+	<body class="bg-page text-ink min-h-screen flex flex-col pb-14 md:pb-0">
 		<a href="#main" class="skip-link">Skip to content</a>
 		<ScrollProgress />
 		<SiteHeader />
