@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PricingTable from '../components/PricingTable.astro';
+import FeeCalculator from '../components/FeeCalculator.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import Schema from '../components/Schema.astro';
 import { faqPage, breadcrumb } from '../lib/schema';
@@ -195,7 +196,11 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 				whether the month worked or not.
 			</p>
 
-			<div class="mt-12 max-w-[42rem]">
+			<div class="mt-12 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
+				{/* Module 10 §4, Moment 3. The pricing page is this component's real
+				    home — it's the page most likely to be cited when someone asks
+				    an AI what Indian ecommerce agencies charge. */}
+				<FeeCalculator default={1000000} />
 				<PricingTable id="pricing-comparison" />
 			</div>
 

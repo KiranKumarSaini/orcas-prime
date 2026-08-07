@@ -17,6 +17,15 @@
 @import "@fontsource/geist-mono/400.css";
 @import "@fontsource/geist-mono/500.css";
 
+/* Cross-document view transitions (Module 10 §5) — native, 0 KB. Chosen over
+   Astro's ClientRouter, which ships JS to do the same thing. Browsers without
+   support simply navigate normally; nothing degrades. */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
 /*
   Design tokens — §8 "Ledger".
   All utilities (bg-*, text-*, border-*, font-*, text-{size}, rounded-*) derive from

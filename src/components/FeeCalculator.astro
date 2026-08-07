@@ -1,0 +1,234 @@
+---
+/**
+ * The fee calculator (Module 10 §4, Moment 3).
+ *
+ * A founder drags their own monthly net sales and sees what they'd actually
+ * pay us against what a retainer of that size costs. This is the element the
+ * original brief wanted — the one that gets screenshotted and forwarded on
+ * WhatsApp — and it expresses LOCKED#14 (we sell a business model) better than
+ * any sentence can, because the visitor proves the claim to themselves.
+ *
+ * Every number comes from src/lib/pricing.ts, which is anchored to the same
+ * published rows as PricingTable. The two sit side by side; they must never
+ * disagree.
+ *
+ * NO-JS: renders server-side at a real default with true figures. The slider
+ * won't drag, but everything shown is correct and readable, and PricingTable
+ * still sits alongside. Nothing is lost.
+ */
+
+import {
+  SALES_MIN,
+  SALES_MAX,
+  orcasFee,
+  typicalRetainer,
+  honestNote,
+  inr,
+  salesToPct,
+} from '../lib/pricing';
+
+export interface Props {
+  /** Starting value, in rupees per month. */
+  default?: number;
+  class?: string;
+}
+
+const { default: defaultValue = 1200000, class: extraClass = '' } = Astro.props;
+
+const fee = orcasFee(defaultValue);
+const retainer = typicalRetainer(defaultValue);
+const note = honestNote(defaultValue);
+const max = Math.max(fee, retainer);
+---
+
+<div class:list={['sv-calc border border-rule-strong rounded-lg p-6 md:p-8 bg-paper', extraClass]}>
+	<label for="sv-calc-range" class="kicker block mb-4">
+		Your net sales, per month
+	</label>
+
+	<output
+		id="sv-calc-value"
+		for="sv-calc-range"
+		class="num text-ink block"
+		style="font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1;"
+	>{inr(defaultValue)}</output>
+
+	<input
+		id="sv-calc-range"
+		type="range"
+		min="0"
+		max="100"
+		step="0.1"
+		value={salesToPct(defaultValue)}
+		aria-label="Your monthly net sales in rupees"
+		class="sv-range w-full mt-6"
+	/>
+
+	<div class="flex justify-between font-mono text-micro text-ink-muted mt-2">
+		<span>₹1 lakh</span>
+		<span>₹1 crore</span>
+	</div>
+
+	{/* ─── The comparison ─────────────────────────────────────────────── */}
+	<div class="mt-9 space-y-6">
+		<div>
+			<div class="flex items-baseline justify-between gap-4 mb-2">
+				<span class="text-base text-ink">
+					Orcas Prime <span class="text-ink-muted whitespace-nowrap">· 3.5% + GST</span>
+				</span>
+				<span id="sv-calc-fee" class="num text-lead text-accent whitespace-nowrap">{inr(fee)}</span>
+			</div>
+			<div class="h-2.5 bg-accent-wash rounded-sm overflow-hidden">
+				<div
+					id="sv-calc-fee-bar"
+					class="sv-bar h-full bg-accent rounded-sm"
+					style={`width: ${(fee / max) * 100}%`}
+				></div>
+			</div>
+		</div>
+
+		<div>
+			<div class="flex items-baseline justify-between gap-4 mb-2">
+				<span class="text-base text-ink-muted">
+					Typical retainer<sup class="num text-micro">1</sup>
+				</span>
+				<span id="sv-calc-retainer" class="num text-lead text-ink-muted whitespace-nowrap">{inr(retainer)}+</span>
+			</div>
+			<div class="h-2.5 bg-rule rounded-sm overflow-hidden">
+				<div
+					id="sv-calc-retainer-bar"
+					class="sv-bar h-full bg-rule-strong rounded-sm"
+					style={`width: ${(retainer / max) * 100}%`}
+				></div>
+			</div>
+		</div>
+
+		<div class="pt-1 border-t border-rule">
+			<div class="flex items-baseline justify-between gap-4 pt-4">
+				<span class="text-base text-ink-muted">
+					Percentage of ad spend <span class="whitespace-nowrap">· 10–20%</span>
+				</span>
+				<span class="text-small text-ink-muted text-right max-w-[16ch] leading-snug">
+					Scales with what you spend, not what you keep
+				</span>
+			</div>
+		</div>
+	</div>
+
+	{/* Honest zone message — changes with the slider, tells the truth including
+	    when the truth is "not us". */}
+	<p
+		id="sv-calc-note"
+		class="text-base text-ink leading-relaxed mt-8 pt-6 border-t border-rule"
+	>{note}</p>
+
+	<p class="text-small text-ink-muted mt-5 leading-relaxed">
+		<sup class="num">1</sup> Retainer figures from published Indian agency rate
+		ranges — <span class="num">₹75,000</span>–<span class="num">₹6,00,000</span> per
+		month, anchored to the comparison table's published rows. Sources are
+		footnoted on the <a
+			href="/pricing#sources"
+			class="text-accent hover:text-accent-hover underline decoration-1 underline-offset-2"
+		>pricing page</a>. Our fee is <span class="num">3.5%</span> of net sales plus
+		GST — net sales being what's left after refunds, returns and RTOs come out.
+	</p>
+</div>
+
+<style>
+	/* Bars ease to their new width. Not decoration: the movement is what makes
+	   the size difference register as you drag. */
+	.sv-bar { transition: width 250ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+	/* Range input, styled to the design system. Kept here because cross-browser
+	   range styling can't be done with utility classes. */
+	.sv-range {
+		-webkit-appearance: none;
+		appearance: none;
+		background: transparent;
+		cursor: pointer;
+	}
+	.sv-range::-webkit-slider-runnable-track {
+		height: 2px;
+		background: var(--color-rule-strong);
+		border-radius: 2px;
+	}
+	.sv-range::-moz-range-track {
+		height: 2px;
+		background: var(--color-rule-strong);
+		border-radius: 2px;
+	}
+	.sv-range::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 26px;
+		height: 26px;
+		margin-top: -12px;
+		border-radius: 50%;
+		background: var(--color-accent);
+		border: 3px solid var(--color-paper);
+		box-shadow: 0 1px 4px rgba(20, 18, 15, 0.22);
+		transition: transform 150ms ease-out;
+	}
+	.sv-range::-moz-range-thumb {
+		width: 26px;
+		height: 26px;
+		border-radius: 50%;
+		background: var(--color-accent);
+		border: 3px solid var(--color-paper);
+		box-shadow: 0 1px 4px rgba(20, 18, 15, 0.22);
+		transition: transform 150ms ease-out;
+	}
+	.sv-range:hover::-webkit-slider-thumb,
+	.sv-range:active::-webkit-slider-thumb { transform: scale(1.12); }
+	.sv-range:focus-visible::-webkit-slider-thumb {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sv-bar { transition: none; }
+		.sv-range::-webkit-slider-thumb,
+		.sv-range::-moz-range-thumb { transition: none; }
+	}
+</style>
+
+<script>
+	import {
+		orcasFee,
+		typicalRetainer,
+		honestNote,
+		inr,
+		pctToSales,
+		tidySales,
+	} from '../lib/pricing';
+
+	// Same functions the server rendered with — the client can't drift from
+	// the static output because there is only one implementation.
+	const range = document.getElementById('sv-calc-range') as HTMLInputElement | null;
+
+	if (range) {
+		const $value = document.getElementById('sv-calc-value')!;
+		const $fee = document.getElementById('sv-calc-fee')!;
+		const $retainer = document.getElementById('sv-calc-retainer')!;
+		const $feeBar = document.getElementById('sv-calc-fee-bar')!;
+		const $retainerBar = document.getElementById('sv-calc-retainer-bar')!;
+		const $note = document.getElementById('sv-calc-note')!;
+
+		const update = () => {
+			const sales = tidySales(pctToSales(Number(range.value)));
+			const fee = orcasFee(sales);
+			const retainer = typicalRetainer(sales);
+			const max = Math.max(fee, retainer);
+
+			$value.textContent = inr(sales);
+			$fee.textContent = inr(fee);
+			$retainer.textContent = inr(retainer) + '+';
+			$feeBar.style.width = (fee / max) * 100 + '%';
+			$retainerBar.style.width = (retainer / max) * 100 + '%';
+			$note.textContent = honestNote(sales);
+		};
+
+		range.addEventListener('input', update, { passive: true });
+		update();
+	}
+</script>

@@ -8,6 +8,7 @@ import PullQuote from '../components/PullQuote.astro';
 import Accordion from '../components/Accordion.astro';
 import RTOFlow from '../components/RTOFlow.astro';
 import PricingTable from '../components/PricingTable.astro';
+import FeeCalculator from '../components/FeeCalculator.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import Schema from '../components/Schema.astro';
@@ -607,19 +608,23 @@ const learnGuides = learnSlugs
 				</p>
 			</div>
 
-			<div class="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+			{/* The calculator is the argument made checkable — drag your own
+			    number and the claim proves itself (Module 10 §4, Moment 3). */}
+			<div class="mt-10 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start">
+				<FeeCalculator default={1200000} />
+
 				<div>
 					<PricingTable id="pricing-preview" />
-					<p class="text-small text-ink-muted mt-4 max-w-[46rem] leading-relaxed">
+					<p class="text-small text-ink-muted mt-4 leading-relaxed">
 						When a shipment gets refused, we absorb that alongside you. No
 						setup fee, no onboarding fee, no creative fee, no reporting fee.
 					</p>
-				</div>
-				<div class="flex flex-col items-start gap-3">
-					<WhatsAppCTA message={ctaMsg.general} />
-					<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
-						See full pricing &rarr;
-					</a>
+					<div class="mt-7 flex flex-col items-start gap-3">
+						<WhatsAppCTA message={ctaMsg.general} />
+						<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
+							See full pricing &rarr;
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
