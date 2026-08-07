@@ -5,8 +5,12 @@
    heuristic fails (e.g. when working inside a monorepo or during setup). */
 @source "../**/*.{astro,html,ts,tsx,js,jsx,md,mdx}";
 
-/* Fonts — self-hosted via Fontsource. Instrument Serif (display); Geist per-weight. */
-@import "@fontsource/instrument-serif/400.css";
+/* Fonts — self-hosted via Fontsource. Playfair Display Variable (display) —
+   swapped from Instrument Serif per UI UX Pro Max's typography match for
+   "premium, luxury, editorial": same high-contrast serif family, but a real
+   weight axis (400-900) instead of regular-only, so headings can actually
+   carry visual weight instead of reading flat at one size. */
+@import "@fontsource-variable/playfair-display/wght.css";
 @import "@fontsource/geist-sans/400.css";
 @import "@fontsource/geist-sans/500.css";
 @import "@fontsource/geist-sans/600.css";
@@ -38,7 +42,7 @@
   --color-paper-sunken: #F3EFE8;
 
   /* ─── Typography ──────────────────────────────────────────────────────── */
-  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-serif: "Playfair Display Variable", ui-serif, Georgia, serif;
   --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
 
@@ -101,13 +105,18 @@
     line-height: 1.65;
   }
 
-  /* Serif headings by default. Instrument Serif ships regular weight only
-     (400) — no 500/700 cut exists, so headings set at 400. Its high-contrast
-     transitional forms carry plenty of presence at that weight; a browser-
-     synthesised bold would look worse than committing to regular. */
-  h1, h2, h3, h4 {
+  /* Serif headings. Playfair Display Variable's full weight axis (400-900)
+     replaces the flat regular-only weight Instrument Serif was stuck at —
+     real hierarchy now: h1 carries genuine presence, h2/h3 step down, so
+     the page doesn't read as one visual weight throughout. */
+  h1, h2 {
     font-family: var(--font-serif);
-    font-weight: 400;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+  h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 600;
     color: var(--color-ink);
   }
 
@@ -201,7 +210,7 @@
     color: var(--color-ink-muted);
   }
 
-  /* Ochre inline highlight — reserved for the single most important number in view. */
+  /* Accent inline highlight — reserved for the single most important number in view. */
   .figure-hero {
     color: var(--color-accent);
     font-variant-numeric: tabular-nums;
