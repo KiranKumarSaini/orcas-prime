@@ -9,7 +9,7 @@ updated: 2026-08-05
 
 ## What we run
 
-The Google Ads account is a full-spectrum setup: **Search** on high-intent brand and category queries, **Performance Max** for feed-driven scale across Google's inventory, **Shopping** for direct catalogue coverage, and **remarketing** for site visitors who came close but didn't check out. Every campaign runs inside Ladakh Berry's own ad account — we don't hold the assets, and the client can pull access on 30 days' notice.
+The Google Ads account is a full-spectrum setup: **Search** on high-intent brand and category queries, **Performance Max** for feed-driven scale across Google's inventory, **Shopping** for direct catalogue coverage, and **remarketing** for site visitors who came close but didn't check out. Every campaign runs inside Ladakh Berry's own ad account — we don't hold the assets, and the Partner Brand can pull access on 30 days' notice.
 
 Alongside Google we run **Meta ads** (Facebook + Instagram), manage the **Shopify store** day-to-day, produce the **creative** that both ad platforms use, and handle **RTO** disputes when shipments come back.
 
@@ -17,7 +17,7 @@ Alongside Google we run **Meta ads** (Facebook + Instagram), manage the **Shopif
 
 The Google Ads bill splits three ways. Brand search takes the smallest slice — it's the cheapest traffic in the account and the last to be cut. Category and long-tail Search takes the largest slice. Performance Max sits alongside, feeding the same product catalogue but reaching different intent surfaces (Discover, YouTube, Gmail, Maps, and Shopping).
 
-Structure isn't set-and-forget. Negative-keyword lists get widened as junk queries surface. Below-benchmark placements get pruned. Creative gets refreshed when performance on any one ad set flatlines. Because we're paid on a percentage of net sales — not on ad spend — this optimisation loop is aligned. Wasted spend costs us as much as it costs the client.
+Structure isn't set-and-forget. Negative-keyword lists get widened as junk queries surface. Below-benchmark placements get pruned. Creative gets refreshed when performance on any one ad set flatlines. Because we're paid on a percentage of net sales — not on ad spend — this optimisation loop is aligned. Wasted spend costs us as much as it costs the Partner Brand.
 
 ## Why the store side matters as much as the ad side
 

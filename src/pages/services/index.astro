@@ -2,53 +2,164 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
 import Schema from '../../components/Schema.astro';
-import { breadcrumb } from '../../lib/schema';
+import { breadcrumb, service as serviceSchema } from '../../lib/schema';
 import { services } from '../../data/services';
 
 /*
-  /services — the hub. Five service cards, no marketing padding.
-  Each card links to its own page (each page must convert on its own — §6).
+  /services — "What We Own" (LOCKED#17: never "Services" in nav, heading or
+  schema — label only; the URL stays /services per Module 7 §11, which
+  treats the route change as still open). Structure follows Module 6 §8:
+  H1 verbatim, the 14/15-item ownership table from Module 3 §4 expanded to
+  2-3 sentences per row, trust qualifier, then CTA. The five service pages
+  below remain as the "browse by capability" path into independently-
+  convertible pages (Module 6 §6).
 */
 
-const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
+const ctaMsg = 'Hi, I want to know what you’d take over for my brand.';
+
+const youKeep = ['Your product', 'Manufacturing', 'Buying inventory', 'Dispatching orders'];
+
+const weTake = [
+	{
+		label: 'Your Shopify store — the whole admin, day to day',
+		desc: 'Products, collections, apps, and the small breakages that happen on their own — a broken variant, a theme update that shifts a layout, a payment gateway hiccup. We’re in the admin daily, not once a month.',
+	},
+	{
+		label: 'Branding and how the product is positioned',
+		desc: 'How your product is described and framed on the page — the language that makes a stranger understand what you sell and why it’s worth the price.',
+	},
+	{
+		label: 'Pricing strategy',
+		desc: 'Where your price sits against comparable products, and when to move it. A price is a decision we revisit as margins, competitors or demand shift — not a default you set once.',
+	},
+	{
+		label: 'Ad creative — graphics, video cuts, banners',
+		desc: 'Static ads, short-form video cuts, product-page banners. Built to be tested and replaced quickly, not treated as one precious asset.',
+	},
+	{
+		label: 'Meta and Google Ads, run inside your own accounts',
+		desc: 'Campaigns built, targeted and adjusted weekly inside your own ad accounts — you keep the data and the history. We never mark up your spend; you pay Meta and Google directly.',
+	},
+	{
+		label: 'Amazon, Flipkart and Meesho — listings and accounts',
+		desc: 'Listings, sponsored ads, inventory and the day-to-day account management each marketplace actually requires. They don’t run the same way, and we don’t treat them like they do.',
+	},
+	{
+		label: 'Conversion improvements on the store',
+		desc: 'Checkout friction, page speed, product-page clarity — the changes that turn the same traffic into more orders without spending more on ads.',
+	},
+	{
+		label: 'Email and WhatsApp follow-up',
+		desc: 'Abandoned-cart recovery, post-purchase updates, and the WhatsApp message that gets a refused delivery reconsidered before it becomes an RTO.',
+	},
+	{
+		label: 'Analytics and reporting',
+		desc: 'The numbers, plain, plus what changed and what we’re changing next — not a dashboard you have to interpret yourself.',
+	},
+	{
+		label: 'Product launches',
+		desc: 'A new product or variant, sequenced — creative, listings and ad budget ready before the launch date, not scrambled together after it.',
+	},
+	{
+		label: 'Scaling decisions',
+		desc: 'When to put more budget behind something that’s working, and — just as often — when not to. See How We Think on the homepage for how we actually decide this.',
+	},
+	{
+		label: 'RTO reduction and courier disputes',
+		desc: 'Address verification before dispatch, confirming high-risk orders, and filing disputes on wrongly marked deliveries instead of quietly absorbing them.',
+	},
+	{
+		label: 'Which courier to use, and where',
+		desc: 'Courier choice by real delivery performance in your specific pin codes, not by headline rate — a cheaper courier that delivers less often costs more, not less.',
+	},
+	{
+		label: 'Inventory planning',
+		desc: 'What to reorder and when, based on sell-through and lead time, so a launch or a good ad week doesn’t stall on stock that hasn’t arrived yet.',
+	},
+	{
+		label: 'Overall growth strategy',
+		desc: 'The sequencing across all of the above — what to fix first, what to launch next, and what to leave alone this quarter.',
+	},
+];
+
+const ownershipServices = services.map((s) =>
+	serviceSchema({ name: s.name, description: s.meta.description, slug: s.slug })
+);
 ---
 
 <BaseLayout
-	title="Services"
-	description="What Orcas Prime does: Shopify + ads, Shopify store builds, Amazon, Flipkart and Meesho management, creative and catalogue. All under one team, one fee."
+	title="What We Own"
+	description="You build the product. We build the business around it — the full division of labour between an Orcas Prime Partner Brand and us, one item at a time."
 	canonicalPath="/services"
 >
 	<Schema
 		slot="head"
-		data={breadcrumb([
-			{ name: 'Home', path: '/' },
-			{ name: 'Services', path: '/services' },
-		])}
+		data={[
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'What We Own', path: '/services' },
+			]),
+			...ownershipServices,
+		]}
 	/>
 
 	<section>
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
-			<p class="kicker mb-4">Services</p>
-			<h1 class="text-display font-serif max-w-[22ch]">
-				One team. Five services. One fee.
+			<p class="kicker mb-4">What we own</p>
+			<h1 class="text-display font-serif max-w-[20ch]">
+				You build the product. We build the business around it.
 			</h1>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose leading-relaxed">
-				We build and run Shopify stores, run Meta and Google ads inside your own ad
-				accounts, manage Amazon, Flipkart and Meesho, and produce the creative that
-				feeds all of it.
-			</p>
-			<p class="text-base text-ink-muted mt-5 max-w-prose leading-relaxed">
-				Ongoing management is <span class="num text-accent">3.5% + GST</span> of net sales
-				&mdash; store, ads, marketplaces and creative together, no separate fees. A new
-				Shopify build is a one-time charge on top. Creative is available on its own if
-				you already have someone running your ads.
+				Here’s the actual division of labour — not a services list, a responsibility list.
 			</p>
 		</div>
 	</section>
 
 	<section class="border-t border-rule">
-		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-12 md:py-16">
-			<ul class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<div class="grid gap-10 md:grid-cols-[1fr_2fr] md:gap-16 items-start">
+				<div>
+					<p class="kicker mb-4 text-ink-muted">You keep</p>
+					<ul class="space-y-3 text-base text-ink-muted border-t border-rule pt-4">
+						{youKeep.map((item) => (
+							<li class="border-b border-rule pb-3">{item}</li>
+						))}
+					</ul>
+				</div>
+				<div class="md:border-l md:border-rule md:pl-16">
+					<p class="kicker mb-4 text-accent">We take</p>
+					<dl class="border-t border-rule">
+						{weTake.map((item) => (
+							<div class="py-5 border-b border-rule">
+								<dt class="font-serif text-h3 text-ink">{item.label}</dt>
+								<dd class="text-base text-ink-muted leading-relaxed mt-2 max-w-[60ch]">{item.desc}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+			</div>
+
+			<p class="text-base text-ink mt-10 max-w-prose">
+				Four things stay with you. Everything between "the product exists" and "the
+				customer has it" is ours.
+			</p>
+
+			<p class="text-small text-ink-muted mt-6 max-w-prose leading-relaxed border-t border-rule pt-6">
+				We run your ads inside your own ad accounts, not ours. You keep the data, the
+				history and the access. We never mark up your ad spend — you pay Meta and
+				Google directly, exactly what they charge.
+			</p>
+		</div>
+	</section>
+
+	{/* Browse by capability — the five independently-convertible pages (Module 6 §6) */}
+	<section class="border-t border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<p class="kicker mb-4">Browse by capability</p>
+			<h2 class="text-h1 font-serif max-w-[22ch]">
+				The same ownership, broken into five pages.
+			</h2>
+			<ul class="mt-10 border-t border-rule">
 				{services.map((s) => (
 					<li class="border-b border-rule">
 						<a
@@ -59,9 +170,9 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 								{s.kicker}
 							</span>
 							<div>
-								<h2 class="font-serif text-h2 font-medium text-ink group-hover:text-accent transition-colors">
+								<h3 class="font-serif text-h2 text-ink group-hover:text-accent transition-colors">
 									{s.name}
-								</h2>
+								</h3>
 								<p class="text-base text-ink-muted leading-relaxed mt-2 max-w-[52ch]">
 									{s.lead}
 								</p>
@@ -79,7 +190,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 	<section class="border-t border-rule">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
 			<p class="font-serif text-h2 max-w-[28ch] mx-auto">
-				Not sure which of the five applies to you?
+				Not sure what applies to you?
 			</p>
 			<p class="text-lead text-ink-muted mt-4">
 				Tell us on WhatsApp and we'll say honestly whether we're the right fit.
