@@ -1,0 +1,19 @@
+---
+/**
+ * Bordered emphasis block. Used for the trust qualifier (Section 4) and
+ * the honest-fit block (Section 6) — statements that carry disproportionate
+ * trust weight and were previously rendering as small grey footnotes.
+ */
+export interface Props {
+  class?: string;
+}
+const { class: extraClass = '' } = Astro.props;
+---
+<div
+	class:list={[
+		'border-l-2 border-accent pl-6 md:pl-8 py-1',
+		extraClass,
+	]}
+>
+	<slot />
+</div>

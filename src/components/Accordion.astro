@@ -1,0 +1,49 @@
+---
+/**
+ * Progressive disclosure for Section 3's RTO block (Module 9 §2, §4).
+ *
+ * Built on native <details>/<summary>, deliberately:
+ *   - Works with JavaScript disabled.
+ *   - Content stays in the DOM whether open or closed, so the FAQPage
+ *     schema keeps describing text that is genuinely on the page, and
+ *     crawlers still read all of it. This is the whole reason it isn't a
+ *     JS tab component — Module 3 §3 calls this block the primary
+ *     AI-citation asset on the site and it must not be hidden from parsers.
+ *   - Each <summary> carries an <h3>, preserving the semantic hierarchy
+ *     Module 3 §3 requires.
+ *
+ * The first panel is open by default: a scanner reads four headings and one
+ * full answer, a committed reader opens all four. Same words, two speeds.
+ */
+
+export interface Props {
+  items: Array<{ heading: string; body: string[] }>;
+  /** Index open on load. -1 for all closed. */
+  defaultOpen?: number;
+}
+
+const { items, defaultOpen = 0 } = Astro.props;
+---
+
+<div class="border-t border-current/15">
+	{items.map((item, i) => (
+		<details class="group border-b border-current/15" open={i === defaultOpen}>
+			<summary
+				class="flex items-start justify-between gap-6 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden"
+			>
+				<h3 class="font-serif text-h3 flex-1">{item.heading}</h3>
+				{/* Plus/minus rendered as two rules — no icon library, per Module 4. */}
+				<span
+					aria-hidden="true"
+					class="relative shrink-0 w-4 h-4 mt-2 transition-transform duration-200 group-open:rotate-45"
+				>
+					<span class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current opacity-50"></span>
+					<span class="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current opacity-50"></span>
+				</span>
+			</summary>
+			<div class="pb-6 pr-10 space-y-4 text-lead leading-relaxed opacity-85">
+				{item.body.map((p) => <p>{p}</p>)}
+			</div>
+		</details>
+	))}
+</div>

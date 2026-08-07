@@ -1,0 +1,38 @@
+---
+/**
+ * 2px reading-progress bar, top of viewport (Module 9 §5).
+ * Purely functional: on a long page it tells the reader how much is left,
+ * which is exactly the anxiety a long page creates. No JS = no bar, no harm.
+ */
+---
+<div
+	id="sv-progress"
+	aria-hidden="true"
+	class="fixed top-0 left-0 right-0 h-0.5 z-50 origin-left scale-x-0 bg-accent"
+	style="will-change: transform;"
+></div>
+
+<script>
+	const bar = document.getElementById('sv-progress');
+	if (bar) {
+		let ticking = false;
+		const update = () => {
+			const max = document.documentElement.scrollHeight - window.innerHeight;
+			const pct = max > 0 ? window.scrollY / max : 0;
+			bar.style.transform = `scaleX(${Math.min(1, Math.max(0, pct))})`;
+			ticking = false;
+		};
+		update();
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (!ticking) {
+					ticking = true;
+					requestAnimationFrame(update);
+				}
+			},
+			{ passive: true }
+		);
+		window.addEventListener('resize', update, { passive: true });
+	}
+</script>

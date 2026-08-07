@@ -41,14 +41,32 @@
      the homepage. Nowhere else. */
   --color-paper-sunken: #F3EFE8;
 
+  /* ─── Dark surface (Module 9 §3) ───────────────────────────────────────
+     Two sections only — The Broken System (the diagnosis) and Start (the
+     close). The accent green is unreadable on dark, so it has a light twin;
+     never swap the two. */
+  --color-ink-deep: #14120F;
+  --color-muted-on-dark: #A8A29A;
+  --color-accent-on-dark: #8CB39A;
+  --color-rule-on-dark: rgba(250, 247, 242, 0.14);
+
+  /* ─── Elevation — barely there, cards only (Module 4 §2) ──────────────── */
+  --shadow-card: 0 1px 3px rgba(20, 18, 15, 0.06);
+  --shadow-card-hover: 0 4px 16px rgba(20, 18, 15, 0.10);
+
   /* ─── Typography ──────────────────────────────────────────────────────── */
   --font-serif: "Playfair Display Variable", ui-serif, Georgia, serif;
   --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
 
   /* Type scale — fluid, but capped. Ratios chosen for editorial feel, not tech-agency uniformity. */
-  --text-display: clamp(2.5rem, 5.5vw + 0.75rem, 4.5rem);
-  --text-display--line-height: 1.02;
+  /* Mobile floor lowered from 2.5rem to 2.125rem. Module 4 §3's 40px display
+     size assumed the old, short headline; Module 3's locked headline is 14
+     words and set 6 lines deep at 40px on a 375px screen, pushing the CTA and
+     everything after it below the fold. 34px still reads as a display size
+     and keeps the first screen doing its job. */
+  --text-display: clamp(2.125rem, 5.5vw + 0.75rem, 4.5rem);
+  --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.028em;
 
   --text-h1: clamp(2rem, 3vw + 1rem, 3rem);
@@ -177,6 +195,21 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Element-level stagger (Module 9 §6). A section fading as one block reads
+     like a slide transition; children arriving 80ms apart read as composed.
+     Children opt in with [data-animate-item] and set --i for their index. */
+  .js-ready [data-animate-group] [data-animate-item] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  .js-ready [data-animate-group].is-visible [data-animate-item] {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /*
@@ -216,4 +249,50 @@
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum" 1;
   }
+
+  /* ─── Dark-surface section (Module 9 §3) ──────────────────────────────
+     Applied to the <section>. Retunes the inherited palette so children
+     don't each need dark-mode variants. */
+  .surface-dark {
+    background: var(--color-ink-deep);
+    color: var(--color-paper);
+  }
+  .surface-dark h1,
+  .surface-dark h2,
+  .surface-dark h3,
+  .surface-dark h4 { color: var(--color-paper); }
+  .surface-dark .kicker { color: var(--color-muted-on-dark); }
+  .surface-dark hr { border-top-color: var(--color-rule-on-dark); }
+  .surface-dark a:not([data-cta]) { color: var(--color-accent-on-dark); }
+  .surface-dark :focus-visible { outline-color: var(--color-accent-on-dark); }
+
+  /* ─── Card — lift on hover, never scale (Module 9 §6) ─────────────────── */
+  .card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    transition: transform 150ms ease-out,
+                box-shadow 150ms ease-out,
+                border-color 150ms ease-out;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-rule-strong);
+  }
+  .surface-dark .card {
+    background: rgba(250, 247, 242, 0.04);
+    border-color: var(--color-rule-on-dark);
+    box-shadow: none;
+  }
+  .surface-dark .card:hover {
+    border-color: rgba(250, 247, 242, 0.28);
+    box-shadow: none;
+  }
+
+  /* Arrow that travels on hover. Pairs with .card or any group-hover link. */
+  .arrow-travel { display: inline-block; transition: transform 150ms ease-out; }
+  .group:hover .arrow-travel,
+  a:hover > .arrow-travel { transform: translateX(4px); }
 }

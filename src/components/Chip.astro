@@ -1,0 +1,23 @@
+---
+/**
+ * Small bordered label. Capability row (hero) and the vendor chain
+ * (Section 3). Replaces bare slash-separated text, which read as a
+ * runt paragraph rather than a set of things.
+ */
+export interface Props {
+  class?: string;
+  muted?: boolean;
+}
+const { class: extraClass = '', muted = false } = Astro.props;
+---
+<span
+	class:list={[
+		'inline-block font-mono text-micro uppercase tracking-wide px-2.5 py-1.5 rounded border whitespace-nowrap',
+		muted
+			? 'border-current/20 text-current/60'
+			: 'border-current/25 text-current/90',
+		extraClass,
+	]}
+>
+	<slot />
+</span>

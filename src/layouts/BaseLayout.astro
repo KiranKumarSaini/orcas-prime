@@ -3,6 +3,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteWhatsAppFloat from '../components/SiteWhatsAppFloat.astro';
+import ScrollProgress from '../components/ScrollProgress.astro';
 import Schema from '../components/Schema.astro';
 import { organization, localBusiness } from '../lib/schema';
 import { SITE } from '../lib/site';
@@ -74,8 +75,11 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		{/* Per-page schema slot (Service, FAQPage, BreadcrumbList, Person, etc.). */}
 		<slot name="head" />
 	</head>
-	<body class="bg-paper text-ink min-h-screen flex flex-col">
+	{/* pb-14 on mobile reserves room for StickyMobileCTA so it can never cover
+	    content (Module 9 §5). Desktop has no sticky bar, so no padding. */}
+	<body class="bg-paper text-ink min-h-screen flex flex-col pb-14 md:pb-0">
 		<a href="#main" class="skip-link">Skip to content</a>
+		<ScrollProgress />
 		<SiteHeader />
 		<main id="main" class="flex-1">
 			<slot />
@@ -96,7 +100,13 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		<script>
 			document.documentElement.classList.add('js-ready');
 
-			const targets = document.querySelectorAll('[data-animate]');
+			// Both forms are observed: [data-animate] fades a whole block,
+			// [data-animate-group] fades its [data-animate-item] children in
+			// sequence (Module 9 §6). Missing the group selector here leaves
+			// every staggered child at opacity 0 permanently — the exact
+			// content-loss failure the fallback below exists to prevent, so
+			// the two selectors must stay in sync.
+			const targets = document.querySelectorAll('[data-animate], [data-animate-group]');
 			if ('IntersectionObserver' in window && targets.length) {
 				const io = new IntersectionObserver(
 					(entries) => {

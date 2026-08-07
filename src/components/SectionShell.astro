@@ -4,45 +4,56 @@
  * rhythm and container width Module 4 §4 requires — irregular section
  * spacing is the fastest way a site reads as amateur.
  *
+ * `surface` implements Module 9 §3's alternation. Eight sections on one
+ * background was the single biggest reason the page read as a document;
+ * light / tinted / dark now mark where the page changes register.
+ *
  * width:
- *   'wide'    — max-w-[76rem]  (1216px). Sections with side-by-side content
- *               (4, 6). Matches the container already used by header/footer
- *               sitewide — kept for alignment rather than switching to
- *               Module 4's 1080px, which would misalign against them.
- *   'reading' — max-w-[44rem]  (~680px, Module 4 §4 container-reading).
- *               Long-form sections (2, 3, 5).
- *   'narrow'  — max-w-[37.5rem] (600px, Module 4 §4). Section 8 only.
+ *   'wide'    — max-w-[76rem]. Side-by-side content (4, 6). Matches the
+ *               header/footer container so edges align sitewide.
+ *   'reading' — max-w-[44rem]. Long-form sections (2, 3, 5).
+ *   'narrow'  — max-w-[37.5rem]. Section 8 only.
  */
 export interface Props {
   width?: 'wide' | 'reading' | 'narrow';
+  surface?: 'paper' | 'sunken' | 'dark';
   border?: boolean;
-  tint?: boolean;
   animate?: boolean;
   id?: string;
   class?: string;
 }
 const {
   width = 'wide',
+  surface = 'paper',
   border = true,
-  tint = false,
   animate = true,
   id,
   class: extraClass = '',
 } = Astro.props;
 
-const widths: Record<NonNullable<Props['width']>, string> = {
+const widths = {
   wide: 'max-w-[76rem]',
   reading: 'max-w-[44rem]',
   narrow: 'max-w-[37.5rem]',
-};
+} as const;
+
+const surfaces = {
+  paper: '',
+  sunken: 'bg-paper-sunken',
+  dark: 'surface-dark',
+} as const;
+
+// A dark section supplies its own edge; a border on top of it just reads as
+// a seam.
+const showBorder = border && surface !== 'dark';
 ---
 <section
 	id={id}
-	class:list={[border ? 'border-b border-rule' : '', tint ? 'bg-paper-sunken' : '']}
+	class:list={[surfaces[surface], showBorder ? 'border-b border-rule' : '']}
 >
 	<div
-		class:list={[widths[width], 'mx-auto px-6 md:px-10 py-16 md:py-24', extraClass]}
-		data-animate={animate ? '' : undefined}
+		class:list={[widths[width], 'mx-auto px-6 md:px-10 py-20 md:py-28', extraClass]}
+		data-animate-group={animate ? '' : undefined}
 	>
 		<slot />
 	</div>

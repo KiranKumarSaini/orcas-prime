@@ -1,0 +1,69 @@
+---
+/**
+ * The RTO money-loss diagram — the one illustration on the site
+ * (Module 4 §5, built here per Module 9 §4).
+ *
+ * Shows what a single refused delivery actually costs: money leaves at four
+ * of the five stages, and the one stage that should have brought money in
+ * never happens. That asymmetry is the argument Section 3 is making, and it
+ * lands faster as a diagram than as a sentence.
+ *
+ * Deviation from Module 4 §5, flagged: specified as "static SVG", built as
+ * HTML/CSS flex instead. An SVG of a five-stage flow needs either a fixed
+ * viewBox (illegible at 375px) or two separate drawings for mobile and
+ * desktop. Flex reflows from a row to a column for free, keeps the text as
+ * real selectable text, and stays monochrome and static as required.
+ */
+
+const stages = [
+  { label: 'Ad spend paid',       note: 'to acquire the customer', out: true },
+  { label: 'Forward shipping',    note: 'parcel goes out',         out: true },
+  { label: 'Refused at the door', note: 'no sale happens',         out: false, pivot: true },
+  { label: 'Return shipping',     note: 'parcel comes back',       out: true },
+  { label: 'Stock returns worn',  note: 'often unsellable as new', out: true },
+];
+---
+
+<figure class="my-10">
+	<figcaption class="kicker mb-5">What one refused delivery costs</figcaption>
+
+	<ol class="flex flex-col md:flex-row md:items-stretch gap-2 md:gap-0 list-none">
+		{stages.map((s, i) => (
+			<>
+				<li class="flex-1 border border-current/20 rounded p-4 flex flex-col justify-between min-h-[6.5rem]">
+					<div>
+						<p class:list={[
+							'font-sans text-small leading-snug',
+							s.pivot ? 'font-semibold' : '',
+						]}>
+							{s.label}
+						</p>
+						<p class="font-mono text-micro opacity-55 mt-1.5 leading-snug">{s.note}</p>
+					</div>
+					<p class="font-mono text-micro mt-3 tracking-wider">
+						{s.out ? (
+							<span class="opacity-90">&minus;&nbsp;money out</span>
+						) : (
+							<span class="opacity-55">no money in</span>
+						)}
+					</p>
+				</li>
+
+				{i < stages.length - 1 && (
+					<div
+						aria-hidden="true"
+						class="flex items-center justify-center px-1 md:px-2 font-mono opacity-35 text-small"
+					>
+						<span class="md:hidden">&darr;</span>
+						<span class="hidden md:inline">&rarr;</span>
+					</div>
+				)}
+			</>
+		))}
+	</ol>
+
+	<p class="text-small opacity-70 mt-5 max-w-[54ch] leading-relaxed">
+		Four stages take money out. The one stage that should have brought money
+		in never happens. That is why a 30% RTO rate does not cost you 30%.
+	</p>
+</figure>

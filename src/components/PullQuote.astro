@@ -1,0 +1,16 @@
+---
+/**
+ * Section-closing line, set as a typographic moment rather than another
+ * paragraph (Module 9 §4). Every Module 3 section ends on an open loop —
+ * this is what makes that line land instead of trailing off.
+ */
+export interface Props {
+  class?: string;
+}
+const { class: extraClass = '' } = Astro.props;
+---
+<div class:list={['mt-14 pt-10 border-t border-current/15', extraClass]}>
+	<p class="font-serif text-h2 max-w-[30ch] leading-snug">
+		<slot />
+	</p>
+</div>

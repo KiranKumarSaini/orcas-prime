@@ -1,12 +1,18 @@
 ---
-// Minimal header. Wordmark left, nav right.
-// Mobile menu is one vanilla-JS toggle — no framework overhead.
-//
-// Relabelled per Module 3 "Global Elements": Services → What We Own
-// (LOCKED#17, never "Services" in nav/heading/URL — label only, URL kept
-// as /services per Module 7 §11, that route change is still an open item).
-// "Learn" added — omitted in the module spec until guides existed; they
-// now do (10, well past the gate), so it ships.
+/*
+  Sticky header (Module 4 §7, finally built per Module 9 §5).
+
+  Previously non-sticky. Module 4 §7 specified: sticky, 64px, --paper at 92%
+  opacity with backdrop-filter blur(8px) — "the one permitted blur, because
+  it's functional" — and a bottom border that appears only after scroll.
+
+  Nav labels per Module 3 Global Elements: Services -> What We Own
+  (LOCKED#17; label only, URL stays /services per Module 7 §11). Desktop
+  gains the primary CTA — on a long page the ask should never be more than
+  one scroll-to-top away.
+*/
+
+import { SITE } from '../lib/site';
 
 const nav = [
   { href: '/services', label: 'What We Own' },
@@ -17,16 +23,24 @@ const nav = [
 ];
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const digits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
+const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
+  'Hi, I want to check if the 3.5% model fits my store.'
+)}`;
 ---
 
-<header class="border-b border-rule bg-paper">
-	<div class="max-w-[76rem] mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between gap-6">
+<header
+	id="sv-header"
+	class="sticky top-0 z-30 bg-paper/92 backdrop-blur-md border-b border-transparent transition-colors duration-200"
+>
+	<div class="max-w-[76rem] mx-auto px-6 md:px-10 h-16 flex items-center justify-between gap-6">
 		<a href="/" class="font-serif text-lg md:text-xl tracking-tight text-ink hover:text-accent transition-colors">
 			Orcas Prime
 		</a>
 
 		<nav aria-label="Primary" class="hidden md:block">
-			<ul class="flex items-center gap-8">
+			<ul class="flex items-center gap-7">
 				{nav.map((item) => {
 					const active = currentPath === item.href;
 					return (
@@ -36,7 +50,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 								aria-current={active ? 'page' : undefined}
 								class:list={[
 									'font-sans text-small transition-colors',
-									active ? 'text-accent' : 'text-ink hover:text-accent'
+									active ? 'text-accent' : 'text-ink hover:text-accent',
 								]}
 							>
 								{item.label}
@@ -47,10 +61,20 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 			</ul>
 		</nav>
 
+		<a
+			href={ctaHref}
+			rel="noopener"
+			data-cta="whatsapp"
+			class="hidden md:inline-flex items-center gap-1.5 bg-accent text-paper hover:bg-accent-hover px-4 py-2 rounded-md font-sans text-small font-medium transition-colors"
+		>
+			Start on WhatsApp
+			<span aria-hidden="true" class="arrow-travel">&rarr;</span>
+		</a>
+
 		<button
 			id="sv-menu-btn"
 			type="button"
-			class="md:hidden inline-flex items-center gap-2 text-ink font-sans text-small"
+			class="md:hidden inline-flex items-center gap-2 text-ink font-sans text-small min-h-[44px]"
 			aria-controls="sv-mobile-nav"
 			aria-expanded="false"
 		>
@@ -65,12 +89,8 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 		</button>
 	</div>
 
-	<div
-		id="sv-mobile-nav"
-		hidden
-		class="md:hidden border-t border-rule bg-paper"
-	>
-		<nav aria-label="Primary mobile" class="max-w-[76rem] mx-auto px-6 py-4">
+	<div id="sv-mobile-nav" hidden class="md:hidden border-t border-rule bg-paper">
+		<nav aria-label="Primary mobile" class="max-w-[76rem] mx-auto px-6 py-2">
 			<ul class="flex flex-col divide-y divide-rule">
 				{nav.map((item) => {
 					const active = currentPath === item.href;
@@ -81,7 +101,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 								aria-current={active ? 'page' : undefined}
 								class:list={[
 									'block py-4 font-sans text-base',
-									active ? 'text-accent' : 'text-ink'
+									active ? 'text-accent' : 'text-ink',
 								]}
 							>
 								{item.label}
@@ -95,6 +115,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 </header>
 
 <script>
+	// Mobile menu toggle.
 	const btn = document.getElementById('sv-menu-btn');
 	const panel = document.getElementById('sv-mobile-nav');
 	if (btn && panel) {
@@ -102,16 +123,34 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 			const open = btn.getAttribute('aria-expanded') === 'true';
 			const next = !open;
 			btn.setAttribute('aria-expanded', String(next));
-			if (next) {
-				panel.removeAttribute('hidden');
-			} else {
-				panel.setAttribute('hidden', '');
-			}
+			if (next) panel.removeAttribute('hidden');
+			else panel.setAttribute('hidden', '');
 			btn.querySelectorAll<HTMLElement>('[data-when]').forEach((el) => {
-				const showWhen = el.dataset.when;
-				const shouldShow = (showWhen === 'open') === next;
-				el.classList.toggle('hidden', !shouldShow);
+				el.classList.toggle('hidden', (el.dataset.when === 'open') !== next);
 			});
 		});
+	}
+
+	// Border appears only once the page has moved (Module 4 §7) — at rest the
+	// header should feel like part of the page, not a bar sitting on top of it.
+	const header = document.getElementById('sv-header');
+	if (header) {
+		let ticking = false;
+		const sync = () => {
+			header.classList.toggle('border-rule', window.scrollY > 8);
+			header.classList.toggle('border-transparent', window.scrollY <= 8);
+			ticking = false;
+		};
+		sync();
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (!ticking) {
+					ticking = true;
+					requestAnimationFrame(sync);
+				}
+			},
+			{ passive: true }
+		);
 	}
 </script>

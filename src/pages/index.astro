@@ -2,31 +2,42 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionShell from '../components/SectionShell.astro';
 import Eyebrow from '../components/Eyebrow.astro';
-import Rule from '../components/Rule.astro';
+import Chip from '../components/Chip.astro';
+import Callout from '../components/Callout.astro';
+import PullQuote from '../components/PullQuote.astro';
+import Accordion from '../components/Accordion.astro';
+import RTOFlow from '../components/RTOFlow.astro';
 import PricingTable from '../components/PricingTable.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import Schema from '../components/Schema.astro';
 import { faqPage, service as serviceSchema } from '../lib/schema';
 import { getCollection } from 'astro:content';
 import { results, headline, fmtINR } from '../data/results';
+import { SITE } from '../lib/site';
 
 /*
-  Homepage — rebuilt per docs/Module-03-Homepage-Blueprint.md (Phases 2-5,
-  docs/Module-08-Implementation-Blueprint.md §4/§5). Full pivot from the
-  earlier price-first positioning (docs/archive/PROJECT-BRIEF.md §3) to the
-  ownership positioning locked in docs/LOCKED.md — see commit message for
-  why. Copy throughout is verbatim from Module 3 unless noted.
+  Homepage.
 
-  Section order (fixed — LOCKED, do not reorder without redoing Module 3's
-  psychological flow table):
-    1. Hero
-    2. The Founder's Reality
-    3. The Broken System (incl. RTO, the primary AI-citation asset)
-    4. What We Own
-    5. How We Think
-    6. Proof — now AFTER How We Think (LOCKED#13, reverses the old order)
-    7. Learn — ships now that guides exist (10, well past the 3-guide gate)
-    8. Start
+  Copy: docs/Module-03-Homepage-Blueprint.md, verbatim. Not one word cut,
+  shortened or rephrased in the Module 9 rebuild.
+
+  Layout: docs/Module-09-UI-Architecture.md, which supersedes Module 4's
+  composition guidance. The previous build followed Module 4 literally —
+  text-led, thin rules only, no visual anchors — and produced one layout
+  repeated eight times, which read as a document rather than a site. Module 9
+  §3 introduces surface alternation and §4 gives each section its own
+  composition. Section ORDER is untouched: Module 3's psychological flow
+  table still governs.
+
+    1. Hero                  paper    full-bleed statement
+    2. The Founder's Reality paper    split + card triad + pull quote
+    3. The Broken System     DARK     vendor chain, RTO diagram + accordion
+    4. What We Own           paper    asymmetric 4-vs-15 split
+    5. How We Think          sunken   numbered decision cards
+    6. Proof                 paper    display figure, cards, table
+    7. Learn                 paper    card grid
+    8. Start                 DARK     centred close
 */
 
 const channels = [
@@ -41,7 +52,87 @@ const ctaMsg = {
 	amazon: 'Hi, I want to start selling on Amazon with the free 3-month onboarding.',
 };
 
-// ─── Section 4 — What We Own ────────────────────────────────────────────
+const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
+const closeCtaHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(ctaMsg.general)}`;
+
+/* ─── Section 2 — the three situations, verbatim from Module 3 §2.
+   Timestamps are a visual device carrying the "all before lunch" line into
+   the layout. They add no claim. */
+const situations = [
+	{
+		stamp: '09:14',
+		text: "Your Meta Ads are running, but you don't know if they're actually profitable or just generating orders that lose money after returns.",
+	},
+	{
+		stamp: '11:40',
+		text: "A shipment gets refused at the door, and now you're on the phone with the courier instead of working on your product.",
+	},
+	{
+		stamp: 'Last month',
+		text: "You changed your price last month. You're still not sure if it worked.",
+	},
+];
+
+/* ─── Section 3 — the vendor chain, drawn from sub-block 1's prose. */
+const vendorChain = [
+	{ who: 'Ads agency',   owns: 'Optimises for orders' },
+	{ who: 'Developer',    owns: "Doesn't see the ad data" },
+	{ who: 'Marketplaces', owns: 'Someone else again' },
+	{ who: 'Courier',      owns: 'A separate relationship' },
+];
+
+/* RTO sub-block. These four headings are the <h3>s AND the FAQPage schema
+   entries — one source, so the markup can never drift from the visible text. */
+const rtoPanels = [
+	{
+		heading: 'What RTO actually is',
+		body: [
+			"RTO stands for Return to Origin. It's what happens when a parcel goes out, the courier tries to deliver it, and it comes back to you undelivered — the customer refused it at the door, or wasn't reachable, or changed their mind between ordering and delivery.",
+			"It's not the same as a return. A return means the customer received the product and sent it back. An RTO means they never took it at all.",
+		],
+	},
+	{
+		heading: 'Why it hurts more than it looks like it should',
+		body: [
+			"When an order RTOs, you don't just lose the sale. You've already paid to acquire that customer through ads. You've paid forward shipping. You pay return shipping too. The product comes back after two weeks of travel, often in no condition to sell as new. Your cash was locked up the whole time.",
+			"So a 30% RTO rate doesn't reduce your profit by 30%. It can erase it entirely, while your dashboard still shows healthy order numbers.",
+		],
+	},
+	{
+		heading: "Why it's so high in India specifically",
+		body: [
+			'Cash on Delivery. When a customer pays nothing upfront, refusing the parcel costs them nothing. In categories like fashion, where the customer is buying on impulse and re-deciding when the courier arrives, COD orders RTO at dramatically higher rates than prepaid ones.',
+		],
+	},
+	{
+		heading: 'What actually reduces it',
+		body: [
+			'Address quality checks before dispatch. Choosing couriers by their real delivery rate in that specific pin code, not by their headline price. Confirming high-risk orders before they ship. Shifting the payment mix toward prepaid with incentives rather than blocking COD outright. Filing disputes on wrongly-marked deliveries instead of absorbing them.',
+			'Every one of those is a decision someone has to own. Most brands have nobody owning it.',
+		],
+	},
+];
+
+/* Sub-block 3 — the incentive problem, as a comparison rather than prose. */
+const payModels = [
+	{
+		model: 'A retainer',
+		effect: 'Gets paid the same whether you had a good month or a terrible one.',
+		ours: false,
+	},
+	{
+		model: 'A percentage of ad spend',
+		effect: 'Gets paid more when it spends more of your money — whether or not that spend converted.',
+		ours: false,
+	},
+	{
+		model: 'A percentage of net sales',
+		effect: 'Gets paid only on the money that actually stayed in your account after refunds, returns and RTOs.',
+		ours: true,
+	},
+];
+
+/* ─── Section 4 — What We Own. */
 const youKeep = ['Your product', 'Manufacturing', 'Buying inventory', 'Dispatching orders'];
 
 const weTake = [
@@ -62,9 +153,23 @@ const weTake = [
 	'Overall growth strategy',
 ];
 
-// Service schema for the major capability clusters — maps to real,
-// existing /services pages so the markup describes what's actually live
-// (Module 7 §6 rule: schema must match visible content).
+/* ─── Section 5 — How We Think. */
+const decisions = [
+	{
+		heading: "When we stop scaling a campaign that's still profitable",
+		body: "A campaign showing good returns isn't automatically one to put more money behind. If the additional spend is bringing in customers who buy once and never return, or who order COD and refuse delivery at a higher rate, then scaling makes the top-line number look better and the bank balance worse. We look at what happens after the sale before we decide to buy more of them.",
+	},
+	{
+		heading: 'How we choose a courier',
+		body: "Not by headline rate. A courier that's ₹15 cheaper per shipment but delivers successfully 8% less often in your main states is more expensive, not less — you just pay for it in RTOs instead of on the invoice. We look at real delivery performance by region for the specific pin codes your orders actually go to.",
+	},
+	{
+		heading: 'When we tell a brand not to spend more',
+		body: "Sometimes the honest answer is that the product isn't ready, the price is wrong, or the store converts too poorly for more traffic to help. Spending more at that point is the most expensive way to find out. Because we're paid on what you keep, telling you to pause costs us money too — which is exactly why you can trust us when we say it.",
+	},
+];
+
+/* ─── Schema. */
 const ownershipServices = [
 	serviceSchema({
 		name: 'Shopify store management',
@@ -88,41 +193,30 @@ const ownershipServices = [
 	}),
 ];
 
-// ─── Section 3 — RTO FAQPage schema (four Q&A pairs matching the four <h3> subheadings) ───
 const rtoFaqs = faqPage([
-	{
-		question: 'What is RTO in ecommerce?',
-		answer:
-			"RTO stands for Return to Origin. It's what happens when a parcel goes out, the courier tries to deliver it, and it comes back to you undelivered — the customer refused it at the door, or wasn't reachable, or changed their mind between ordering and delivery. It's not the same as a return: a return means the customer received the product and sent it back; an RTO means they never took it at all.",
-	},
-	{
-		question: "Why does RTO hurt more than it looks like it should?",
-		answer:
-			"When an order RTOs, you don't just lose the sale. You've already paid to acquire that customer through ads, paid forward shipping, and pay return shipping too. The product comes back after two weeks of travel, often in no condition to sell as new, and your cash is locked up the whole time. A 30% RTO rate doesn't reduce your profit by 30% — it can erase it entirely, while your dashboard still shows healthy order numbers.",
-	},
-	{
-		question: 'Why is RTO so high in India specifically?',
-		answer:
-			"Cash on Delivery. When a customer pays nothing upfront, refusing the parcel costs them nothing. In categories like fashion, where the customer is buying on impulse and re-deciding when the courier arrives, COD orders RTO at dramatically higher rates than prepaid ones.",
-	},
-	{
-		question: 'What actually reduces RTO?',
-		answer:
-			'Address quality checks before dispatch. Choosing couriers by their real delivery rate in that specific pin code, not by their headline price. Confirming high-risk orders before they ship. Shifting the payment mix toward prepaid with incentives rather than blocking COD outright. Filing disputes on wrongly-marked deliveries instead of absorbing them.',
-	},
+	{ question: 'What is RTO in ecommerce?', answer: rtoPanels[0].body.join(' ') },
+	{ question: 'Why does RTO hurt more than it looks like it should?', answer: rtoPanels[1].body.join(' ') },
+	{ question: 'Why is RTO so high in India specifically?', answer: rtoPanels[2].body.join(' ') },
+	{ question: 'What actually reduces RTO?', answer: rtoPanels[3].body.join(' ') },
 ]);
 
-// ─── Section 6 — Proof (reused from the previous build, now reordered) ───
+/* ─── Section 6 — Proof. */
 const roas = headline.roas;
 const roasClient = results.clients.find((c) => c.slug === roas.clientSlug)!;
 
-const showcase = [
-	{ slug: 'ladakh-berry', name: 'Ladakh Berry', url: 'https://ladakhberry.in', img: '/work/ladakh-berry.jpg', note: 'Shopify, Google Ads, Meta Ads, creative' },
-	{ slug: 'vastramahal', name: 'Vastramahal', url: 'https://thevastramahal.in', img: '/work/vastramahal.jpg', note: 'Shopify, Google Ads, Meta Ads, creative' },
-	{ slug: 'savana-kurti', name: 'Savana Kurti', url: 'https://savanakurti.com', img: '/work/savana-kurti.jpg', note: 'Shopify management' },
+const stats = [
+	{ label: 'Total tracked revenue',       value: headline.totalRevenue.display, note: 'across all Partner Brands' },
+	{ label: 'Ad spend under management',   value: headline.totalAdSpend.display, note: 'across Google, Meta, Flipkart' },
+	{ label: 'Brands',                      value: String(headline.brandCount.value), note: headline.brandCount.descriptor },
 ];
 
-// ─── Section 7 — Learn (guides already exist; ships now per Module 8 §4 Phase 6 gate) ───
+const showcase = [
+	{ name: 'Ladakh Berry', url: 'https://ladakhberry.in',    img: '/work/ladakh-berry.jpg', note: 'Shopify, Google Ads, Meta Ads, creative' },
+	{ name: 'Vastramahal',  url: 'https://thevastramahal.in', img: '/work/vastramahal.jpg',  note: 'Shopify, Google Ads, Meta Ads, creative' },
+	{ name: 'Savana Kurti', url: 'https://savanakurti.com',   img: '/work/savana-kurti.jpg', note: 'Shopify management' },
+];
+
+/* ─── Section 7 — Learn. */
 const learnSlugs = [
 	'what-is-rto-and-what-does-it-cost',
 	'how-to-reduce-cod-returns-india',
@@ -144,372 +238,363 @@ const learnGuides = learnSlugs
 <Schema slot="head" data={[rtoFaqs, ...ownershipServices]} />
 
 	{/* ─── 1 · Hero ──────────────────────────────────────────────────── */}
-	<SectionShell width="wide" animate={false}>
-		<h1 class="text-display font-serif max-w-[20ch]" data-animate>
-			Stop managing five different agencies.<br />
-			We're one team that owns your ecommerce growth.
-		</h1>
-		<p class="text-lead text-ink-muted mt-6 max-w-prose" data-animate>
-			Shopify store management, Meta and Google Ads, and Amazon, Flipkart and
-			Meesho — one team, one fee, tied to what you actually keep.
-		</p>
+	<section class="border-b border-rule">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-16 pb-20 md:pt-28 md:pb-32" data-animate-group>
+			<h1 class="text-display font-serif max-w-[18ch]" data-animate-item style="--i:0">
+				Stop managing five different agencies.<br />
+				We're one team that owns your ecommerce growth.
+			</h1>
 
-		<ul class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2" data-animate>
-			{channels.map((c, i) => (
-				<>
-					{i > 0 && <li aria-hidden="true" class="font-mono text-micro text-rule-strong">/</li>}
-					<li class="font-mono text-micro uppercase tracking-wider text-ink">{c}</li>
-				</>
-			))}
-		</ul>
+			<p class="text-lead text-ink-muted mt-7 max-w-[52ch] leading-relaxed" data-animate-item style="--i:1">
+				Shopify store management, Meta and Google Ads, and Amazon, Flipkart and
+				Meesho — one team, one fee, tied to what you actually keep.
+			</p>
 
-		<p class="text-base text-ink-muted mt-6" data-animate>
-			<span class="num text-accent">3.5%</span> of net sales. No retainer. Nothing charged on returns or RTOs.
-		</p>
+			<ul class="mt-9 flex flex-wrap gap-2" data-animate-item style="--i:2">
+				{channels.map((c) => <li><Chip>{c}</Chip></li>)}
+			</ul>
 
-		<div class="mt-8" data-animate>
-			<WhatsAppCTA message={ctaMsg.general} />
+			{/* Price line — demoted from headline position to a secondary fact
+			    strip above the CTA, per Module 3 §1. */}
+			<div class="mt-9 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 border-l-2 border-accent pl-5 py-1" data-animate-item style="--i:3">
+				<span class="num text-h3 text-accent">3.5%</span>
+				<span class="text-base text-ink">of net sales. No retainer.</span>
+				<span class="text-base text-ink-muted">Nothing charged on returns or RTOs.</span>
+			</div>
+
+			<div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" data-animate-item style="--i:4">
+				<WhatsAppCTA message={ctaMsg.general} />
+				<a href="#what-we-own" class="font-sans text-base text-accent hover:text-accent-hover underline decoration-1 underline-offset-4">
+					See what we'd take over
+				</a>
+			</div>
 		</div>
-	</SectionShell>
+	</section>
 
 	{/* ─── 2 · The Founder's Reality ──────────────────────────────────── */}
-	<SectionShell width="reading">
-		<Eyebrow>Before Orcas Prime</Eyebrow>
-		<h2 class="text-h1 font-serif">
-			You're the founder, the marketer, the ops manager, and the person filing
-			courier complaints — all before lunch.
-		</h2>
-
-		<div class="mt-10 space-y-6 text-lead text-ink leading-relaxed">
-			<p>
-				Your Meta Ads are running, but you don't know if they're actually
-				profitable or just generating orders that lose money after returns.
-			</p>
-			<p>
-				A shipment gets refused at the door, and now you're on the phone with
-				the courier instead of working on your product.
-			</p>
-			<p>
-				You changed your price last month. You're still not sure if it worked.
-			</p>
+	<SectionShell width="wide">
+		<div class="max-w-[34ch]" data-animate-item style="--i:0">
+			<Eyebrow class="mb-4">Before Orcas Prime</Eyebrow>
+			<h2 class="text-h1 font-serif">
+				You're the founder, the marketer, the ops manager, and the person
+				filing courier complaints — all before lunch.
+			</h2>
 		</div>
 
-		<p class="text-lead text-ink font-serif mt-10 max-w-[36ch]">
-			None of this is because you're bad at business. It's because one person
-			is doing five jobs.
-		</p>
+		<div class="mt-14 grid gap-5 md:grid-cols-3">
+			{situations.map((s, i) => (
+				<div class="card p-6 border-l-2 border-l-accent" data-animate-item style={`--i:${i + 1}`}>
+					<p class="font-mono text-micro tracking-wider text-ink-muted">{s.stamp}</p>
+					<p class="text-base text-ink leading-relaxed mt-3">{s.text}</p>
+				</div>
+			))}
+		</div>
+
+		<div data-animate-item style="--i:4">
+			<PullQuote>
+				None of this is because you're bad at business. It's because one person
+				is doing five jobs.
+			</PullQuote>
+		</div>
 	</SectionShell>
 
-	{/* ─── 3 · The Broken System ──────────────────────────────────────── */}
-	<SectionShell width="reading">
-		<Eyebrow>Why it's this hard</Eyebrow>
-		<h2 class="text-h1 font-serif">
-			Nothing about Indian ecommerce is designed to be run by one person.
-		</h2>
-
-		<div class="mt-10 text-lead text-ink leading-relaxed space-y-4">
-			<p>
-				You hire an ads agency. They optimise for orders, because that's what
-				they're measured on. You hire a developer for the store, but they
-				don't see the ad data. Someone else handles your marketplace
-				listings. Your courier is a separate relationship again.
-			</p>
-			<p>
-				Nobody in that chain is responsible for whether your business made
-				money this month. Each one did their job. The business still lost.
-			</p>
+	{/* ─── 3 · The Broken System — dark ───────────────────────────────── */}
+	<SectionShell width="reading" surface="dark">
+		<div data-animate-item style="--i:0">
+			<Eyebrow class="mb-4">Why it's this hard</Eyebrow>
+			<h2 class="text-h1 font-serif">
+				Nothing about Indian ecommerce is designed to be run by one person.
+			</h2>
 		</div>
 
-		<Rule />
-
-		{/* RTO sub-block — the highest-value block on the site. Full semantic
-		    hierarchy for AI parsing: <h3> per sub-heading. */}
-		<div class="text-lead text-ink leading-relaxed space-y-8">
-			<div>
-				<h3 class="text-h3 font-serif mb-3">What RTO actually is</h3>
-				<p>
-					RTO stands for Return to Origin. It's what happens when a parcel
-					goes out, the courier tries to deliver it, and it comes back to you
-					undelivered — the customer refused it at the door, or wasn't
-					reachable, or changed their mind between ordering and delivery.
-				</p>
-				<p class="mt-4">
-					It's not the same as a return. A return means the customer received
-					the product and sent it back. An RTO means they never took it at
-					all.
-				</p>
+		{/* Sub-block 1 — the vendor problem */}
+		<div class="mt-12" data-animate-item style="--i:1">
+			<div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+				{vendorChain.map((v) => (
+					<div class="border border-current/20 rounded p-4">
+						<p class="font-sans text-small">{v.who}</p>
+						<p class="font-mono text-micro opacity-55 mt-1.5 leading-snug">{v.owns}</p>
+					</div>
+				))}
 			</div>
+			<p class="font-mono text-micro tracking-wider opacity-70 mt-4">
+				&darr;&nbsp;&nbsp;Nobody in that chain owns whether the business made money
+			</p>
 
-			<div>
-				<h3 class="text-h3 font-serif mb-3">Why it hurts more than it looks like it should</h3>
+			<div class="mt-8 space-y-4 text-lead leading-relaxed opacity-90">
 				<p>
-					When an order RTOs, you don't just lose the sale. You've already
-					paid to acquire that customer through ads. You've paid forward
-					shipping. You pay return shipping too. The product comes back after
-					two weeks of travel, often in no condition to sell as new. Your
-					cash was locked up the whole time.
+					You hire an ads agency. They optimise for orders, because that's what
+					they're measured on. You hire a developer for the store, but they
+					don't see the ad data. Someone else handles your marketplace
+					listings. Your courier is a separate relationship again.
 				</p>
-				<p class="mt-4">
-					So a 30% RTO rate doesn't reduce your profit by 30%. It can erase it
-					entirely, while your dashboard still shows healthy order numbers.
-				</p>
-			</div>
-
-			<div>
-				<h3 class="text-h3 font-serif mb-3">Why it's so high in India specifically</h3>
 				<p>
-					Cash on Delivery. When a customer pays nothing upfront, refusing the
-					parcel costs them nothing. In categories like fashion, where the
-					customer is buying on impulse and re-deciding when the courier
-					arrives, COD orders RTO at dramatically higher rates than prepaid
-					ones.
-				</p>
-			</div>
-
-			<div>
-				<h3 class="text-h3 font-serif mb-3">What actually reduces it</h3>
-				<p>
-					Address quality checks before dispatch. Choosing couriers by their
-					real delivery rate in that specific pin code, not by their headline
-					price. Confirming high-risk orders before they ship. Shifting the
-					payment mix toward prepaid with incentives rather than blocking COD
-					outright. Filing disputes on wrongly-marked deliveries instead of
-					absorbing them.
-				</p>
-				<p class="mt-4">
-					Every one of those is a decision someone has to own. Most brands
-					have nobody owning it.
-				</p>
-				<p class="mt-4">
-					<a href="/guides/what-is-rto-and-what-does-it-cost" class="text-accent hover:text-accent-hover font-mono text-small">
-						Read the full RTO guide →
-					</a>
+					Nobody in that chain is responsible for whether your business made
+					money this month. Each one did their job. The business still lost.
 				</p>
 			</div>
 		</div>
 
-		<Rule />
+		<hr class="my-14" />
 
-		<div class="text-lead text-ink leading-relaxed space-y-4">
-			<p>Here's the part almost nobody says out loud.</p>
-			<p>
-				A retainer agency gets paid the same whether you had a good month or a
-				terrible one. An agency charging a percentage of ad spend gets paid
-				<em>more</em> when it spends more of your money — whether or not that
-				spend converted.
-			</p>
-			<p>
-				Neither of them is doing anything wrong. They're doing exactly what
-				their pricing model rewards.
-			</p>
-			<p>
-				The question worth asking about any agency isn't "are they good?"
-				It's "what does their pricing pay them to do?"
+		{/* Sub-block 2 — RTO. The highest-value block on the site: diagram for
+		    the scanner, accordion for the reader, full text in the DOM for
+		    crawlers either way. */}
+		<div data-animate-item style="--i:2">
+			<RTOFlow />
+			<Accordion items={rtoPanels} defaultOpen={0} />
+			<p class="mt-6">
+				<a
+					href="/guides/what-is-rto-and-what-does-it-cost"
+					class="font-mono text-small underline decoration-1 underline-offset-4"
+				>
+					Read the full RTO guide <span class="arrow-travel">&rarr;</span>
+				</a>
 			</p>
 		</div>
 
-		<p class="text-lead text-ink font-serif mt-10">
-			We built Orcas Prime around a different answer to that question.
-		</p>
+		<hr class="my-14" />
+
+		{/* Sub-block 3 — the incentive problem */}
+		<div data-animate-item style="--i:3">
+			<p class="text-lead leading-relaxed opacity-90">
+				Here's the part almost nobody says out loud.
+			</p>
+
+			<div class="mt-8 grid gap-3">
+				{payModels.map((m) => (
+					<div
+						class:list={[
+							'border rounded p-5 grid gap-2 sm:grid-cols-[13rem_1fr] sm:gap-6 sm:items-baseline',
+							m.ours ? 'border-current/40 bg-white/5' : 'border-current/20',
+						]}
+					>
+						<p class:list={['font-sans text-small', m.ours ? 'text-accent-on-dark' : '']}>
+							{m.model}
+							{m.ours && <span class="font-mono text-micro tracking-wider ml-2 opacity-80">OURS</span>}
+						</p>
+						<p class="text-base leading-relaxed opacity-85">{m.effect}</p>
+					</div>
+				))}
+			</div>
+
+			<div class="mt-8 space-y-4 text-lead leading-relaxed opacity-90">
+				<p>
+					Neither of them is doing anything wrong. They're doing exactly what
+					their pricing model rewards.
+				</p>
+				<p>
+					The question worth asking about any agency isn't "are they good?"
+					It's "what does their pricing pay them to do?"
+				</p>
+			</div>
+		</div>
+
+		<div data-animate-item style="--i:4">
+			<PullQuote>
+				We built Orcas Prime around a different answer to that question.
+			</PullQuote>
+		</div>
 	</SectionShell>
 
 	{/* ─── 4 · What We Own ────────────────────────────────────────────── */}
-	<SectionShell width="wide">
-		<Eyebrow>What we own</Eyebrow>
-		<h2 class="text-h1 font-serif max-w-[24ch]">
-			You build the product. We build the business around it.
-		</h2>
-		<p class="text-lead text-ink-muted mt-6 max-w-prose">
-			Here's the actual division of labour — not a services list, a
-			responsibility list.
-		</p>
+	<SectionShell width="wide" id="what-we-own">
+		<div data-animate-item style="--i:0">
+			<Eyebrow class="mb-4">What we own</Eyebrow>
+			<h2 class="text-h1 font-serif max-w-[22ch]">
+				You build the product. We build the business around it.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-[54ch]">
+				Here's the actual division of labour — not a services list, a
+				responsibility list.
+			</p>
+		</div>
 
-		<div class="mt-12 grid gap-10 md:grid-cols-[1fr_2fr] md:gap-16 items-start">
-			<div>
-				<p class="kicker mb-4 text-ink-muted">You keep</p>
-				<ul class="space-y-3 text-base text-ink-muted border-t border-rule pt-4">
+		{/* The asymmetry IS the message — 4 against 15, legible before a word is
+		    read. Do not balance these columns (Module 3 §4). */}
+		<div class="mt-14 grid gap-10 md:grid-cols-[1fr_2fr] md:gap-14 items-start">
+			<div data-animate-item style="--i:1">
+				<div class="flex items-baseline gap-3 mb-5">
+					<span class="num text-h2 text-ink-muted">4</span>
+					<span class="kicker">You keep</span>
+				</div>
+				<ul>
 					{youKeep.map((item) => (
-						<li class="border-b border-rule pb-3">{item}</li>
+						<li class="text-base text-ink-muted border-b border-rule py-2.5">{item}</li>
 					))}
 				</ul>
 			</div>
-			<div class="md:border-l md:border-rule md:pl-16">
-				<p class="kicker mb-4 text-accent">We take</p>
-				<ul class="space-y-3 text-base text-ink border-t border-rule pt-4">
+
+			<div data-animate-item style="--i:2">
+				<div class="flex items-baseline gap-3 mb-5">
+					<span class="num text-h2 text-accent">15</span>
+					<span class="kicker text-accent">We take</span>
+				</div>
+				<ul class="grid sm:grid-cols-2 gap-x-10">
 					{weTake.map((item) => (
-						<li class="border-b border-rule pb-3">{item}</li>
+						<li class="text-base text-ink border-b border-rule py-2.5 leading-snug">{item}</li>
 					))}
 				</ul>
 			</div>
 		</div>
 
-		<p class="text-base text-ink mt-10 max-w-prose">
+		<p class="text-lead text-ink mt-12 max-w-[52ch]" data-animate-item style="--i:3">
 			Four things stay with you. Everything between "the product exists" and
 			"the customer has it" is ours.
 		</p>
 
-		<p class="text-small text-ink-muted mt-6 max-w-prose leading-relaxed border-t border-rule pt-6">
-			We run your ads inside your own ad accounts, not ours. You keep the
-			data, the history and the access. We never mark up your ad spend — you
-			pay Meta and Google directly, exactly what they charge.
-		</p>
+		<div class="mt-8" data-animate-item style="--i:4">
+			<Callout>
+				<p class="text-base text-ink leading-relaxed max-w-[58ch]">
+					We run your ads inside your own ad accounts, not ours. You keep the
+					data, the history and the access. We never mark up your ad spend —
+					you pay Meta and Google directly, exactly what they charge.
+				</p>
+			</Callout>
+		</div>
 
-		<p class="text-lead text-ink font-serif mt-10 max-w-prose">
-			Taking this much responsibility only works if we think about your
-			business as carefully as you do. So here's how we think.
-		</p>
+		<div data-animate-item style="--i:5">
+			<PullQuote>
+				Taking this much responsibility only works if we think about your
+				business as carefully as you do. So here's how we think.
+			</PullQuote>
+		</div>
 	</SectionShell>
 
-	{/* Sticky-CTA trigger point (§4/§8) — the sitewide floating WhatsApp
-	    button (SiteWhatsAppFloat, present on every page) already covers the
-	    persistent-mobile-CTA requirement, so no second fixed-position bar is
-	    added here — two overlapping fixed bottom elements would be a bug,
-	    not an enhancement. */}
+	{/* Sticky mobile CTA arms here — after Section 4, per Module 8 §3.
+	    Trust is earned before the ask (LOCKED#24). */}
+	<div id="sv-sticky-trigger" aria-hidden="true"></div>
 
 	{/* ─── 5 · How We Think ───────────────────────────────────────────── */}
-	<SectionShell width="reading" tint={true}>
-		<Eyebrow>How we think</Eyebrow>
-		<h2 class="text-h1 font-serif">
-			Most agencies tell you what they did. We'll tell you why we decided it.
-		</h2>
-		<p class="text-lead text-ink-muted mt-6 max-w-prose">
-			Running an ecommerce business is a series of decisions, and most of
-			them aren't obvious. Here's how we approach a few of the ones that come
-			up most often.
-		</p>
-
-		<div class="mt-12 space-y-10">
-			<div>
-				<h3 class="text-h3 font-serif mb-3">When we stop scaling a campaign that's still profitable</h3>
-				<p class="text-lead text-ink leading-relaxed">
-					A campaign showing good returns isn't automatically one to put more
-					money behind. If the additional spend is bringing in customers who
-					buy once and never return, or who order COD and refuse delivery at
-					a higher rate, then scaling makes the top-line number look better
-					and the bank balance worse. We look at what happens after the sale
-					before we decide to buy more of them.
-				</p>
-			</div>
-			<div>
-				<h3 class="text-h3 font-serif mb-3">How we choose a courier</h3>
-				<p class="text-lead text-ink leading-relaxed">
-					Not by headline rate. A courier that's ₹15 cheaper per shipment but
-					delivers successfully 8% less often in your main states is more
-					expensive, not less — you just pay for it in RTOs instead of on the
-					invoice. We look at real delivery performance by region for the
-					specific pin codes your orders actually go to.
-				</p>
-			</div>
-			<div>
-				<h3 class="text-h3 font-serif mb-3">When we tell a brand not to spend more</h3>
-				<p class="text-lead text-ink leading-relaxed">
-					Sometimes the honest answer is that the product isn't ready, the
-					price is wrong, or the store converts too poorly for more traffic to
-					help. Spending more at that point is the most expensive way to find
-					out. Because we're paid on what you keep, telling you to pause costs
-					us money too — which is exactly why you can trust us when we say it.
-				</p>
-			</div>
+	<SectionShell width="wide" surface="sunken">
+		<div data-animate-item style="--i:0">
+			<Eyebrow class="mb-4">How we think</Eyebrow>
+			<h2 class="text-h1 font-serif max-w-[26ch]">
+				Most agencies tell you what they did. We'll tell you why we decided it.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-[58ch]">
+				Running an ecommerce business is a series of decisions, and most of
+				them aren't obvious. Here's how we approach a few of the ones that come
+				up most often.
+			</p>
 		</div>
 
-		<p class="text-lead text-ink font-serif mt-10 max-w-prose">
-			That last one is only credible because of how we're paid. Here's what
-			that looks like in practice.
-		</p>
+		<div class="mt-14 grid gap-5 md:grid-cols-3">
+			{decisions.map((d, i) => (
+				<article class="card p-7" data-animate-item style={`--i:${i + 1}`}>
+					<p class="num text-h3 text-accent">{String(i + 1).padStart(2, '0')}</p>
+					<h3 class="font-serif text-h3 mt-4">{d.heading}</h3>
+					<p class="text-base text-ink-muted leading-relaxed mt-4">{d.body}</p>
+				</article>
+			))}
+		</div>
+
+		<div data-animate-item style="--i:4">
+			<PullQuote>
+				That last one is only credible because of how we're paid. Here's what
+				that looks like in practice.
+			</PullQuote>
+		</div>
 	</SectionShell>
 
-	{/* ─── 6 · Proof — now after How We Think (LOCKED#13) ────────────── */}
+	{/* ─── 6 · Proof ──────────────────────────────────────────────────── */}
 	<SectionShell width="wide">
-		<Eyebrow>Proof</Eyebrow>
-		<h2 class="text-h1 font-serif max-w-[24ch]">
-			Every number below is from an account we're running right now.
-		</h2>
-		<p class="text-lead text-ink-muted mt-6 max-w-prose">
-			Not stale case studies from three years ago. Live accounts, current
-			numbers.
-		</p>
-
-		{/* Block A — hero figure */}
-		<div class="mt-12 md:mt-16 grid gap-10 md:grid-cols-[minmax(0,1.2fr)_1fr] md:gap-16 items-start">
-			<div class="border border-rule-strong bg-paper rounded p-6 md:p-10">
-				<p class="kicker mb-3">Hero figure</p>
-				<p class="num text-accent" style="font-size: clamp(3.5rem, 8vw, 6rem); line-height: 0.95; letter-spacing: -0.02em;">
-					{roas.display}
-				</p>
-				<p class="text-base text-ink mt-4 max-w-sm">
-					Return on ad spend from Google Ads — <span class="text-ink-muted">{roasClient.name}, {roas.period}.</span>
-				</p>
-				<p class="text-small text-ink-muted mt-2 max-w-sm leading-relaxed">
-					For every <span class="num">₹1</span> spent on ads, <span class="num">₹5.10</span> came back in tracked sales.
-				</p>
-				<dl class="mt-6 pt-6 border-t border-rule grid grid-cols-2 gap-x-8 gap-y-2 text-small">
-					<dt class="text-ink-muted">Revenue</dt>
-					<dd class="num text-ink">{fmtINR(roas.revenue)}</dd>
-					<dt class="text-ink-muted">Ad spend</dt>
-					<dd class="num text-ink">{fmtINR(roas.spend)}</dd>
-					<dt class="text-ink-muted">Platform</dt>
-					<dd class="text-ink">{roas.platform}</dd>
-				</dl>
-			</div>
-
-			{/* Block B — aggregate */}
-			<dl class="grid gap-6">
-				<div class="border border-rule bg-paper rounded p-6">
-					<dt class="kicker mb-2">Total tracked revenue</dt>
-					<dd>
-						<span class="num text-ink block" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">{headline.totalRevenue.display}</span>
-						<span class="block text-small text-ink-muted mt-2">across all Partner Brands</span>
-					</dd>
-				</div>
-				<div class="border border-rule bg-paper rounded p-6">
-					<dt class="kicker mb-2">Total ad spend under management</dt>
-					<dd>
-						<span class="num text-ink block" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">{headline.totalAdSpend.display}</span>
-						<span class="block text-small text-ink-muted mt-2">across Google, Meta, Flipkart</span>
-					</dd>
-				</div>
-				<div class="border border-rule bg-paper rounded p-6">
-					<dt class="kicker mb-2">Brands</dt>
-					<dd>
-						<span class="num text-ink block" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">{headline.brandCount.value}</span>
-						<span class="block text-small text-ink-muted mt-2">{headline.brandCount.descriptor}</span>
-					</dd>
-				</div>
-			</dl>
+		<div data-animate-item style="--i:0">
+			<Eyebrow class="mb-4">Proof</Eyebrow>
+			<h2 class="text-h1 font-serif max-w-[24ch]">
+				Every number below is from an account we're running right now.
+			</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-[52ch]">
+				Not stale case studies from three years ago. Live accounts, current
+				numbers.
+			</p>
 		</div>
 
-		{/* Block C — Partner Brand cards */}
-		<div class="mt-14 md:mt-20">
-			<p class="kicker mb-6">Partner Brands we run</p>
-			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{/* Block A — the display figure. The page's visual peak after the hero
+		    (Module 9 §4). Appears at full value; never counts up. */}
+		<div class="mt-16 grid gap-8 md:grid-cols-[auto_1fr] md:gap-16 md:items-center" data-animate-item style="--i:1">
+			<p
+				class="num text-accent leading-none"
+				style="font-size: clamp(5rem, 15vw, 9rem); letter-spacing: -0.04em;"
+			>{roas.display}</p>
+
+			<div class="max-w-[42ch]">
+				<p class="kicker mb-3">
+					Return on ad spend · {roasClient.name} · Google Ads · {roas.period}
+				</p>
+				<p class="text-lead text-ink leading-relaxed">
+					For every <span class="num">₹1</span> spent on ads,
+					<span class="num">₹5.10</span> came back in tracked sales.
+				</p>
+				<dl class="mt-7 pt-6 border-t border-rule grid grid-cols-2 gap-x-8 gap-y-2.5 text-small">
+					<dt class="text-ink-muted">Revenue</dt>
+					<dd class="num text-ink text-right">{fmtINR(roas.revenue)}</dd>
+					<dt class="text-ink-muted">Ad spend</dt>
+					<dd class="num text-ink text-right">{fmtINR(roas.spend)}</dd>
+					<dt class="text-ink-muted">Platform</dt>
+					<dd class="text-ink text-right">{roas.platform}</dd>
+				</dl>
+			</div>
+		</div>
+
+		{/* Block B — aggregate */}
+		<dl class="mt-16 grid gap-5 sm:grid-cols-3">
+			{stats.map((s, i) => (
+				<div class="card p-6" data-animate-item style={`--i:${i + 2}`}>
+					<dt class="kicker">{s.label}</dt>
+					<dd>
+						<span class="num text-ink block mt-3" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+							{s.value}
+						</span>
+						<span class="block text-small text-ink-muted mt-2.5">{s.note}</span>
+					</dd>
+				</div>
+			))}
+		</dl>
+
+		{/* Block C — Partner Brands */}
+		<div class="mt-20" data-animate-item style="--i:5">
+			<Eyebrow class="mb-6">Partner Brands we run</Eyebrow>
+			<div class="grid gap-6 md:grid-cols-3">
 				{showcase.map((s) => (
-					<article class="bg-paper border border-rule rounded overflow-hidden">
+					<a href={s.url} rel="noopener" class="card group overflow-hidden block">
 						<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
-							<span class="ml-3 font-mono text-micro text-ink-muted truncate">{s.url.replace(/^https?:\/\//, '')}</span>
+							<span class="ml-3 font-mono text-micro text-ink-muted truncate">
+								{s.url.replace(/^https?:\/\//, '')}
+							</span>
 						</div>
-						<img src={s.img} alt={`${s.name} storefront`} width="1200" height="900" loading="lazy" decoding="async" class="w-full h-auto block border-b border-rule" />
+						<img
+							src={s.img}
+							alt={`${s.name} storefront`}
+							width="1200" height="900" loading="lazy" decoding="async"
+							class="w-full h-auto block border-b border-rule"
+						/>
 						<div class="p-5 flex items-baseline justify-between gap-4">
 							<div class="min-w-0">
-								<h3 class="font-serif text-h3 font-medium text-ink">{s.name}</h3>
+								<h3 class="font-serif text-h3 text-ink">{s.name}</h3>
 								<p class="font-mono text-micro text-ink-muted mt-1 leading-snug">{s.note}</p>
 							</div>
-							<a href={s.url} rel="noopener" class="font-mono text-small text-accent hover:text-accent-hover whitespace-nowrap">Visit →</a>
+							<span class="font-mono text-small text-accent whitespace-nowrap">
+								Visit <span class="arrow-travel">&rarr;</span>
+							</span>
 						</div>
-					</article>
+					</a>
 				))}
 			</div>
-			<div class="mt-8">
-				<a href="/work" class="font-sans text-base text-accent hover:text-accent-hover underline decoration-1 underline-offset-4">See every case study →</a>
-			</div>
+			<p class="mt-8">
+				<a href="/work" class="font-sans text-base text-accent hover:text-accent-hover underline decoration-1 underline-offset-4">
+					See every case study &rarr;
+				</a>
+			</p>
 		</div>
 
 		{/* Block D — the pricing proof */}
-		<div class="mt-16 md:mt-20 pt-16 md:pt-20 border-t border-rule">
-			<p class="kicker mb-4">Why our fee works the way it does</p>
-			<div class="max-w-prose text-lead text-ink leading-relaxed space-y-4">
+		<div class="mt-20 pt-16 border-t border-rule" data-animate-item style="--i:6">
+			<Eyebrow class="mb-4">Why our fee works the way it does</Eyebrow>
+			<div class="max-w-[54ch] text-lead text-ink leading-relaxed space-y-4">
 				<p>
 					A retainer bills you the same whether you made money last month or
 					lost it. A percentage of ad spend bills you more the more it spends,
@@ -525,90 +610,140 @@ const learnGuides = learnSlugs
 			<div class="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
 				<div>
 					<PricingTable id="pricing-preview" />
-					<p class="text-small text-ink-muted mt-4 max-w-[42rem] leading-relaxed">
+					<p class="text-small text-ink-muted mt-4 max-w-[46rem] leading-relaxed">
 						When a shipment gets refused, we absorb that alongside you. No
 						setup fee, no onboarding fee, no creative fee, no reporting fee.
 					</p>
 				</div>
 				<div class="flex flex-col items-start gap-3">
 					<WhatsAppCTA message={ctaMsg.general} />
-					<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">See full pricing →</a>
+					<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
+						See full pricing &rarr;
+					</a>
 				</div>
 			</div>
 		</div>
 
 		{/* Block E — honest fit */}
-		<div class="mt-16 md:mt-20 pt-16 md:pt-20 border-t border-rule text-center max-w-prose mx-auto">
-			<p class="kicker mb-4">Who this works for</p>
-			<p class="text-lead text-ink leading-relaxed">
-				This works best for brands doing roughly <span class="num text-accent">₹3–50 lakh</span> a month in net sales, on Shopify, on marketplaces, or both.
-			</p>
-			<p class="text-base text-ink-muted leading-relaxed mt-5">
-				Below that, a percentage of your sales won't fund the work properly —
-				and we'll say so in the first conversation rather than take the
-				account. Above it, the model still works, but a fixed retainer may
-				suit you better and we'll tell you that too.
+		<div class="mt-20 pt-16 border-t border-rule" data-animate-item style="--i:7">
+			<Callout class="max-w-[62ch]">
+				<Eyebrow class="mb-3">Who this works for</Eyebrow>
+				<p class="text-lead text-ink leading-relaxed">
+					This works best for brands doing roughly
+					<span class="num text-accent"> ₹3–50 lakh</span> a month in net sales,
+					on Shopify, on marketplaces, or both.
+				</p>
+				<p class="text-base text-ink-muted leading-relaxed mt-4">
+					Below that, a percentage of your sales won't fund the work properly —
+					and we'll say so in the first conversation rather than take the
+					account. Above it, the model still works, but a fixed retainer may
+					suit you better and we'll tell you that too.
+				</p>
+			</Callout>
+		</div>
+
+		<div data-animate-item style="--i:8">
+			<PullQuote>
+				If you're not selling online yet, there's a way to start that costs you
+				nothing.
+			</PullQuote>
+		</div>
+	</SectionShell>
+
+	{/* ─── 7 · Learn ──────────────────────────────────────────────────── */}
+	<SectionShell width="wide">
+		<div data-animate-item style="--i:0">
+			<Eyebrow class="mb-4">Learn</Eyebrow>
+			<h2 class="text-h1 font-serif">Everything we know, written down.</h2>
+			<p class="text-lead text-ink-muted mt-6 max-w-[54ch]">
+				No email required, no gated PDFs. If it would help you run your
+				business better, it should just be readable.
 			</p>
 		</div>
 
-		<p class="text-lead text-ink font-serif mt-14 text-center max-w-prose mx-auto">
-			If you're not selling online yet, there's a way to start that costs you
-			nothing.
-		</p>
-	</SectionShell>
-
-	{/* ─── 7 · Learn ───────────────────────────────────────────────────── */}
-	<SectionShell width="wide">
-		<Eyebrow>Learn</Eyebrow>
-		<h2 class="text-h1 font-serif">Everything we know, written down.</h2>
-		<p class="text-lead text-ink-muted mt-6 max-w-prose">
-			No email required, no gated PDFs. If it would help you run your
-			business better, it should just be readable.
-		</p>
-
-		<div class="mt-12 grid gap-6 md:grid-cols-2">
-			{learnGuides.map((guide) => (
-				<a href={`/guides/${guide.id}`} class="block bg-paper border border-rule rounded p-6 hover:border-ink-muted transition-colors">
-					<h3 class="font-serif text-h3 font-medium text-ink">{guide.data.shortTitle}</h3>
-					<p class="text-base text-ink-muted mt-2 leading-relaxed">{guide.data.directAnswer}</p>
-					<span class="inline-block mt-4 font-mono text-small text-accent">Read →</span>
+		<div class="mt-14 grid gap-5 md:grid-cols-2">
+			{learnGuides.map((guide, i) => (
+				<a
+					href={`/guides/${guide.id}`}
+					class="card group p-7 block"
+					data-animate-item
+					style={`--i:${i + 1}`}
+				>
+					<p class="kicker">{guide.data.category}</p>
+					<h3 class="font-serif text-h3 mt-3 group-hover:text-accent transition-colors">
+						{guide.data.shortTitle}
+					</h3>
+					<p class="text-base text-ink-muted mt-3 leading-relaxed">{guide.data.directAnswer}</p>
+					<span class="inline-block mt-5 font-mono text-small text-accent">
+						Read <span class="arrow-travel">&rarr;</span>
+					</span>
 				</a>
 			))}
 		</div>
 
-		<p class="text-small text-ink-muted mt-8 font-mono">More going up as we write them.</p>
+		<p class="text-small text-ink-muted mt-10 font-mono" data-animate-item style="--i:5">
+			More going up as we write them.
+		</p>
 	</SectionShell>
 
-	{/* ─── 8 · Start ───────────────────────────────────────────────────── */}
-	<SectionShell width="narrow" border={false} class="text-center">
-		<p class="font-serif text-h2 max-w-[28ch] mx-auto">
+	{/* ─── 8 · Start — dark close ─────────────────────────────────────── */}
+	<SectionShell width="narrow" surface="dark" border={false} class="text-center">
+		<h2 class="font-serif text-h1 max-w-[24ch] mx-auto" data-animate-item style="--i:0">
 			If any of this made sense, the next step is a two-line WhatsApp message.
-		</p>
-		<p class="text-lead text-ink-muted mt-4">
+		</h2>
+		<p class="text-lead mt-6 opacity-80" data-animate-item style="--i:1">
 			It's already written — just hit send. We'll look at your store and your
 			numbers and tell you honestly whether the model fits.
 		</p>
-		<div class="mt-8 flex justify-center">
-			<WhatsAppCTA message={ctaMsg.general} />
+
+		{/* On dark, the primary CTA inverts to paper-on-ink for maximum contrast —
+		    the accent green would recede here. */}
+		<div class="mt-10 flex justify-center" data-animate-item style="--i:2">
+			<a
+				href={closeCtaHref}
+				rel="noopener"
+				data-cta="whatsapp"
+				class="inline-flex items-center gap-2 bg-paper text-ink hover:bg-white px-7 py-4 rounded-md font-sans text-base font-medium transition-colors"
+			>
+				Start on WhatsApp
+				<span aria-hidden="true" class="num">&rarr;</span>
+			</a>
 		</div>
-		<p class="text-small text-ink-muted mt-4">
+
+		<p class="text-small opacity-65 mt-5" data-animate-item style="--i:3">
 			No forms, no discovery call booking, no sales sequence. A conversation.
 		</p>
 
-		{/* The wedge offer — secondary, visually distinct */}
-		<div class="mt-16 pt-10 border-t border-rule max-w-prose mx-auto text-left">
-			<p class="kicker mb-4 text-center">Not selling online yet? Start on Amazon for free.</p>
-			<p class="text-base text-ink-muted leading-relaxed text-center">
+		{/* The wedge offer — a distinct alternative path, not a second pitch. */}
+		<div
+			class="mt-16 border border-current/20 rounded-lg p-8 text-left"
+			data-animate-item
+			style="--i:4"
+		>
+			<h3 class="font-serif text-h3">Not selling online yet? Start on Amazon for free.</h3>
+			<p class="text-base opacity-80 leading-relaxed mt-4">
 				We'll open your Amazon seller account, list your first products, and
 				run it for three months at no cost to you. Amazon pays us a referral
 				commission for bringing new sellers on — that's how it works, and
 				that's why it's free. There's no lock-in after month three.
 			</p>
-			<div class="mt-6 flex flex-col items-center gap-3">
-				<WhatsAppCTA message={ctaMsg.amazon} label="Start free on WhatsApp" />
-				<a href="/amazon-free-onboarding" class="text-small text-ink-muted hover:text-accent font-mono">How the 3 months works →</a>
+			<div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
+				<a
+					href={`https://wa.me/${waDigits}?text=${encodeURIComponent(ctaMsg.amazon)}`}
+					rel="noopener"
+					data-cta="whatsapp"
+					class="inline-flex items-center gap-2 border border-current/40 hover:bg-paper hover:text-ink px-5 py-3 rounded-md font-sans text-base font-medium transition-colors"
+				>
+					Start free on WhatsApp
+					<span aria-hidden="true" class="num">&rarr;</span>
+				</a>
+				<a href="/amazon-free-onboarding" class="text-small font-mono underline decoration-1 underline-offset-4">
+					How the 3 months works <span class="arrow-travel">&rarr;</span>
+				</a>
 			</div>
 		</div>
 	</SectionShell>
+
+	<StickyMobileCTA message={ctaMsg.general} />
 
 </BaseLayout>

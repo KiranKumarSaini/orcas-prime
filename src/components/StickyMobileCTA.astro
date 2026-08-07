@@ -1,0 +1,61 @@
+---
+/**
+ * Mobile-only sticky CTA (Module 8 §3, resolved per Module 9 §5).
+ *
+ * This was skipped in the first build because the site already had a
+ * floating WhatsApp bubble and two fixed bottom-right elements would
+ * collide. The correct resolution is not to drop the requirement — it is
+ * for this bar to REPLACE the bubble on mobile. SiteWhatsAppFloat is now
+ * desktop-only; this is the mobile conversion surface.
+ *
+ * Appears only after the visitor passes the trigger (placed after Section 4,
+ * per Module 8 §3 — trust before ask). Slides up once, never retreats,
+ * never covers content (body gets matching bottom padding on mobile).
+ */
+import { SITE } from '../lib/site';
+
+export interface Props {
+  message: string;
+}
+const { message } = Astro.props;
+const digits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
+const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
+---
+
+<div
+	id="sv-sticky-cta"
+	class="md:hidden fixed inset-x-0 bottom-0 z-40 translate-y-full transition-transform duration-300 ease-out
+	       bg-paper border-t border-rule-strong
+	       pb-[env(safe-area-inset-bottom,0px)]"
+>
+	<a
+		href={href}
+		rel="noopener"
+		data-cta="whatsapp"
+		class="flex items-center justify-center gap-2 h-14 bg-accent text-paper font-sans text-base font-medium active:bg-accent-hover"
+	>
+		Start on WhatsApp
+		<span aria-hidden="true">&rarr;</span>
+	</a>
+</div>
+
+<script>
+	const bar = document.getElementById('sv-sticky-cta');
+	const trigger = document.getElementById('sv-sticky-trigger');
+	if (bar && trigger && 'IntersectionObserver' in window) {
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					// Only once the trigger has scrolled off the TOP of the viewport —
+					// not merely on first paint further down the page.
+					if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+						bar.classList.remove('translate-y-full');
+						io.disconnect();
+					}
+				}
+			},
+			{ threshold: 0 }
+		);
+		io.observe(trigger);
+	}
+</script>
