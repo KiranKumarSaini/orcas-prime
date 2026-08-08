@@ -21,6 +21,10 @@ import { results, headline, fmtINR } from '../data/results';
 import { SITE } from '../lib/site';
 import { Image } from 'astro:assets';
 import { storefrontFor, storefrontAlt } from '../lib/images';
+import ImageBreak from '../components/ImageBreak.astro';
+import imgParcels from '../assets/editorial/parcels.jpg';
+import imgInventory from '../assets/editorial/inventory.jpg';
+import imgTextile from '../assets/editorial/textile.jpg';
 
 /*
   Homepage.
@@ -344,6 +348,12 @@ const learnGuides = learnSlugs
 		</div>
 	</SectionShell>
 
+	<ImageBreak
+		src={imgParcels}
+		alt="A stack of padded shipping envelopes, packed and ready to dispatch"
+		caption="Every one of these is a bet that the customer takes delivery"
+	/>
+
 	{/* ─── 3 · The Broken System — dark ───────────────────────────────── */}
 	<SectionShell width="reading" surface="accent">
 		<div data-animate-item style="--i:0">
@@ -438,6 +448,13 @@ const learnGuides = learnSlugs
 			</PullQuote>
 		</div>
 	</SectionShell>
+
+	<ImageBreak
+		src={imgInventory}
+		alt="Stocked pallets on warehouse shelving"
+		caption="Inventory planning, courier choice, RTO disputes — all of it ours"
+		height="tall"
+	/>
 
 	{/* ─── 4 · What We Own ────────────────────────────────────────────── */}
 	<SectionShell width="wide" id="what-we-own">
@@ -549,6 +566,12 @@ const learnGuides = learnSlugs
 			</PullQuote>
 		</div>
 	</SectionShell>
+
+	<ImageBreak
+		src={imgTextile}
+		alt="Rolls of fabric stacked on workshop shelves"
+		caption="The brands we run sell real things to real people"
+	/>
 
 	{/* ─── 6 · Proof ──────────────────────────────────────────────────── */}
 	<SectionShell width="wide" surface="raised">

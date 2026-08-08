@@ -1,0 +1,96 @@
+---
+/**
+ * Full-bleed image break between sections (Module 10 §5, Layer D).
+ *
+ * The site had almost nothing to look at — three screenshots in two places.
+ * These are the only photography on it, and they follow the art direction
+ * agreed with the operator:
+ *
+ *   - Objects and process ONLY. Never people, teams or offices. Partly because
+ *     Module 5 §9 lists staged team photography as an anti-signal, and partly
+ *     because the operator works from home — no image may imply otherwise.
+ *   - Duotone in the brand palette, so four photographers' work reads as one
+ *     commissioned set rather than as assorted stock.
+ *   - Full-bleed with a tight crop. Never a decorative photo floating in a card.
+ *   - Scarce. Four across the whole site. Scarcity is what makes them read as
+ *     chosen rather than filler.
+ *
+ * Source: Shopify Burst — free for commercial use, no attribution required
+ * (verified against their licence terms, not assumed).
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  src: ImageMetadata;
+  /** Describes what the photo shows. Never "stock photo of…". */
+  alt: string;
+  /** Optional overlaid line. Keep it short — this is a breath, not a section. */
+  caption?: string;
+  /** Crop height. Breaks are bands, not full screens. */
+  height?: 'short' | 'tall';
+}
+
+const { src, alt, caption, height = 'short' } = Astro.props;
+
+const heights =
+  height === 'tall'
+    ? 'h-[46vw] min-h-[220px] max-h-[420px]'
+    : 'h-[34vw] min-h-[160px] max-h-[300px]';
+---
+
+<figure class:list={['sv-break panel my-3 md:my-4 overflow-hidden relative', heights]}>
+	<Image
+		src={src}
+		alt={alt}
+		widths={[640, 1024, 1600]}
+		sizes="100vw"
+		loading="lazy"
+		decoding="async"
+		class="absolute inset-0 w-full h-full object-cover"
+	/>
+
+	{caption && (
+		<figcaption
+			class="absolute inset-x-0 bottom-0 p-5 md:p-8 font-mono text-micro tracking-wider uppercase text-paper"
+		>
+			{caption}
+		</figcaption>
+	)}
+</figure>
+
+<style>
+	/*
+	  Duotone. The image is desaturated, then the accent is composited over it
+	  in `color` blend mode — which takes hue and saturation from the overlay
+	  and luminance from the photo, giving a true monotone rather than a
+	  washed-out tint.
+
+	  Browsers without mix-blend-mode simply get the greyscale image, which
+	  still reads as a deliberate treatment. Nothing breaks.
+	*/
+	.sv-break :global(img) {
+		filter: grayscale(1) contrast(1.06) brightness(0.96);
+	}
+
+	.sv-break::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: var(--color-accent);
+		mix-blend-mode: color;
+		opacity: 0.88;
+		pointer-events: none;
+	}
+
+	/* Caption legibility — a scrim rather than a solid bar, so the photo still
+	   reads underneath it. Sits above the duotone layer. */
+	.sv-break figcaption {
+		z-index: 1;
+		background: linear-gradient(
+			to top,
+			rgba(20, 18, 15, 0.62),
+			rgba(20, 18, 15, 0)
+		);
+	}
+</style>

@@ -4,6 +4,8 @@ import WhatsAppCTA from '../../components/WhatsAppCTA.astro';
 import Schema from '../../components/Schema.astro';
 import { breadcrumb, service as serviceSchema } from '../../lib/schema';
 import { services } from '../../data/services';
+import ImageBreak from '../../components/ImageBreak.astro';
+import imgPackaging from '../../assets/editorial/packaging.jpg';
 
 /*
   /services — "What We Own" (LOCKED#17: never "Services" in nav, heading or
@@ -151,6 +153,12 @@ const ownershipServices = services.map((s) =>
 			</p>
 		</div>
 	</section>
+
+	<ImageBreak
+		src={imgPackaging}
+		alt="A packaging box lit from one side, in deep shadow"
+		caption="Everything between the product existing and the customer having it"
+	/>
 
 	{/* Browse by capability — the five independently-convertible pages (Module 6 §6) */}
 	<section class="bg-paper panel my-3 md:my-4">
