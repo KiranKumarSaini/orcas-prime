@@ -6,6 +6,7 @@ import Chip from '../components/Chip.astro';
 import Callout from '../components/Callout.astro';
 import PullQuote from '../components/PullQuote.astro';
 import Accordion from '../components/Accordion.astro';
+import Reveal from '../components/Reveal.astro';
 import RTOFlow from '../components/RTOFlow.astro';
 import PricingTable from '../components/PricingTable.astro';
 import FeeCalculator from '../components/FeeCalculator.astro';
@@ -346,7 +347,7 @@ const learnGuides = learnSlugs
 
 		{/* Sub-block 1 — the vendor problem */}
 		<div class="mt-12" data-animate-item style="--i:1">
-			<div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+			<div class="grid gap-2 grid-cols-2 lg:grid-cols-4">
 				{vendorChain.map((v) => (
 					<div class="border border-current/20 rounded p-4">
 						<p class="font-sans text-small">{v.who}</p>
@@ -358,17 +359,21 @@ const learnGuides = learnSlugs
 				&darr;&nbsp;&nbsp;Nobody in that chain owns whether the business made money
 			</p>
 
-			<div class="mt-8 space-y-4 text-lead leading-relaxed opacity-90">
-				<p>
-					You hire an ads agency. They optimise for orders, because that's what
-					they're measured on. You hire a developer for the store, but they
-					don't see the ad data. Someone else handles your marketplace
-					listings. Your courier is a separate relationship again.
-				</p>
-				<p>
-					Nobody in that chain is responsible for whether your business made
-					money this month. Each one did their job. The business still lost.
-				</p>
+			<div class="mt-7">
+				<Reveal label="Why none of them is at fault">
+					<div class="space-y-4 text-base text-ink-muted leading-relaxed">
+						<p>
+							You hire an ads agency. They optimise for orders, because that's what
+							they're measured on. You hire a developer for the store, but they
+							don't see the ad data. Someone else handles your marketplace
+							listings. Your courier is a separate relationship again.
+						</p>
+						<p>
+							Nobody in that chain is responsible for whether your business made
+							money this month. Each one did their job. The business still lost.
+						</p>
+					</div>
+				</Reveal>
 			</div>
 		</div>
 
@@ -415,15 +420,17 @@ const learnGuides = learnSlugs
 				))}
 			</div>
 
-			<div class="mt-8 space-y-4 text-lead leading-relaxed opacity-90">
-				<p>
-					Neither of them is doing anything wrong. They're doing exactly what
-					their pricing model rewards.
-				</p>
-				<p>
-					The question worth asking about any agency isn't "are they good?"
-					It's "what does their pricing pay them to do?"
-				</p>
+			<p class="text-lead text-ink leading-relaxed mt-8">
+				The question worth asking about any agency isn't "are they good?"
+				It's "what does their pricing pay them to do?"
+			</p>
+			<div class="mt-5">
+				<Reveal label="Nobody here is doing anything wrong">
+					<p class="text-base text-ink-muted leading-relaxed">
+						Neither of them is doing anything wrong. They're doing exactly what
+						their pricing model rewards.
+					</p>
+				</Reveal>
 			</div>
 		</div>
 
@@ -471,7 +478,7 @@ const learnGuides = learnSlugs
 					<span class="kicker text-accent">become ours</span>
 				</div>
 
-				<div class="grid gap-3 sm:grid-cols-2">
+				<div class="grid gap-3 grid-cols-1 sm:grid-cols-2">
 					{weTakeClusters.map((cluster) => (
 						<div class="bg-paper-raised border border-accent/20 rounded-2xl p-5">
 							<p class="kicker text-accent mb-3">{cluster.title}</p>
@@ -530,14 +537,11 @@ const learnGuides = learnSlugs
 			</p>
 		</div>
 
-		<div class="mt-14 grid gap-5 md:grid-cols-3">
-			{decisions.map((d, i) => (
-				<article class="card p-7" data-animate-item style={`--i:${i + 1}`}>
-					<p class="num text-h3 text-accent">{String(i + 1).padStart(2, '0')}</p>
-					<h3 class="font-serif text-h3 mt-4">{d.heading}</h3>
-					<p class="text-base text-ink-muted leading-relaxed mt-4">{d.body}</p>
-				</article>
-			))}
+		<div class="mt-12 bg-paper-raised border border-rule rounded-2xl px-6 md:px-7" data-animate-item style="--i:1">
+			<Accordion
+				items={decisions.map((d) => ({ heading: d.heading, body: [d.body] }))}
+				defaultOpen={0}
+			/>
 		</div>
 
 		<div data-animate-item style="--i:4">
@@ -589,16 +593,15 @@ const learnGuides = learnSlugs
 		</div>
 
 		{/* Block B — aggregate */}
-		<dl class="mt-16 grid gap-5 sm:grid-cols-3">
+		<dl class="mt-12 grid gap-3 grid-cols-3">
 			{stats.map((s, i) => (
-				<div class="card p-6" data-animate-item style={`--i:${i + 2}`}>
-					<dt class="kicker">{s.label}</dt>
+				<div class="card p-4 md:p-6" data-animate-item style={`--i:${i + 2}`}>
 					<dd>
-						<span class="num text-ink block mt-3" style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); line-height: 1;">
+						<span class="num text-ink block" style="font-size: clamp(1.25rem, 5vw, 2.25rem); line-height: 1.05;">
 							{s.value}
 						</span>
-						<span class="block text-small text-ink-muted mt-2.5">{s.note}</span>
 					</dd>
+					<dt class="kicker mt-2.5 leading-snug">{s.label}</dt>
 				</div>
 			))}
 		</dl>
@@ -606,10 +609,10 @@ const learnGuides = learnSlugs
 		{/* Block C — Partner Brands */}
 		<div class="mt-20" data-animate-item style="--i:5">
 			<Eyebrow class="mb-6">Partner Brands we run</Eyebrow>
-			<div class="grid gap-6 md:grid-cols-3">
+			<div class="grid gap-3 grid-cols-1 sm:grid-cols-3">
 				{showcase.map((s) => (
 					<a href={s.url} rel="noopener" class="card group overflow-hidden block">
-						<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">
+						<div class="hidden md:flex items-center gap-1.5 px-3 py-2 border-b border-rule">
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
@@ -621,14 +624,11 @@ const learnGuides = learnSlugs
 							src={s.img}
 							alt={`${s.name} storefront`}
 							width="1200" height="900" loading="lazy" decoding="async"
-							class="w-full h-auto block border-b border-rule"
+							class="w-full h-28 sm:h-32 md:h-36 object-cover object-top block border-b border-rule"
 						/>
-						<div class="p-5 flex items-baseline justify-between gap-4">
-							<div class="min-w-0">
-								<h3 class="font-serif text-h3 text-ink">{s.name}</h3>
-								<p class="font-mono text-micro text-ink-muted mt-1 leading-snug">{s.note}</p>
-							</div>
-							<span class="font-mono text-small text-accent whitespace-nowrap">
+						<div class="p-3 md:p-4">
+							<h3 class="font-serif text-h3 text-ink leading-tight">{s.name}</h3>
+							<span class="font-mono text-micro text-accent mt-1.5 inline-block">
 								Visit <span class="arrow-travel">&rarr;</span>
 							</span>
 						</div>
@@ -645,36 +645,34 @@ const learnGuides = learnSlugs
 		{/* Block D — the pricing proof */}
 		<div class="mt-20 pt-16 border-t border-rule" data-animate-item style="--i:6">
 			<Eyebrow class="mb-4">Why our fee works the way it does</Eyebrow>
-			<div class="max-w-[54ch] text-lead text-ink leading-relaxed space-y-4">
-				<p>
-					A retainer bills you the same whether you made money last month or
-					lost it. A percentage of ad spend bills you more the more it spends,
-					whether or not that spend worked.
-				</p>
-				<p>
-					We charge <span class="num text-accent">3.5%</span> of net sales — the
-					money left after refunds, returns and RTOs come out. The money that
-					actually stayed in your account. Not orders placed.
-				</p>
+			<p class="max-w-[54ch] text-lead text-ink leading-relaxed">
+				We charge <span class="num text-accent">3.5%</span> of net sales — the
+				money left after refunds, returns and RTOs come out. The money that
+				actually stayed in your account. Not orders placed.
+			</p>
+			<div class="mt-5">
+				<Reveal label="How that differs from a retainer">
+					<p class="text-base text-ink-muted leading-relaxed max-w-[54ch]">
+						A retainer bills you the same whether you made money last month or
+						lost it. A percentage of ad spend bills you more the more it spends,
+						whether or not that spend worked.
+					</p>
+				</Reveal>
 			</div>
 
 			{/* The calculator is the argument made checkable — drag your own
 			    number and the claim proves itself (Module 10 §4, Moment 3). */}
-			<div class="mt-10 grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start">
+			<div class="mt-10">
 				<FeeCalculator default={1200000} />
-
-				<div>
-					<PricingTable id="pricing-preview" />
-					<p class="text-small text-ink-muted mt-4 leading-relaxed">
-						When a shipment gets refused, we absorb that alongside you. No
-						setup fee, no onboarding fee, no creative fee, no reporting fee.
-					</p>
-					<div class="mt-7 flex flex-col items-start gap-3">
-						<WhatsAppCTA message={ctaMsg.general} />
-						<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
-							See full pricing &rarr;
-						</a>
-					</div>
+				<p class="text-small text-ink-muted mt-5 leading-relaxed max-w-[52ch]">
+					When a shipment gets refused, we absorb that alongside you. No setup
+					fee, no onboarding fee, no creative fee, no reporting fee.
+				</p>
+				<div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
+					<WhatsAppCTA message={ctaMsg.general} />
+					<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
+						See the full price list &rarr;
+					</a>
 				</div>
 			</div>
 		</div>
@@ -716,7 +714,7 @@ const learnGuides = learnSlugs
 			</p>
 		</div>
 
-		<div class="mt-14 grid gap-5 md:grid-cols-2">
+		<div class="mt-12 grid gap-4 grid-cols-1 sm:grid-cols-2">
 			{learnGuides.map((guide, i) => (
 				<a
 					href={`/guides/${guide.id}`}
@@ -728,8 +726,7 @@ const learnGuides = learnSlugs
 					<h3 class="font-serif text-h3 mt-3 group-hover:text-accent transition-colors">
 						{guide.data.shortTitle}
 					</h3>
-					<p class="text-base text-ink-muted mt-3 leading-relaxed">{guide.data.directAnswer}</p>
-					<span class="inline-block mt-5 font-mono text-small text-accent">
+					<span class="inline-block mt-4 font-mono text-small text-accent">
 						Read <span class="arrow-travel">&rarr;</span>
 					</span>
 				</a>

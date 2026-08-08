@@ -52,7 +52,7 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 ---
 
 <figure
-	class="sv-drain my-12"
+	class="sv-drain my-8"
 	data-order-value={ORDER_VALUE}
 	data-final-loss={finalLoss}
 >
@@ -63,7 +63,7 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 	<ol class="list-none border-t border-current/15">
 		{rows.map((r, i) => (
 			<li
-				class="sv-drain-row grid grid-cols-[1fr_auto] gap-4 items-baseline py-4 border-b border-current/15"
+				class="sv-drain-row grid grid-cols-[1fr_auto] gap-4 items-baseline py-2.5 border-b border-current/15"
 				data-index={i}
 				data-balance={r.balance}
 			>
@@ -85,7 +85,7 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 	</ol>
 
 	{/* The payoff. This single line is Section 3's whole argument landing. */}
-	<div class="mt-8 border border-current/25 rounded-lg p-6">
+	<div class="mt-6 border border-current/25 rounded-lg p-5">
 		<p class="kicker mb-3">Where that order actually left you</p>
 		<p
 			class="sv-drain-total num leading-none"

@@ -1,0 +1,55 @@
+---
+/**
+ * Progressive disclosure for prose (2026-08-08).
+ *
+ * The homepage measured 25.7 screens of scrolling on a 375px phone. Almost
+ * nobody reaches the end of that, so the sections doing the most persuasive
+ * work — Proof and the close — were effectively never seen.
+ *
+ * The fix is NOT to cut content. Module 3's copy is locked, and the long
+ * explanations are the site's primary AI-citation asset (Module 7 §2). So:
+ * <details>-based, exactly like Accordion. Everything stays in the DOM open
+ * or closed, crawlers and schema still see all of it, and it works with
+ * JavaScript disabled. Only the default reading length changes.
+ *
+ * Use for supporting prose that restates something the visitor has already
+ * been shown visually — never for the one line that carries the argument.
+ */
+
+export interface Props {
+  /** Link text when collapsed. Say what's inside, not "read more". */
+  label?: string;
+  /** Open by default — for blocks where the prose IS the point. */
+  open?: boolean;
+  class?: string;
+}
+
+const { label = 'Read the full explanation', open = false, class: extraClass = '' } = Astro.props;
+---
+
+<details class:list={['sv-reveal group', extraClass]} open={open}>
+	<summary
+		class="cursor-pointer list-none [&::-webkit-details-marker]:hidden inline-flex items-center gap-2 font-mono text-small text-accent hover:text-accent-hover min-h-[44px]"
+	>
+		<span class="underline decoration-1 underline-offset-4">
+			<span class="group-open:hidden">{label}</span>
+			<span class="hidden group-open:inline">Show less</span>
+		</span>
+		<span
+			aria-hidden="true"
+			class="relative shrink-0 w-3 h-3 transition-transform duration-200 group-open:rotate-45"
+		>
+			<span class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current"></span>
+			<span class="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current"></span>
+		</span>
+	</summary>
+	<div class="mt-5">
+		<slot />
+	</div>
+</details>
+
+<style>
+	@media (prefers-reduced-motion: reduce) {
+		.sv-reveal summary span { transition: none; }
+	}
+</style>
