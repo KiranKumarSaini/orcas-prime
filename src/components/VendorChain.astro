@@ -1,0 +1,124 @@
+---
+/**
+ * The vendor problem, drawn — Module 3 §3 sub-block 1.
+ *
+ * Was four plain bordered boxes, which said "here are four things" but not the
+ * actual argument: that each vendor connects to the founder and to nobody
+ * else, so no one is holding the outcome. Drawn as a hub-and-spoke with a
+ * broken ring, that reads instantly.
+ *
+ * Hairline style, monochrome, static — consistent with the site's one other
+ * illustration (RTOFlow) and with Module 4's no-icons rule. Real text in
+ * <text> nodes, so it stays selectable and readable to a screen reader via
+ * the <title>/<desc> pair.
+ */
+
+const vendors = [
+  { label: 'Ads agency',   sub: 'optimises for orders' },
+  { label: 'Developer',    sub: "can't see ad data" },
+  { label: 'Marketplaces', sub: 'someone else again' },
+  { label: 'Courier',      sub: 'separate relationship' },
+];
+---
+
+<figure class="my-10">
+	<figcaption class="kicker mb-5">Where the responsibility actually sits</figcaption>
+
+	{/* Mobile: stacked rows, each spoke drawn as a short connector back to you.
+	    A radial diagram at 375px is unreadable, so the structure changes rather
+	    than shrinking. */}
+	<div class="md:hidden">
+		<div class="border border-accent/30 rounded-2xl bg-paper-raised px-5 py-4">
+			<p class="font-sans text-base text-ink">You</p>
+			<p class="font-mono text-micro text-ink-muted mt-1">holding all four relationships</p>
+		</div>
+		<ul class="mt-2">
+			{vendors.map((v) => (
+				<li class="grid grid-cols-[1.5rem_1fr] gap-3 items-start">
+					<span aria-hidden="true" class="block w-px h-full bg-rule-strong mx-auto min-h-[2.5rem]"></span>
+					<div class="border border-rule rounded-xl px-4 py-3 my-1.5 bg-paper">
+						<p class="font-sans text-small text-ink">{v.label}</p>
+						<p class="font-mono text-micro text-ink-muted mt-0.5">{v.sub}</p>
+					</div>
+				</li>
+			))}
+		</ul>
+	</div>
+
+	{/* Desktop: the hub-and-spoke, where the point is visible at a glance —
+	    every line runs through you, and none run between them. */}
+	<svg
+		class="hidden md:block w-full h-auto"
+		viewBox="0 0 720 300"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		role="img"
+		aria-labelledby="vc-title vc-desc"
+	>
+		<title id="vc-title">How the four vendor relationships connect</title>
+		<desc id="vc-desc">
+			Four vendors — an ads agency, a developer, marketplaces and a courier —
+			each connect only to you at the centre. None of them connect to each
+			other, so nobody is responsible for whether the business made money.
+		</desc>
+
+		{/* Spokes, drawn first so the boxes sit on top */}
+		<g class="vc-spoke">
+			<path d="M360 128 L150 68" />
+			<path d="M360 128 L570 68" />
+			<path d="M360 128 L150 232" />
+			<path d="M360 128 L570 232" />
+		</g>
+
+		{/* The ring that doesn't exist — dashed and faint, labelled as absent */}
+		<ellipse
+			cx="360" cy="150" rx="230" ry="104"
+			class="vc-ring" stroke-dasharray="3 7"
+		/>
+
+		{/* Centre: you */}
+		<g>
+			<rect x="292" y="106" width="136" height="46" rx="14"
+				class="vc-hub"/>
+			<text x="360" y="130" text-anchor="middle" dominant-baseline="middle"
+				class="vc-hub-label" font-size="15">You</text>
+		</g>
+
+		{/* Four vendors */}
+		{[
+			{ x: 32,  y: 44,  ...vendors[0] },
+			{ x: 452, y: 44,  ...vendors[1] },
+			{ x: 32,  y: 208, ...vendors[2] },
+			{ x: 452, y: 208, ...vendors[3] },
+		].map((v) => (
+			<g>
+				<rect x={v.x} y={v.y} width="236" height="50" rx="12"
+					class="vc-box"/>
+				<text x={v.x + 18} y={v.y + 21}
+					class="vc-label" font-size="14">{v.label}</text>
+				<text x={v.x + 18} y={v.y + 39}
+					class="vc-sub" font-size="11">{v.sub}</text>
+			</g>
+		))}
+
+		<text x="360" y="284" text-anchor="middle"
+			class="vc-sub" font-size="11" letter-spacing="0.08em">NOBODY OWNS THE OUTCOME</text>
+	</svg>
+
+	<p class="text-small text-ink-muted mt-4 max-w-[54ch] leading-relaxed">
+		Every line runs through you. None run between them — which is why each
+		one can do their job properly and the business still loses money.
+	</p>
+</figure>
+
+<style>
+	/* Fills/strokes as CSS properties rather than SVG presentation attributes —
+	   universally supported, unlike var() in attributes on older Safari. */
+	.vc-spoke      { stroke: var(--color-rule-strong); stroke-width: 1; }
+	.vc-ring       { stroke: var(--color-rule); stroke-width: 1; fill: none; }
+	.vc-hub        { fill: var(--color-accent-wash); stroke: var(--color-accent); stroke-width: 1; }
+	.vc-hub-label  { fill: var(--color-accent); font-family: var(--font-sans); }
+	.vc-box        { fill: var(--color-paper-raised); stroke: var(--color-rule-strong); stroke-width: 1; }
+	.vc-label      { fill: var(--color-ink); font-family: var(--font-sans); }
+	.vc-sub        { fill: var(--color-ink-muted); font-family: var(--font-mono); }
+</style>

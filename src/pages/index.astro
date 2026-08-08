@@ -8,6 +8,8 @@ import PullQuote from '../components/PullQuote.astro';
 import Accordion from '../components/Accordion.astro';
 import Reveal from '../components/Reveal.astro';
 import RTOFlow from '../components/RTOFlow.astro';
+import VendorChain from '../components/VendorChain.astro';
+import HeroConverge from '../components/HeroConverge.astro';
 import PricingTable from '../components/PricingTable.astro';
 import FeeCalculator from '../components/FeeCalculator.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
@@ -306,6 +308,10 @@ const learnGuides = learnSlugs
 					See what we'd take over
 				</a>
 			</div>
+
+			<div data-animate-item style="--i:5">
+				<HeroConverge />
+			</div>
 		</div>
 	</section>
 
@@ -346,18 +352,8 @@ const learnGuides = learnSlugs
 		</div>
 
 		{/* Sub-block 1 — the vendor problem */}
-		<div class="mt-12" data-animate-item style="--i:1">
-			<div class="grid gap-2 grid-cols-2 lg:grid-cols-4">
-				{vendorChain.map((v) => (
-					<div class="border border-current/20 rounded p-4">
-						<p class="font-sans text-small">{v.who}</p>
-						<p class="font-mono text-micro opacity-55 mt-1.5 leading-snug">{v.owns}</p>
-					</div>
-				))}
-			</div>
-			<p class="font-mono text-micro tracking-wider opacity-70 mt-4">
-				&darr;&nbsp;&nbsp;Nobody in that chain owns whether the business made money
-			</p>
+		<div class="mt-10" data-animate-item style="--i:1">
+			<VendorChain />
 
 			<div class="mt-7">
 				<Reveal label="Why none of them is at fault">
