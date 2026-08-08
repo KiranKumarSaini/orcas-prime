@@ -6,6 +6,8 @@ import Schema from '../../components/Schema.astro';
 import { breadcrumb } from '../../lib/schema';
 import { findClient, getAdSpendForClient, fmtINR } from '../../data/results';
 import { SITE } from '../../lib/site';
+import { Image } from 'astro:assets';
+import { storefrontFor, storefrontAlt } from '../../lib/images';
 
 export async function getStaticPaths() {
   const studies = await getCollection('work');
@@ -30,6 +32,7 @@ if (!client) {
   );
 }
 const spend = getAdSpendForClient(entry.data.slug);
+const shot = storefrontFor(entry.data.slug);
 
 // Article schema — helps AI models cite this as a first-party account.
 const articleSchema = {
@@ -155,6 +158,31 @@ const articleSchema = {
 			)}
 		</div>
 	</section>
+
+	{/* ─── Storefront ──────────────────────────────────────────────
+	    These pages carried no imagery at all, including for brands whose
+	    screenshot was already in the repo. Rendered through astro:assets so
+	    it ships as WebP/AVIF at responsive widths with intrinsic dimensions —
+	    no layout shift. */}
+	{shot && (
+		<section class="bg-paper panel my-3 md:my-4 overflow-hidden">
+			<figure>
+				<Image
+					src={shot}
+					alt={storefrontAlt(client.name)}
+					widths={[480, 800, 1200]}
+					sizes="(min-width: 1024px) 1024px, 100vw"
+					loading="lazy"
+					decoding="async"
+					class="w-full h-auto block"
+				/>
+				<figcaption class="px-6 md:px-10 py-5 font-mono text-micro text-ink-muted">
+					{client.name} &mdash; the live storefront
+					{client.liveUrl && <> &middot; {client.liveUrl.replace(/^https?:\/\//, '')}</>}
+				</figcaption>
+			</figure>
+		</section>
+	)}
 
 	{/* ─── 3 · Narrative body (from src/content/work/*.md) ────────── */}
 	<section class="bg-paper panel my-3 md:my-4">

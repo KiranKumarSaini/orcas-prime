@@ -5,6 +5,8 @@ import Schema from '../../components/Schema.astro';
 import { breadcrumb } from '../../lib/schema';
 import { fmtINR, getClients } from '../../data/results';
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import { storefrontFor, storefrontAlt } from '../../lib/images';
 
 /*
   /work — the hub. §8 framing: results, not aesthetics.
@@ -27,9 +29,9 @@ const studyMap = new Map(caseStudies.map((c) => [c.data.slug, c]));
   variant has no DNS record and was pointing at a dead link until corrected.
 */
 const showcase = [
-  { slug: 'ladakh-berry', img: '/work/ladakh-berry.jpg' },
-  { slug: 'vastramahal',  img: '/work/vastramahal.jpg' },
-  { slug: 'savana-kurti', img: '/work/savana-kurti.jpg' },
+  { slug: 'ladakh-berry', shot: storefrontFor('ladakh-berry') },
+  { slug: 'vastramahal',  shot: storefrontFor('vastramahal') },
+  { slug: 'savana-kurti', shot: storefrontFor('savana-kurti') },
 ]
   .map((s) => {
     const client = clients.find((c) => c.slug === s.slug);
@@ -80,7 +82,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 			</p>
 
 			<div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{showcase.map(({ client, img }) => (
+				{showcase.map(({ client, shot }) => (
 					<article class="bg-paper border border-rule rounded overflow-hidden">
 						<div class="flex items-center gap-1.5 px-3 py-2 border-b border-rule">
 							<span class="w-2 h-2 rounded-full bg-rule-strong"></span>
@@ -90,15 +92,16 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 								{client.liveUrl?.replace(/^https?:\/\//, '')}
 							</span>
 						</div>
-						<img
-							src={img}
-							alt={`${client.name} storefront`}
-							width="1200"
-							height="900"
-							loading="lazy"
-							decoding="async"
-							class="w-full h-auto block border-b border-rule"
-						/>
+						{shot && (
+							<Image
+								src={shot}
+								alt={storefrontAlt(client.name)}
+								widths={[400, 640, 900]}
+								sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"
+								loading="lazy" decoding="async"
+								class="w-full h-auto block border-b border-rule"
+							/>
+						)}
 						<div class="p-5">
 							<h3 class="font-serif text-h3 font-medium text-ink">{client.name}</h3>
 							<p class="font-mono text-micro text-ink-muted mt-1">

@@ -19,6 +19,8 @@ import { faqPage, service as serviceSchema } from '../lib/schema';
 import { getCollection } from 'astro:content';
 import { results, headline, fmtINR } from '../data/results';
 import { SITE } from '../lib/site';
+import { Image } from 'astro:assets';
+import { storefrontFor, storefrontAlt } from '../lib/images';
 
 /*
   Homepage.
@@ -251,10 +253,10 @@ const stats = [
 ];
 
 const showcase = [
-	{ name: 'Ladakh Berry', url: 'https://ladakhberry.in',    img: '/work/ladakh-berry.jpg', note: 'Shopify, Google Ads, Meta Ads, creative' },
-	{ name: 'Vastramahal',  url: 'https://thevastramahal.in', img: '/work/vastramahal.jpg',  note: 'Shopify, Google Ads, Meta Ads, creative' },
-	{ name: 'Savana Kurti', url: 'https://savanakurti.com',   img: '/work/savana-kurti.jpg', note: 'Shopify management' },
-];
+	{ slug: 'ladakh-berry', name: 'Ladakh Berry', url: 'https://ladakhberry.in',    note: 'Shopify, Google Ads, Meta Ads, creative' },
+	{ slug: 'vastramahal',  name: 'Vastramahal',  url: 'https://thevastramahal.in', note: 'Shopify, Google Ads, Meta Ads, creative' },
+	{ slug: 'savana-kurti', name: 'Savana Kurti', url: 'https://savanakurti.com',   note: 'Shopify management' },
+].map((b) => ({ ...b, shot: storefrontFor(b.slug) }));
 
 /* ─── Section 7 — Learn. */
 const learnSlugs = [
@@ -616,12 +618,16 @@ const learnGuides = learnSlugs
 								{s.url.replace(/^https?:\/\//, '')}
 							</span>
 						</div>
-						<img
-							src={s.img}
-							alt={`${s.name} storefront`}
-							width="1200" height="900" loading="lazy" decoding="async"
-							class="w-full h-28 sm:h-32 md:h-36 object-cover object-top block border-b border-rule"
-						/>
+						{s.shot && (
+							<Image
+								src={s.shot}
+								alt={storefrontAlt(s.name)}
+								widths={[320, 480, 720]}
+								sizes="(min-width: 768px) 320px, 100vw"
+								loading="lazy" decoding="async"
+								class="w-full h-28 sm:h-32 md:h-36 object-cover object-top block border-b border-rule"
+							/>
+						)}
 						<div class="p-3 md:p-4">
 							<h3 class="font-serif text-h3 text-ink leading-tight">{s.name}</h3>
 							<span class="font-mono text-micro text-accent mt-1.5 inline-block">

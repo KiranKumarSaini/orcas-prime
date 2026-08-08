@@ -34,7 +34,7 @@ for (const s of stores) {
     `});
     await new Promise(r => setTimeout(r, 800));
     const { data } = await Page.captureScreenshot({ format: 'png', clip: { x:0, y:0, width:1440, height:1080, scale:1 } });
-    writeFileSync(`public/work/${s.slug}.png`, Buffer.from(data, 'base64'));
+    writeFileSync(`src/assets/work/${s.slug}.png`, Buffer.from(data, 'base64'));
     console.log(`✓ ${s.slug}  ${s.url}`);
   } catch (e) {
     console.log(`✗ ${s.slug}  ${e.message}`);
