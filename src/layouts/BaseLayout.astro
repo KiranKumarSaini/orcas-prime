@@ -90,6 +90,36 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		<SiteFooter />
 		<SiteWhatsAppFloat />
 
+		{/* Magnetic CTAs (Module 10 §5). Pointer-fine only — on touch there is
+		    no hover, so the effect would either never fire or fire and stick.
+		    Movement is capped at 4px: the point is that the button feels
+		    responsive under the cursor, not that it visibly slides around. */}
+		<script>
+			import { prefersReducedMotion, hasFinePointer } from '../lib/motion';
+
+			if (hasFinePointer() && !prefersReducedMotion()) {
+				const MAX = 4;
+				const targets = document.querySelectorAll<HTMLElement>('[data-cta], .magnetic');
+
+				targets.forEach((el) => {
+					el.classList.add('magnetic');
+
+					el.addEventListener('pointermove', (e) => {
+						const r = el.getBoundingClientRect();
+						const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+						const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+						el.style.transform =
+							`translate(${Math.max(-1, Math.min(1, dx)) * MAX}px, ${Math.max(-1, Math.min(1, dy)) * MAX}px)`;
+					});
+
+					// Always reset on leave — a stuck offset is worse than no effect.
+					const reset = () => { el.style.transform = ''; };
+					el.addEventListener('pointerleave', reset);
+					el.addEventListener('blur', reset);
+				});
+			}
+		</script>
+
 		{/* Entrance animation, Phase 1 (Module 4 §6). Progressive enhancement —
 		    .js-ready is only added once this script runs, so [data-animate]
 		    content stays fully visible with JS disabled (global.css). Fires
