@@ -45,7 +45,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	/>
 
 	{/* ─── 1 · Hero ────────────────────────────────────────────────── */}
-	<section>
+	<section class="bg-paper panel mt-3 md:mt-4 mb-3 md:mb-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
 			<p class="kicker mb-4">
 				<a href="/services" class="hover:text-accent transition-colors">Services</a>
@@ -65,7 +65,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	</section>
 
 	{/* ─── 2 · What's included ─────────────────────────────────────── */}
-	<section class="border-t border-rule">
+	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">What's included</p>
 			<h2 class="text-h1 font-serif max-w-[22ch]">
@@ -84,7 +84,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	</section>
 
 	{/* ─── 3 · Cost ────────────────────────────────────────────────── */}
-	<section class="border-t border-rule bg-accent-wash/40">
+	<section class="bg-accent-wash panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<div class="grid gap-10 md:grid-cols-[1fr_1fr] md:gap-16 items-start">
 				<div>
@@ -112,7 +112,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 
 	{/* ─── 4 · Proof (only if this service has a linked client) ───── */}
 	{svc.proof && proofClient && (
-		<section class="border-t border-rule">
+		<section class="bg-paper panel my-3 md:my-4">
 			<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 				<p class="kicker mb-4">Proof</p>
 				<h2 class="text-h1 font-serif max-w-[22ch]">
@@ -146,7 +146,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	)}
 
 	{/* ─── 5 · Other services ──────────────────────────────────────── */}
-	<section class="border-t border-rule">
+	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">The other four</p>
 			<h2 class="text-h2 font-serif">
@@ -174,7 +174,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	</section>
 
 	{/* ─── 6 · Close ────────────────────────────────────────────────── */}
-	<section class="border-t border-rule">
+	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
 			<p class="font-serif text-h2 max-w-[28ch] mx-auto">
 				Sounds like a fit? Message is already written.

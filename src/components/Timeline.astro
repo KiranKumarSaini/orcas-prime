@@ -1,0 +1,94 @@
+---
+/**
+ * Drawn timeline — the first month, on /how-we-work.
+ *
+ * The steps were rendering as table rows: a date column, a divider, a text
+ * column. Correct information, no sense of sequence or progression. A drawn
+ * spine with numbered nodes says "this is a process that moves" before a word
+ * is read, and it directly serves the objection Module 5 §7 flags as still
+ * unanswered — "who actually works on my account, and will I be passed
+ * around?" — by making the cadence concrete.
+ *
+ * Hairline style, consistent with VendorChain and RTOFlow. CSS only; no JS,
+ * nothing to animate. The spine is a border, so it reflows at any width
+ * instead of needing a viewBox.
+ */
+
+export interface Props {
+  steps: Array<{ when: string; title: string; detail: string }>;
+}
+
+const { steps } = Astro.props;
+---
+
+<ol class="sv-timeline mt-12">
+	{steps.map((step, i) => (
+		<li class="sv-timeline-step">
+			{/* Node + spine. aria-hidden: the ordered list already conveys
+			    sequence to a screen reader; the numeral would just be noise. */}
+			<div class="sv-timeline-rail" aria-hidden="true">
+				<span class="sv-timeline-node">{i + 1}</span>
+			</div>
+
+			<div class="pb-10">
+				<p class="font-mono text-micro uppercase tracking-wider text-accent">{step.when}</p>
+				<h3 class="font-serif text-h3 text-ink mt-2">{step.title}</h3>
+				<p class="text-base text-ink-muted leading-relaxed mt-2 max-w-[58ch]">{step.detail}</p>
+			</div>
+		</li>
+	))}
+</ol>
+
+<style>
+	.sv-timeline { list-style: none; padding: 0; margin-inline: 0; }
+
+	.sv-timeline-step {
+		display: grid;
+		grid-template-columns: 2.25rem 1fr;
+		gap: 1.25rem;
+	}
+
+	.sv-timeline-rail {
+		position: relative;
+		display: flex;
+		justify-content: center;
+	}
+
+	/* The spine, drawn as a border on the rail so it stretches to whatever
+	   height the step's text happens to be. Stops at the last step — a line
+	   trailing into nothing reads as an unfinished process. */
+	.sv-timeline-step:not(:last-child) .sv-timeline-rail::after {
+		content: '';
+		position: absolute;
+		top: 2.25rem;
+		bottom: -0.5rem;
+		width: 1px;
+		background: var(--color-rule-strong);
+	}
+
+	.sv-timeline-node {
+		position: relative;
+		z-index: 1;
+		width: 2.25rem;
+		height: 2.25rem;
+		flex: none;
+		display: grid;
+		place-items: center;
+		border-radius: 999px;
+		border: 1px solid var(--color-accent);
+		background: var(--color-accent-wash);
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-micro);
+	}
+
+	/* Final node fills in — the process arrives somewhere. */
+	.sv-timeline-step:last-child .sv-timeline-node {
+		background: var(--color-accent);
+		color: var(--color-paper);
+	}
+
+	@media (min-width: 768px) {
+		.sv-timeline-step { grid-template-columns: 2.5rem 1fr; gap: 2rem; }
+	}
+</style>
