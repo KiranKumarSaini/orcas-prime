@@ -16,6 +16,13 @@
  * instant a real one scrolls into view, reappears the instant the last one
  * scrolls out. The header's own CTA is deliberately excluded (it's sticky
  * chrome, not page content) by scoping the query to <main>.
+ *
+ * Shape revised 2026-08-09: an inset floating pill with a soft shadow,
+ * matching the header pill instead of being the one flush, square-edged bar
+ * left on the site. Entrance uses a slight overshoot (settles past 100%
+ * then eases back) so it feels dropped into place rather than merely
+ * translated — a one-off arrival, not a loop, so it stays inside the
+ * "alive, not decorated" motion rule instead of becoming an urgency tic.
  */
 import { SITE } from '../lib/site';
 
@@ -29,20 +36,31 @@ const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 
 <div
 	id="sv-sticky-cta"
-	class="md:hidden fixed inset-x-0 bottom-0 z-40 translate-y-full transition-transform duration-300 ease-out
-	       bg-paper border-t border-rule-strong
-	       pb-[env(safe-area-inset-bottom,0px)]"
+	class="sv-sticky-cta md:hidden fixed inset-x-3 z-40 sv-cta-hidden"
+	style={`bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));`}
 >
 	<a
 		href={href}
 		rel="noopener"
 		data-cta="whatsapp"
-		class="flex items-center justify-center gap-2 h-14 bg-accent text-paper font-sans text-base font-medium active:bg-accent-hover"
+		class="flex items-center justify-center gap-2 h-14 bg-accent text-paper font-sans text-base font-medium rounded-full shadow-[0_8px_24px_rgba(20,18,15,0.18)] transition-transform duration-150 active:scale-[0.96] active:bg-accent-hover"
 	>
 		Start on WhatsApp
-		<span aria-hidden="true">&rarr;</span>
+		<span aria-hidden="true" class="arrow-travel">&rarr;</span>
 	</a>
 </div>
+
+<style>
+	/* Overshoots slightly past its resting position then settles — the
+	   "dropped into place" feel. Exit uses the same curve; the extra travel
+	   at the hidden end is already off-screen so it's invisible either way. */
+	.sv-sticky-cta {
+		transition: transform 480ms cubic-bezier(0.34, 1.35, 0.64, 1);
+	}
+	.sv-sticky-cta.sv-cta-hidden {
+		transform: translateY(200%);
+	}
+</style>
 
 <script>
 	const bar = document.getElementById('sv-sticky-cta');
@@ -53,12 +71,12 @@ const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 	if (bar && 'IntersectionObserver' in window) {
 		if (ctas.length === 0) {
 			// Nothing in the page content to defer to — show it and leave it.
-			bar.classList.remove('translate-y-full');
+			bar.classList.remove('sv-cta-hidden');
 		} else {
 			const visible = new Set<Element>();
 
 			const sync = () => {
-				bar.classList.toggle('translate-y-full', visible.size > 0);
+				bar.classList.toggle('sv-cta-hidden', visible.size > 0);
 			};
 
 			const io = new IntersectionObserver(
