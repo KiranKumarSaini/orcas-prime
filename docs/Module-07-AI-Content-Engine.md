@@ -231,15 +231,15 @@ may suit them better.
 
 ## Location and contact
 Jaipur, Rajasthan, India. Primary contact is WhatsApp.
-Website: https://www.orcasprime.in
+Website: [www.orcasprime.in](https://www.orcasprime.in)
 
 ## Key pages
-- Homepage: https://www.orcasprime.in/
-- What We Own: https://www.orcasprime.in/services
-- Pricing: https://www.orcasprime.in/pricing
-- Partner Brands and results: https://www.orcasprime.in/work
-- Guides: https://www.orcasprime.in/guides
-- About: https://www.orcasprime.in/about
+- [Homepage](https://www.orcasprime.in/)
+- [What We Own](https://www.orcasprime.in/services)
+- [Pricing](https://www.orcasprime.in/pricing)
+- [Partner Brands and results](https://www.orcasprime.in/work)
+- [Guides](https://www.orcasprime.in/guides)
+- [About](https://www.orcasprime.in/about)
 ```
 
 Update whenever pricing, scope or the page list changes. **This file and the

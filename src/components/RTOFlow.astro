@@ -71,13 +71,13 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 					<p class:list={['font-sans text-base leading-snug', r.pivot ? 'font-semibold' : '']}>
 						{r.label}
 					</p>
-					<p class="font-mono text-micro opacity-55 mt-1">{r.note}</p>
+					<p class="font-mono text-micro text-ink-muted mt-1">{r.note}</p>
 				</div>
 				<div class="text-right whitespace-nowrap">
 					{r.delta !== 0 ? (
 						<p class="num text-base">&minus;{fmt(r.delta)}</p>
 					) : (
-						<p class="num text-base opacity-45">{r.pivot ? 'no money in' : fmt(ORDER_VALUE)}</p>
+						<p class="num text-base text-ink-muted">{r.pivot ? 'no money in' : fmt(ORDER_VALUE)}</p>
 					)}
 				</div>
 			</li>
@@ -98,7 +98,7 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 		</p>
 	</div>
 
-	<p class="font-mono text-micro opacity-50 mt-5 leading-relaxed max-w-[54ch]">
+	<p class="font-mono text-micro text-ink-muted mt-5 leading-relaxed max-w-[54ch]">
 		Illustrative arithmetic on a ₹1,000 COD order — not Partner Brand data.
 		Substitute your own shipping rate, cost per acquisition and recovery rate.
 	</p>
@@ -129,10 +129,6 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 		const total = fig.querySelector<HTMLElement>('.sv-drain-total');
 		const orderValue = Number(fig.dataset.orderValue);
 		const finalLoss = Number(fig.dataset.finalLoss);
-
-		// Arm only now — before this line the block is fully visible, which is
-		// exactly the state a no-JS visitor keeps.
-		fig.classList.add('sv-armed');
 
 		const fmt = (n: number) => '₹' + Math.abs(Math.round(n)).toLocaleString('en-IN');
 
@@ -180,10 +176,15 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 				for (const entry of entries) {
 					if (!entry.isIntersecting) continue;
 					io.disconnect();
-					// Zeroed out only now, the instant the reveal actually starts —
-					// not at parse time. A JS-rendering crawler that never scrolls
-					// the figure into view must keep reading the correct SSR total
-					// the whole time, never a spoiled placeholder (Module 7 §2).
+					// Both armed and zeroed only now, the instant the reveal actually
+					// starts — not at parse time. Arming immediately on load left the
+					// rows dimmed (opacity 0.28) for anyone who hadn't yet scrolled
+					// this figure into view — a real contrast failure, not just a
+					// pre-reveal state, since JS runs long before scroll does. A
+					// JS-rendering crawler that never scrolls the figure into view
+					// must also keep reading the correct SSR total the whole time,
+					// never a spoiled placeholder (Module 7 §2).
+					fig.classList.add('sv-armed');
 					setTotalTo(orderValue);
 					runSequence();
 				}

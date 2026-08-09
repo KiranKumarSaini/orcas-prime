@@ -133,11 +133,31 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		    content stays fully visible with JS disabled (global.css). Fires
 		    once per element, never re-animates on scroll-back.
 
+		    Real bug found 2026-08-09: IntersectionObserver callbacks fire
+		    asynchronously, one or more frames after the initial opacity:0
+		    paint — never visible to a human (the gap is milliseconds), but a
+		    tool that renders the page and immediately samples computed style
+		    (Lighthouse's accessibility pass, some AI-crawler renderers) can
+		    catch content genuinely mid-fade and report it as a real contrast
+		    failure, because the colour it read really was that faint at that
+		    instant. Confirmed via Lighthouse: elements already on screen at
+		    load were being sampled at ~20% opacity.
+
+		    Fix: content already inside the viewport at load is shown at full
+		    opacity synchronously, in this same script tick, before the first
+		    paint — there is nothing to fade in, because it was never below
+		    the fold to begin with. Only content revealed by an actual later
+		    scroll goes through the observer + transition path. This doesn't
+		    change how anything looks to a visitor; it removes a sampling
+		    window that only automated tools could ever land in.
+
 		    Safety net: a target the observer never resolves (backgrounded tab,
 		    a target taller than the viewport that never crosses threshold, any
 		    other edge case) must not stay invisible forever — Module 4 §6 is
-		    explicit that content must never ship blank. Anything still hidden
-		    2s after its section has had a chance to load is forced visible. */}
+		    explicit that content must never ship blank. Shortened from 2s to
+		    400ms — real observers resolve in milliseconds; 2s was a large,
+		    arbitrary margin that widened this exact sampling window rather
+		    than protecting against anything that actually takes that long. */}
 		<script>
 			document.documentElement.classList.add('js-ready');
 
@@ -160,12 +180,20 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 					},
 					{ threshold: 0.15 }
 				);
-				targets.forEach((el) => io.observe(el));
+				targets.forEach((el) => {
+					const rect = el.getBoundingClientRect();
+					const inViewportNow = rect.top < window.innerHeight && rect.bottom > 0;
+					if (inViewportNow) {
+						el.classList.add('is-visible');
+					} else {
+						io.observe(el);
+					}
+				});
 
 				setTimeout(() => {
 					targets.forEach((el) => el.classList.add('is-visible'));
 					io.disconnect();
-				}, 2000);
+				}, 400);
 			} else {
 				targets.forEach((el) => el.classList.add('is-visible'));
 			}
