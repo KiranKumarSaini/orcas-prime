@@ -224,35 +224,43 @@
     }
   }
 
-  /* Section entrance animation (Module 4 §6) — progressive enhancement only.
-     The .js-ready class is added by inline script in BaseLayout, so anything
-     under [data-animate] is fully visible by default with JS disabled or
-     before the script runs. Reduced-motion collapses the transition above,
-     not this block, so visibility is never gated on motion preference. */
+  /* Section entrance animation (Module 4 §6, retuned 2026-08-09) — progressive
+     enhancement only. The .js-ready class is added by inline script in
+     BaseLayout, so anything under [data-animate] is fully visible by default
+     with JS disabled or before the script runs. Reduced-motion collapses the
+     transition above, not this block, so visibility is never gated on motion
+     preference.
+
+     Retune reason: the original 600ms / 24px vertical-only move read as a
+     slab sliding into place — a new page arriving, not a section appearing.
+     Shorter duration, a smaller rise, and a touch of scale reads as a quick
+     pop into position instead of a slide. */
   .js-ready [data-animate] {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-                transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(10px) scale(0.98);
+    transition: opacity 340ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 340ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .js-ready [data-animate].is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   /* Element-level stagger (Module 9 §6). A section fading as one block reads
-     like a slide transition; children arriving 80ms apart read as composed.
-     Children opt in with [data-animate-item] and set --i for their index. */
+     like a slide transition; children arriving apart read as composed.
+     Children opt in with [data-animate-item] and set --i for their index.
+     Delay tightened alongside the duration above so a multi-item group still
+     finishes quickly rather than trailing out. */
   .js-ready [data-animate-group] [data-animate-item] {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
-                transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: calc(var(--i, 0) * 80ms);
+    transform: translateY(8px) scale(0.98);
+    transition: opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 60ms);
   }
   .js-ready [data-animate-group].is-visible [data-animate-item] {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 

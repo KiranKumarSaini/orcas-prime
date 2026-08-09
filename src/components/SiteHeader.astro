@@ -1,10 +1,20 @@
 ---
 /*
-  Sticky header (Module 4 §7, finally built per Module 9 §5).
+  Floating pill header (2026-08-09, replacing the full-width sticky bar from
+  Module 9 §5).
 
-  Previously non-sticky. Module 4 §7 specified: sticky, 64px, --paper at 92%
-  opacity with backdrop-filter blur(8px) — "the one permitted blur, because
-  it's functional" — and a bottom border that appears only after scroll.
+  The site's core layout unit is already a rounded panel floating on the
+  darker --color-page background — every section does this. The header was
+  the one piece of chrome that didn't: a square-cornered bar flush to the
+  viewport edges. Making it a pill, inset from the top and sides, makes it
+  read as the same kind of floating object as everything below it instead
+  of a separate UI convention layered on top.
+
+  Still --paper at 95% opacity with backdrop-filter blur — the one permitted
+  blur, because it's functional (keeps nav legible over whatever scrolls
+  underneath). A hairline border defines the pill's edge at rest; a shadow
+  strengthens only once the page has scrolled, so it lifts off the content
+  behind it rather than looking elevated from the very first frame.
 
   Nav labels per Module 3 Global Elements: Services -> What We Own
   (LOCKED#17; label only, URL stays /services per Module 7 §11). Desktop
@@ -30,89 +40,93 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 )}`;
 ---
 
-<header
-	id="sv-header"
-	class="sticky top-0 z-30 bg-paper/92 backdrop-blur-md border-b border-transparent transition-colors duration-200"
->
-	<div class="max-w-[76rem] mx-auto px-6 md:px-10 h-16 flex items-center justify-between gap-6">
-		<a href="/" class="font-serif text-lg md:text-xl tracking-tight text-ink hover:text-accent transition-colors">
-			Orcas Prime
-		</a>
-
-		<nav aria-label="Primary" class="hidden md:block">
-			<ul class="flex items-center gap-7">
-				{nav.map((item) => {
-					const active = currentPath === item.href;
-					return (
-						<li>
-							<a
-								href={item.href}
-								aria-current={active ? 'page' : undefined}
-								class:list={[
-									'font-sans text-small transition-colors',
-									active ? 'text-accent' : 'text-ink hover:text-accent',
-								]}
-							>
-								{item.label}
-							</a>
-						</li>
-					);
-				})}
-			</ul>
-		</nav>
-
-		<a
-			href={ctaHref}
-			rel="noopener"
-			data-cta="whatsapp"
-			class="hidden md:inline-flex items-center gap-1.5 bg-accent text-paper hover:bg-accent-hover px-4 py-2 rounded-md font-sans text-small font-medium transition-colors"
+<div class="sticky top-3 md:top-4 z-30 px-3 md:px-6">
+	<div class="max-w-[76rem] mx-auto">
+		<header
+			id="sv-header"
+			class="bg-paper/95 backdrop-blur-md border border-rule rounded-full shadow-[0_1px_2px_rgba(20,18,15,0.05)] transition-shadow duration-200"
 		>
-			Start on WhatsApp
-			<span aria-hidden="true" class="arrow-travel">&rarr;</span>
-		</a>
+			<div class="px-5 md:px-7 h-14 md:h-16 flex items-center justify-between gap-6">
+				<a href="/" class="font-serif text-lg md:text-xl tracking-tight text-ink hover:text-accent transition-colors">
+					Orcas Prime
+				</a>
 
-		<button
-			id="sv-menu-btn"
-			type="button"
-			class="md:hidden inline-flex items-center gap-2 text-ink font-sans text-small min-h-[44px]"
-			aria-controls="sv-mobile-nav"
-			aria-expanded="false"
-		>
-			<span class="sv-menu-word" data-when="closed">Menu</span>
-			<span class="sv-menu-word hidden" data-when="open">Close</span>
-			<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
-				<line class="sv-menu-line" data-when="closed" x1="2" y1="5"  x2="16" y2="5"  />
-				<line class="sv-menu-line" data-when="closed" x1="2" y1="13" x2="16" y2="13" />
-				<line class="sv-menu-line hidden" data-when="open" x1="3" y1="3"  x2="15" y2="15" />
-				<line class="sv-menu-line hidden" data-when="open" x1="3" y1="15" x2="15" y2="3"  />
-			</svg>
-		</button>
-	</div>
+				<nav aria-label="Primary" class="hidden md:block">
+					<ul class="flex items-center gap-7">
+						{nav.map((item) => {
+							const active = currentPath === item.href;
+							return (
+								<li>
+									<a
+										href={item.href}
+										aria-current={active ? 'page' : undefined}
+										class:list={[
+											'font-sans text-small transition-colors',
+											active ? 'text-accent' : 'text-ink hover:text-accent',
+										]}
+									>
+										{item.label}
+									</a>
+								</li>
+							);
+						})}
+					</ul>
+				</nav>
 
-	<div id="sv-mobile-nav" hidden class="md:hidden border-t border-rule bg-paper">
-		<nav aria-label="Primary mobile" class="max-w-[76rem] mx-auto px-6 py-2">
-			<ul class="flex flex-col divide-y divide-rule">
-				{nav.map((item) => {
-					const active = currentPath === item.href;
-					return (
-						<li>
-							<a
-								href={item.href}
-								aria-current={active ? 'page' : undefined}
-								class:list={[
-									'block py-4 font-sans text-base',
-									active ? 'text-accent' : 'text-ink',
-								]}
-							>
-								{item.label}
-							</a>
-						</li>
-					);
-				})}
-			</ul>
-		</nav>
+				<a
+					href={ctaHref}
+					rel="noopener"
+					data-cta="whatsapp"
+					class="hidden md:inline-flex items-center gap-1.5 bg-accent text-paper hover:bg-accent-hover px-4 py-2 rounded-full font-sans text-small font-medium transition-colors"
+				>
+					Start on WhatsApp
+					<span aria-hidden="true" class="arrow-travel">&rarr;</span>
+				</a>
+
+				<button
+					id="sv-menu-btn"
+					type="button"
+					class="md:hidden inline-flex items-center gap-2 text-ink font-sans text-small min-h-[44px]"
+					aria-controls="sv-mobile-nav"
+					aria-expanded="false"
+				>
+					<span class="sv-menu-word" data-when="closed">Menu</span>
+					<span class="sv-menu-word hidden" data-when="open">Close</span>
+					<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+						<line class="sv-menu-line" data-when="closed" x1="2" y1="5"  x2="16" y2="5"  />
+						<line class="sv-menu-line" data-when="closed" x1="2" y1="13" x2="16" y2="13" />
+						<line class="sv-menu-line hidden" data-when="open" x1="3" y1="3"  x2="15" y2="15" />
+						<line class="sv-menu-line hidden" data-when="open" x1="3" y1="15" x2="15" y2="3"  />
+					</svg>
+				</button>
+			</div>
+		</header>
+
+		<div id="sv-mobile-nav" hidden class="md:hidden mt-2 bg-paper border border-rule rounded-2xl shadow-[0_1px_2px_rgba(20,18,15,0.05)] overflow-hidden">
+			<nav aria-label="Primary mobile" class="px-6 py-2">
+				<ul class="flex flex-col divide-y divide-rule">
+					{nav.map((item) => {
+						const active = currentPath === item.href;
+						return (
+							<li>
+								<a
+									href={item.href}
+									aria-current={active ? 'page' : undefined}
+									class:list={[
+										'block py-4 font-sans text-base',
+										active ? 'text-accent' : 'text-ink',
+									]}
+								>
+									{item.label}
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			</nav>
+		</div>
 	</div>
-</header>
+</div>
 
 <script>
 	// Mobile menu toggle.
@@ -131,14 +145,13 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 		});
 	}
 
-	// Border appears only once the page has moved (Module 4 §7) — at rest the
-	// header should feel like part of the page, not a bar sitting on top of it.
+	// The pill's shadow strengthens only once the page has moved — at rest it
+	// should read as sitting on the page, not lifted above it from frame one.
 	const header = document.getElementById('sv-header');
 	if (header) {
 		let ticking = false;
 		const sync = () => {
-			header.classList.toggle('border-rule', window.scrollY > 8);
-			header.classList.toggle('border-transparent', window.scrollY <= 8);
+			header.classList.toggle('sv-header-scrolled', window.scrollY > 8);
 			ticking = false;
 		};
 		sync();
@@ -154,3 +167,11 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 		);
 	}
 </script>
+
+<style>
+	/* Stronger lift once the page has moved — the pill separates from the
+	   content now visible behind it instead of looking elevated at rest. */
+	#sv-header.sv-header-scrolled {
+		box-shadow: 0 4px 16px rgba(20, 18, 15, 0.08);
+	}
+</style>
