@@ -63,13 +63,14 @@ const articleSchema = {
   },
 };
 
-const ctaMsg = 'Hi, I read your guide — I want to talk about my store.';
+const ctaMsg = `Hi, I read your guide on ${entry.data.shortTitle} and want to talk about my store.`;
 ---
 
 <BaseLayout
 	title={entry.data.shortTitle}
 	description={entry.data.description}
 	canonicalPath={`/guides/${entry.id}`}
+	stickyMessage={ctaMsg}
 >
 	<Schema
 		slot="head"

@@ -96,7 +96,7 @@ const faqs = [
   },
 ];
 
-const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
+const ctaMsg = 'Hi, I want to understand the 3.5% fee for my store.';
 const correctionMsg = 'Hi, I have an agency quote you should see for your pricing footnote.';
 const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
 const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(correctionMsg)}`;
@@ -106,6 +106,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	title="Pricing"
 	description="Orcas Prime takes 3.5% + GST of net sales after returns. A Shopify build is ₹10,000–₹20,000 one-time. No retainer, no lock-in, no setup fees."
 	canonicalPath="/pricing"
+	stickyMessage={ctaMsg}
 >
 	<Schema
 		slot="head"

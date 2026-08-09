@@ -16,6 +16,7 @@ faqs:
 related:
   - how-much-to-spend-on-ads-to-start
   - gross-vs-net-revenue-agency
+  - when-to-scale-or-stop-an-ad-campaign
 ---
 
 ## The four numbers that matter

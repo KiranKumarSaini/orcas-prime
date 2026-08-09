@@ -1,6 +1,6 @@
 ---
 /**
- * Mobile-only sticky CTA (Module 8 §3, resolved per Module 9 §5).
+ * Mobile-only sticky CTA (Module 8 §3; visibility model revised 2026-08-09).
  *
  * This was skipped in the first build because the site already had a
  * floating WhatsApp bubble and two fixed bottom-right elements would
@@ -8,9 +8,14 @@
  * for this bar to REPLACE the bubble on mobile. SiteWhatsAppFloat is now
  * desktop-only; this is the mobile conversion surface.
  *
- * Appears only after the visitor passes the trigger (placed after Section 4,
- * per Module 8 §3 — trust before ask). Slides up once, never retreats,
- * never covers content (body gets matching bottom padding on mobile).
+ * Rendered globally from BaseLayout, one per page. A CTA should always be
+ * reachable: whichever in-content WhatsApp CTA the page already has (the
+ * hero button, a section's CTA, the close) is the real one, so this bar
+ * only needs to appear when none of those are on screen. It watches every
+ * `[data-cta="whatsapp"]` inside <main> and toggles both ways — hides the
+ * instant a real one scrolls into view, reappears the instant the last one
+ * scrolls out. The header's own CTA is deliberately excluded (it's sticky
+ * chrome, not page content) by scoping the query to <main>.
  */
 import { SITE } from '../lib/site';
 
@@ -41,21 +46,33 @@ const href = `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 
 <script>
 	const bar = document.getElementById('sv-sticky-cta');
-	const trigger = document.getElementById('sv-sticky-trigger');
-	if (bar && trigger && 'IntersectionObserver' in window) {
-		const io = new IntersectionObserver(
-			(entries) => {
-				for (const entry of entries) {
-					// Only once the trigger has scrolled off the TOP of the viewport —
-					// not merely on first paint further down the page.
-					if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-						bar.classList.remove('translate-y-full');
-						io.disconnect();
+	const ctas = Array.from(
+		document.querySelectorAll<HTMLElement>('main [data-cta="whatsapp"]')
+	);
+
+	if (bar && 'IntersectionObserver' in window) {
+		if (ctas.length === 0) {
+			// Nothing in the page content to defer to — show it and leave it.
+			bar.classList.remove('translate-y-full');
+		} else {
+			const visible = new Set<Element>();
+
+			const sync = () => {
+				bar.classList.toggle('translate-y-full', visible.size > 0);
+			};
+
+			const io = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.isIntersecting) visible.add(entry.target);
+						else visible.delete(entry.target);
 					}
-				}
-			},
-			{ threshold: 0 }
-		);
-		io.observe(trigger);
+					sync();
+				},
+				{ threshold: 0 }
+			);
+
+			ctas.forEach((el) => io.observe(el));
+		}
 	}
 </script>

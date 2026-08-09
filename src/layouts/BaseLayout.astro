@@ -3,6 +3,7 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteWhatsAppFloat from '../components/SiteWhatsAppFloat.astro';
+import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import ScrollProgress from '../components/ScrollProgress.astro';
 import Schema from '../components/Schema.astro';
 import { organization, localBusiness } from '../lib/schema';
@@ -21,6 +22,8 @@ export interface Props {
   titleTemplate?: 'default' | 'none';
   /** Prevent indexing (utility pages, styleguide, etc.). */
   noindex?: boolean;
+  /** Pre-filled WhatsApp message for the mobile sticky CTA. Defaults to the general one. */
+  stickyMessage?: string;
 }
 
 const {
@@ -30,6 +33,7 @@ const {
   canonicalPath,
   titleTemplate = 'default',
   noindex = false,
+  stickyMessage = 'Hi, I want to check if the 3.5% model fits my store.',
 } = Astro.props;
 
 const fullTitle = titleTemplate === 'none' ? title : `${title} — ${SITE.name}`;
@@ -89,6 +93,7 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 		</main>
 		<SiteFooter />
 		<SiteWhatsAppFloat />
+		<StickyMobileCTA message={stickyMessage} />
 
 		{/* Magnetic CTAs (Module 10 §5). Pointer-fine only — on touch there is
 		    no hover, so the effect would either never fire or fire and stick.

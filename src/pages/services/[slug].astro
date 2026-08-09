@@ -26,6 +26,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	title={svc.meta.title}
 	description={svc.meta.description}
 	canonicalPath={`/services/${svc.slug}`}
+	stickyMessage={svc.ctaMessage}
 >
 	<Schema
 		slot="head"

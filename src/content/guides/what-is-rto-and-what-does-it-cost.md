@@ -15,6 +15,7 @@ faqs:
 related:
   - how-to-reduce-cod-returns-india
   - gross-vs-net-revenue-agency
+  - how-to-choose-a-courier-partner
 ---
 
 ## What RTO means

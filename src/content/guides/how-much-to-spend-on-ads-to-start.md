@@ -15,6 +15,7 @@ faqs:
 related:
   - how-to-read-a-google-ads-report
   - cost-to-launch-shopify-store-india
+  - when-meta-ads-is-the-wrong-first-channel
 ---
 
 ## Why very small budgets fail structurally

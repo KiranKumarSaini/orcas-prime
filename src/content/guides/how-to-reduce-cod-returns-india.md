@@ -15,6 +15,7 @@ faqs:
 related:
   - what-is-rto-and-what-does-it-cost
   - gross-vs-net-revenue-agency
+  - how-to-choose-a-courier-partner
 ---
 
 ## Start by knowing your actual number

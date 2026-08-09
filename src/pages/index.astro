@@ -13,7 +13,6 @@ import HeroConverge from '../components/HeroConverge.astro';
 import PricingTable from '../components/PricingTable.astro';
 import FeeCalculator from '../components/FeeCalculator.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
-import StickyMobileCTA from '../components/StickyMobileCTA.astro';
 import Schema from '../components/Schema.astro';
 import { faqPage, service as serviceSchema } from '../lib/schema';
 import { getCollection } from 'astro:content';
@@ -280,6 +279,7 @@ const learnGuides = learnSlugs
 	description="We run your Shopify store, ads and marketplace accounts for 3.5% of net sales. No retainer. Based in Jaipur, working with Indian ecommerce brands."
 	titleTemplate="none"
 	canonicalPath="/"
+	stickyMessage={ctaMsg.general}
 >
 <Schema slot="head" data={[rtoFaqs, ...ownershipServices]} />
 
@@ -534,10 +534,6 @@ const learnGuides = learnSlugs
 		</div>
 	</SectionShell>
 
-	{/* Sticky mobile CTA arms here — after Section 4, per Module 8 §3.
-	    Trust is earned before the ask (LOCKED#24). */}
-	<div id="sv-sticky-trigger" aria-hidden="true"></div>
-
 	{/* ─── 5 · How We Think ───────────────────────────────────────────── */}
 	<SectionShell width="wide" surface="sunken">
 		<div data-animate-item style="--i:0">
@@ -558,6 +554,15 @@ const learnGuides = learnSlugs
 				defaultOpen={0}
 			/>
 		</div>
+
+		<p class="mt-6 flex flex-wrap gap-x-8 gap-y-2" data-animate-item style="--i:2">
+			<a href="/guides/when-to-scale-or-stop-an-ad-campaign" class="font-mono text-small link-draw">
+				How we decide when to scale a campaign <span class="arrow-travel">&rarr;</span>
+			</a>
+			<a href="/guides/how-to-choose-a-courier-partner" class="font-mono text-small link-draw">
+				How we choose a courier partner <span class="arrow-travel">&rarr;</span>
+			</a>
+		</p>
 
 		<div data-animate-item style="--i:4">
 			<PullQuote>
@@ -693,6 +698,13 @@ const learnGuides = learnSlugs
 					When a shipment gets refused, we absorb that alongside you. No setup
 					fee, no onboarding fee, no creative fee, no reporting fee.
 				</p>
+			</div>
+
+			{/* A real <table> alongside the calculator — Module 3 §3's AI-citation
+			    asset. The slider's default is one point; this is the three
+			    published rows a model can lift whole, with no interaction needed. */}
+			<div class="mt-8">
+				<PricingTable />
 				<div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
 					<WhatsAppCTA message={ctaMsg.general} />
 					<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
@@ -820,7 +832,5 @@ const learnGuides = learnSlugs
 			</div>
 		</div>
 	</SectionShell>
-
-	<StickyMobileCTA message={ctaMsg.general} />
 
 </BaseLayout>

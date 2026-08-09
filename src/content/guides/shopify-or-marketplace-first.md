@@ -15,6 +15,7 @@ faqs:
 related:
   - amazon-vs-flipkart-for-indian-sellers
   - cost-to-launch-shopify-store-india
+  - when-meta-ads-is-the-wrong-first-channel
 ---
 
 ## The real question underneath

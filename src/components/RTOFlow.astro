@@ -141,10 +141,6 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 			total.textContent = '−' + fmt(orderValue - balance);
 		};
 
-		// Start the payoff figure at zero lost, so it resolves to the real
-		// number as the stages light up rather than spoiling it up front.
-		setTotalTo(orderValue);
-
 		/*
 		  Sequencing is a stagger, not per-row scroll position.
 
@@ -184,6 +180,11 @@ const fmt = (n: number) => '₹' + Math.abs(n).toLocaleString('en-IN');
 				for (const entry of entries) {
 					if (!entry.isIntersecting) continue;
 					io.disconnect();
+					// Zeroed out only now, the instant the reveal actually starts —
+					// not at parse time. A JS-rendering crawler that never scrolls
+					// the figure into view must keep reading the correct SSR total
+					// the whole time, never a spoiled placeholder (Module 7 §2).
+					setTotalTo(orderValue);
 					runSequence();
 				}
 			},

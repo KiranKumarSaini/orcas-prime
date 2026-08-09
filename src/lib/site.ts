@@ -24,10 +24,10 @@ export const SITE = {
   tagline: 'No retainer. We take 3.5% of what your customers actually keep.',
 
   description:
-    'Ecommerce performance marketing agency in Jaipur, India. Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns and RTOs. No retainer, no lock-in.',
+    'Marketing agency based in Jaipur, India. Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns and RTOs. No retainer, no lock-in.',
 
   shortDescription:
-    'Ecommerce agency in Jaipur. 3.5% + GST of net sales after returns. No retainer.',
+    'Marketing agency based in Jaipur. 3.5% + GST of net sales after returns. No retainer.',
 
   founders: [
     {
