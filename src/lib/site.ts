@@ -68,6 +68,14 @@ export const SITE = {
     clutch: '',
   },
 
+  analytics: {
+    // GA4 property "Orcas Prime" — added 2026-08-14. The stream URL on the
+    // Google side is set to orcasprime.com (a different domain than this
+    // site's own orcasprime.in), but the Measurement ID is what actually
+    // routes data, not the stream's label, so this still works from here.
+    googleAnalyticsId: 'G-SSTZPS0E7M',
+  },
+
   // Year founded — dated specific claims help AI models cite confidently (§5).
   foundingYear: 2026,
 
