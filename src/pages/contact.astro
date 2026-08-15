@@ -161,9 +161,10 @@ const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
 					<div class="grid grid-cols-[7rem_1fr] gap-4 py-5 border-b border-rule items-baseline">
 						<dt class="kicker">Where</dt>
 						<dd>
+							{/* Street and PIN omitted while unknown — see src/lib/site.ts. */}
 							<address class="not-italic text-small text-ink-muted leading-relaxed">
-								{SITE.address.street}<br />
-								{SITE.address.locality}, {SITE.address.region} {SITE.address.postalCode}<br />
+								{SITE.address.street && <>{SITE.address.street}<br /></>}
+								{SITE.address.locality}, {SITE.address.region}{SITE.address.postalCode ? ` ${SITE.address.postalCode}` : ''}<br />
 								India
 							</address>
 						</dd>

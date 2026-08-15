@@ -11,17 +11,37 @@
 import { SITE } from '../lib/site';
 
 const founders = SITE.founders.map((f) => f.name);
+
+/*
+  Address is assembled from the parts that are actually known. Street and PIN
+  are empty until the operator supplies them, and joining on non-empty parts
+  means the line can never render a dangling comma or a bare region — it
+  degrades to "Jaipur, Rajasthan, India", which is true, rather than to the
+  placeholder text that used to ship here.
+*/
+const addressLine = [
+  SITE.address.street,
+  SITE.address.locality,
+  [SITE.address.region, SITE.address.postalCode].filter(Boolean).join(' '),
+  'India',
+]
+  .filter(Boolean)
+  .join(', ');
+
 const contact = {
   whatsapp: SITE.contact.whatsapp,
   phone: SITE.contact.phone,
   email: SITE.contact.email,
-  street: SITE.address.street,
-  locality: `${SITE.address.locality}, ${SITE.address.region} ${SITE.address.postalCode}`,
 };
 
 const footerNav = {
+  /*
+    The hub link lives on the column heading itself (below), not as a row here.
+    A row labelled 'Services' both duplicated the heading and broke LOCKED#17,
+    which fixes the visible label as "What We Own" everywhere — only the URL
+    stays /services.
+  */
   work: [
-    { href: '/services',                             label: 'Services' },
     { href: '/services/shopify-meta-google-ads',     label: 'Shopify + ads' },
     { href: '/services/amazon-account-management',   label: 'Amazon management' },
     { href: '/services/flipkart-meesho-management',  label: 'Flipkart & Meesho' },
@@ -43,7 +63,13 @@ const footerNav = {
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-24 border-t border-rule-strong bg-paper">
+{/*
+  The footer is a floating panel like every other section, not a flat
+  full-bleed slab. It was the last surface still using the pre-2026-08-08
+  layout language (square corners, edge-to-edge, hairline top border), which
+  made the page end on a different visual system than it ran on.
+*/}
+<footer class="bg-paper panel mt-6 md:mt-8 mb-3 md:mb-4">
 	<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-14 md:py-20">
 
 		<div class="grid gap-12 md:gap-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
@@ -63,7 +89,9 @@ const year = new Date().getFullYear();
 			</div>
 
 			<nav aria-label="What We Own" class="min-w-0">
-				<h2 class="kicker mb-4">What We Own</h2>
+				<h2 class="kicker mb-4">
+					<a href="/services" class="hover:text-accent transition-colors">What We Own</a>
+				</h2>
 				<ul class="space-y-2.5">
 					{footerNav.work.map((item) => (
 						<li>
@@ -126,7 +154,7 @@ const year = new Date().getFullYear();
 
 		<div class="mt-8 grid gap-6 md:grid-cols-[1fr_auto] items-start">
 			<address class="not-italic text-small text-ink-muted">
-				<span class="text-ink">Orcas Prime</span> · {contact.street}, {contact.locality}, India
+				<span class="text-ink">Orcas Prime</span> · {addressLine}
 			</address>
 			<p class="font-mono text-micro text-ink-muted uppercase tracking-wider md:text-right">
 				© <span class="num">{year}</span> Orcas Prime. All rights reserved.

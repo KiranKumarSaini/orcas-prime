@@ -64,8 +64,17 @@ export type HeadlineFigures = {
     period: string;
     description: string;
   };
-  totalRevenue: { display: string; descriptor: string };
-  totalAdSpend: { display: string; descriptor: string };
+  /*
+    No `display` field on the totals by design. Both aggregates are DERIVED
+    below from their components, so a hand-typed headline figure cannot drift
+    away from the rows it claims to summarise. They previously read
+    "₹13.2 lakh+" and "₹4.4 lakh+" while the exact figures (₹13,20,583 and
+    ₹4,48,097) sat in the same file — and Module 5 §9 is explicit that the
+    exact number is the more credible one: "₹6,70,173 is credible in a way
+    ₹6.7L+ is not." The trailing "+" was also hedging a number that is exact.
+  */
+  totalRevenue: { descriptor: string };
+  totalAdSpend: { descriptor: string };
   brandCount: { value: number; descriptor: string };
   platforms: string[];
 };
@@ -116,3 +125,34 @@ export function fmtINR(amount: number, opts: { symbol?: boolean } = {}): string 
   const formatted = amount.toLocaleString('en-IN');
   return withSymbol ? `₹${formatted}` : formatted;
 }
+
+/* ── Derived aggregates ─────────────────────────────────────────────────
+   Summed from the component rows rather than stored, so the headline can
+   never disagree with the per-brand figures a reader can check on /work.
+
+   HONEST CAVEAT, stated on the page rather than hidden here: these sums
+   blend time windows. Revenue adds Ladakh Berry's LIFETIME Google Ads
+   conversion value to Divine Rudras' LAST 30 DAYS Flipkart revenue; ad spend
+   mixes lifetime with last-60-days. That is why `revenueBasis` and
+   `adSpendBasis` exist and why the homepage prints them — an unqualified
+   exact total is more confidently wrong than a rounded one.
+------------------------------------------------------------------------ */
+
+/** Exact sum of every quantitative client result. */
+export const totalRevenue: number = getQuantitativeClients().reduce(
+  (sum, c) => sum + c.result.amount,
+  0
+);
+
+/** Exact sum of every ad-spend entry under management. */
+export const totalAdSpend: number = results.adSpend.reduce((sum, s) => sum + s.amount, 0);
+
+/** Distinct windows the revenue total is built from, e.g. "lifetime + last 30 days". */
+export const revenueBasis: string = Array.from(
+  new Set(getQuantitativeClients().map((c) => c.result.period))
+).join(' + ');
+
+/** Distinct windows the ad-spend total is built from. */
+export const adSpendBasis: string = Array.from(
+  new Set(results.adSpend.map((s) => s.period))
+).join(' + ');

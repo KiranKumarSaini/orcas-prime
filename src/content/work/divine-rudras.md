@@ -11,7 +11,7 @@ updated: 2026-08-05
 
 Flipkart categorises sellers into performance tiers — Bronze, Silver, Gold, Platinum. Reaching **Gold** requires roughly **₹30 lakh in cumulative revenue or 4,000 units sold**, plus tight ceilings on **seller cancellation rate (≤ 0.15%)**, **ready-to-dispatch breaches (≤ 1%)**, and **product rating benchmarks** by category. The rating is re-assessed on a rolling 90-day window, so it has to be held, not just hit once.
 
-Very few Indian D2C sellers get there in their first year on the platform, because it takes both volume and operational discipline in the same account. Divine Rudras hit it and is holding it.
+It takes both volume and operational discipline in the same account. Divine Rudras hit it and is holding it.
 
 ## What changes at Gold
 

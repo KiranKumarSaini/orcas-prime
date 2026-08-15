@@ -16,6 +16,25 @@ const abs = (path: string) => {
   return SITE.url.replace(/\/$/, '') + (path.startsWith('/') ? path : `/${path}`);
 };
 
+/**
+ * PostalAddress, emitting only the parts we actually know.
+ *
+ * streetAddress and postalCode are omitted entirely while SITE.address holds
+ * empty strings for them (the real values are still outstanding from the
+ * operator). They previously shipped as the literal strings 'Street address'
+ * and '302XXX' — false data in a machine-readable field, which Module 7 §6
+ * rules out and which is a worse signal than an incomplete address. Locality,
+ * region and country are true today, so they ship.
+ */
+const postalAddress = () => ({
+  '@type': 'PostalAddress',
+  ...(SITE.address.street ? { streetAddress: SITE.address.street } : {}),
+  addressLocality: SITE.address.locality,
+  addressRegion: SITE.address.region,
+  ...(SITE.address.postalCode ? { postalCode: SITE.address.postalCode } : {}),
+  addressCountry: SITE.address.country,
+});
+
 /** Organization — the identity anchor. Emitted sitewide from BaseLayout. */
 export function organization() {
   return {
@@ -33,14 +52,7 @@ export function organization() {
       jobTitle: f.role,
       ...(f.linkedin ? { sameAs: [f.linkedin] } : {}),
     })),
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: SITE.address.street,
-      addressLocality: SITE.address.locality,
-      addressRegion: SITE.address.region,
-      postalCode: SITE.address.postalCode,
-      addressCountry: SITE.address.country,
-    },
+    address: postalAddress(),
     email: SITE.contact.email,
     telephone: SITE.contact.phone,
     sameAs: Object.values(SITE.social).filter(Boolean),
@@ -58,14 +70,7 @@ export function localBusiness() {
     image: abs('/og-default.png'),
     description: SITE.shortDescription,
     priceRange: '₹₹',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: SITE.address.street,
-      addressLocality: SITE.address.locality,
-      addressRegion: SITE.address.region,
-      postalCode: SITE.address.postalCode,
-      addressCountry: SITE.address.country,
-    },
+    address: postalAddress(),
     areaServed: {
       '@type': 'Country',
       name: 'India',

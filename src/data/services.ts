@@ -44,7 +44,7 @@ export const services: ServiceContent[] = [
     kicker: 'The core service',
     h1: 'Build the store, run the ads, own the number.',
     lead:
-      'The service most of our clients use. We manage your Shopify store day-to-day and run Meta and Google ads inside your own ad accounts. One team, one fee, no separate creative agency.',
+      'What most Partner Brands take. We manage your Shopify store day-to-day and run Meta and Google ads inside your own ad accounts. One team, one fee, no separate creative agency.',
     meta: {
       title: 'Shopify + Meta and Google Ads',
       description:
@@ -110,7 +110,7 @@ export const services: ServiceContent[] = [
     kicker: 'Marketplace',
     h1: 'Running an Amazon seller account, properly.',
     lead:
-      'From listing quality to sponsored ads to A-to-Z claims. If you are already on Amazon, we take over the account. If you are not on Amazon yet, the first three months are free — see the wedge-offer page.',
+      'From listing quality to sponsored ads to A-to-Z claims. If you are already on Amazon, we take over the account. If you are not on Amazon yet, the first three months are free — see the Amazon onboarding page.',
     meta: {
       title: 'Amazon account management',
       description:
@@ -127,7 +127,7 @@ export const services: ServiceContent[] = [
     cost: {
       headline: 'Free for 3 months',
       subhead: 'then included in the 3.5% Shopify bundle, or a separate rate we agree on',
-      note: 'The free three months runs on Amazon\'s seller referral programme — full mechanics on the wedge-offer page.',
+      note: 'The free three months runs on Amazon\'s seller referral programme — full mechanics on the Amazon onboarding page.',
     },
     proof: null,
     ctaMessage: 'Hi, I want to talk about my Amazon seller account.',
@@ -174,7 +174,7 @@ export const services: ServiceContent[] = [
     kicker: 'Production',
     h1: 'The pictures and the catalogue that make the sale.',
     lead:
-      'Ad creative, product-page assets, catalogue optimisation. Included in the 3.5% for our management clients. Available as a stand-alone if you already have an agency running your ads.',
+      'Ad creative, product-page assets, catalogue optimisation. Included in the 3.5% if we already run your store. Available as a stand-alone if you already have an agency running your ads.',
     meta: {
       title: 'Creative and catalogue',
       description:
@@ -189,7 +189,7 @@ export const services: ServiceContent[] = [
     ],
     cost: {
       headline: 'Included',
-      subhead: 'in the 3.5% for management clients · quoted separately for standalone work',
+      subhead: 'in the 3.5% if we run your store · quoted separately for standalone work',
     },
     proof: null,
     ctaMessage: 'Hi, I want a quote for creative or catalogue work.',

@@ -103,17 +103,26 @@ const articleSchema = {
 			</h2>
 
 			{/* A <dl> may only contain dt/dd (optionally wrapped in a div). Caption
-			    text lives inside the <dd>, not as a sibling <p>. */}
+			    text lives inside the <dd>, not as a sibling <p>.
+
+			    The measurement window lives in the <dt>, above the figure, not in
+			    the micro line below it. These tiles sit side by side and their
+			    windows can differ (Divine Rudras: revenue last 30 days beside ad
+			    spend last 60 days) — with the period buried underneath, the two
+			    large numbers read as a matched pair and a reader who divides them
+			    gets a ratio that is wrong by 2x and that the business never
+			    claimed. Stating the window before the number removes that reading
+			    at zero layout cost. */}
 			<dl class="grid gap-6 md:grid-cols-3">
 				{client.result.kind === 'quantitative' && (
 					<div class="border border-rule-strong bg-paper rounded p-6">
-						<dt class="kicker mb-2">{client.result.metric}</dt>
+						<dt class="kicker mb-2">{client.result.metric} · {client.result.period}</dt>
 						<dd>
 							<span class="num text-accent block" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1;">
 								{fmtINR(client.result.amount)}
 							</span>
 							<span class="block font-mono text-micro text-ink-muted mt-2">
-								{client.result.period} · {client.result.source}
+								{client.result.source}
 							</span>
 						</dd>
 					</div>
@@ -121,13 +130,13 @@ const articleSchema = {
 
 				{spend && (
 					<div class="border border-rule bg-paper rounded p-6">
-						<dt class="kicker mb-2">Ad spend managed</dt>
+						<dt class="kicker mb-2">Ad spend managed · {spend.period}</dt>
 						<dd>
 							<span class="num text-ink block" style="font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1;">
 								{fmtINR(spend.amount)}
 							</span>
 							<span class="block font-mono text-micro text-ink-muted mt-2">
-								{spend.platform} · {spend.scope} · {spend.period}
+								{spend.platform} · {spend.scope}
 							</span>
 						</dd>
 					</div>

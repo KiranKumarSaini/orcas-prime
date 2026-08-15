@@ -154,6 +154,16 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 										<span>{client.result.description}</span>
 									)}
 								</div>
+								{/* Three states, in descending order of what the reader can
+								    actually do with them: read the study, or failing that
+								    go check the live store themselves, or failing that a
+								    plain present-tense status.
+
+								    This column used to render "Case study soon" for six of
+								    eight rows — an undated promise repeated down the page,
+								    which reads as an unfinished site rather than as eight
+								    real accounts. A checkable outbound link is worth more
+								    than an apology, and a status is at least true today. */}
 								<div class="md:text-right">
 									{study ? (
 										<a
@@ -162,9 +172,17 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 										>
 											Read case study &rarr;
 										</a>
+									) : client.liveUrl ? (
+										<a
+											href={client.liveUrl}
+											rel="noopener"
+											class="font-sans text-small text-accent hover:text-accent-hover link-draw whitespace-nowrap"
+										>
+											Visit store &rarr;
+										</a>
 									) : (
 										<span class="font-mono text-micro text-ink-muted whitespace-nowrap">
-											Case study soon
+											Running now
 										</span>
 									)}
 								</div>

@@ -16,7 +16,15 @@ import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import Schema from '../components/Schema.astro';
 import { faqPage, service as serviceSchema } from '../lib/schema';
 import { getCollection } from 'astro:content';
-import { results, headline, fmtINR } from '../data/results';
+import {
+	results,
+	headline,
+	fmtINR,
+	totalRevenue,
+	totalAdSpend,
+	revenueBasis,
+	adSpendBasis,
+} from '../data/results';
 import { SITE } from '../lib/site';
 import { Image } from 'astro:assets';
 import { storefrontFor, storefrontAlt } from '../lib/images';
@@ -249,10 +257,19 @@ const rtoFaqs = faqPage([
 const roas = headline.roas;
 const roasClient = results.clients.find((c) => c.slug === roas.clientSlug)!;
 
+/*
+  Exact figures, summed from the per-brand rows in results.ts rather than
+  hand-typed. The `note` key each tile used to carry was never rendered — the
+  markup below only ever printed value + label — so all three of the site's
+  most prominent numbers shipped with no period, scope or basis, which
+  Module 5 §9 requires. The notes are replaced by one shared basis line under
+  the row: it states the mixed windows honestly and, being driven off the data,
+  cannot go stale by hand.
+*/
 const stats = [
-	{ label: 'Total tracked revenue',       value: headline.totalRevenue.display, note: 'across all Partner Brands' },
-	{ label: 'Ad spend under management',   value: headline.totalAdSpend.display, note: 'across Google, Meta, Flipkart' },
-	{ label: 'Brands',                      value: String(headline.brandCount.value), note: headline.brandCount.descriptor },
+	{ label: 'Total tracked revenue',     value: fmtINR(totalRevenue) },
+	{ label: 'Ad spend under management', value: fmtINR(totalAdSpend) },
+	{ label: 'Brands',                    value: String(headline.brandCount.value) },
 ];
 
 const showcase = [
@@ -631,6 +648,16 @@ const learnGuides = learnSlugs
 				</div>
 			))}
 		</dl>
+
+		{/* The basis these three numbers rest on. Module 5 §9 requires a stated
+		    period on every metric, and these are the site's most prominent
+		    figures. Stating the mixed windows plainly is the honest version —
+		    a reader who divides revenue by spend should know the windows differ
+		    before they do it. Driven off the data, so it cannot go stale. */}
+		<p class="font-mono text-micro text-ink-muted mt-4 leading-relaxed max-w-[62ch]" data-animate-item style="--i:5">
+			Across {headline.brandCount.value} Partner Brands · revenue {revenueBasis} ·
+			ad spend {adSpendBasis} · as of {results.lastUpdated}
+		</p>
 
 		{/* Block C — Partner Brands */}
 		<div class="mt-20" data-animate-item style="--i:5">

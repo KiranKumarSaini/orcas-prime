@@ -2,9 +2,7 @@
   "$schema": "./results.schema.json",
   "_notice": "This file is the ONLY source of truth for client metrics on the site. Every value is verbatim from docs/PROJECT-BRIEF.md §5. No fabricated, inflated, or placeholder metrics. If a client has no metric, the qualitative description stays.",
   "lastUpdated": "2026-08-02",
-
   "onboardingYear": 2026,
-
   "clients": [
     {
       "slug": "ladakh-berry",
@@ -113,7 +111,6 @@
       }
     }
   ],
-
   "adSpend": [
     {
       "clientSlug": "ladakh-berry",
@@ -140,7 +137,6 @@
       "period": "last 60 days"
     }
   ],
-
   "headline": {
     "roas": {
       "ratio": 5.1,
@@ -153,11 +149,9 @@
       "description": "ROAS on Google Ads"
     },
     "totalRevenue": {
-      "display": "₹13.2 lakh+",
       "descriptor": "total tracked client revenue generated"
     },
     "totalAdSpend": {
-      "display": "₹4.4 lakh+",
       "descriptor": "total ad spend under management"
     },
     "brandCount": {

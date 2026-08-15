@@ -45,12 +45,26 @@ export const SITE = {
   ],
 
   address: {
-    // TODO(§13): real street address.
-    street: 'Street address',
+    /*
+      TODO(§13): real street address and PIN, still outstanding from the
+      operator. Deliberately EMPTY STRINGS, not placeholder text.
+
+      These previously held the literal strings 'Street address' and '302XXX',
+      which shipped to production — visible in the footer and on /contact, and
+      emitted inside PostalAddress on every page. Publishing a fabricated PIN
+      in a machine-readable field is worse than omitting it: Module 5 §9 calls
+      the visible version an active trust leak, and Module 7 §6 forbids schema
+      that describes something not true of the business. PostalAddress stays
+      valid without streetAddress/postalCode, so a partial-but-true address is
+      strictly better than a complete-but-invented one.
+
+      Every consumer guards on empty, so filling these in is the only change
+      needed when the real values arrive.
+    */
+    street: '',
     locality: 'Jaipur',
     region: 'Rajasthan',
-    // TODO(§13): real PIN code.
-    postalCode: '302XXX',
+    postalCode: '',
     country: 'IN',
   },
 
