@@ -101,14 +101,15 @@ const ctaMsg = 'Hi, I read one of your guides — I want to talk about my store.
 	{/* ─── 3 · Close ───────────────────────────────────────────────── */}
 	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			{/* Statement, not a question (Module 6 §5). */}
 			<p class="font-serif text-h2 max-w-[32ch] mx-auto">
-				Question we haven't answered yet?
+				The next guide comes from whatever gets asked most.
 			</p>
 			<p class="text-lead text-ink-muted mt-4">
-				Ask it on WhatsApp. If it's a good one, it becomes the next guide.
+				Ask yours on WhatsApp. If it's a good one, it becomes the next guide.
 			</p>
 			<div class="mt-8 flex justify-center">
-				<WhatsAppCTA message={ctaMsg} />
+				<WhatsAppCTA message={ctaMsg} note="No forms, no discovery call booking, no sales sequence. A conversation." noteCentered />
 			</div>
 		</div>
 	</section>

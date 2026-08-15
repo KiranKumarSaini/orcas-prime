@@ -19,6 +19,17 @@ export interface Props {
   label?: string;
   /** Extra classes for layout. */
   class?: string;
+  /**
+   * Reassurance line rendered under the button (Module 6 §7's under-CTA
+   * microcopy). This defuses the specific fear that stops a founder tapping
+   * a WhatsApp button — that they are entering a sales sequence — and it
+   * previously existed in exactly one place on the site while eleven other
+   * primary CTAs shipped bare. Omit it and the anchor renders exactly as
+   * before, so no existing call site changes shape.
+   */
+  note?: string;
+  /** Centre the note under a centred button. */
+  noteCentered?: boolean;
 }
 
 const {
@@ -26,6 +37,8 @@ const {
   variant = 'primary',
   label = variant === 'link' ? 'Start on WhatsApp' : 'Start on WhatsApp',
   class: extraClass = '',
+  note,
+  noteCentered = false,
 } = Astro.props;
 
 const digits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
@@ -41,13 +54,31 @@ const base: Record<NonNullable<Props['variant']>, string> = {
 };
 ---
 
-<a
-	href={href}
-	class:list={[base[variant], extraClass]}
-	rel="noopener"
-	data-cta="whatsapp"
-	data-msg={message.slice(0, 40)}
->
-	{label}
-	{variant !== 'link' && <span aria-hidden="true" class="num">→</span>}
-</a>
+{note ? (
+	<div>
+		<a
+			href={href}
+			class:list={[base[variant], extraClass]}
+			rel="noopener"
+			data-cta="whatsapp"
+			data-msg={message.slice(0, 40)}
+		>
+			{label}
+			{variant !== 'link' && <span aria-hidden="true" class="num">→</span>}
+		</a>
+		<p class:list={['text-small text-ink-muted mt-3 max-w-prose', noteCentered && 'mx-auto']}>
+			{note}
+		</p>
+	</div>
+) : (
+	<a
+		href={href}
+		class:list={[base[variant], extraClass]}
+		rel="noopener"
+		data-cta="whatsapp"
+		data-msg={message.slice(0, 40)}
+	>
+		{label}
+		{variant !== 'link' && <span aria-hidden="true" class="num">→</span>}
+	</a>
+)}

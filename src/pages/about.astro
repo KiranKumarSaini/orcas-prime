@@ -92,12 +92,30 @@ const initials = (name: string) =>
 				<div class="border-l-2 border-accent pl-6 md:pl-8">
 					<p class="kicker text-accent mb-3">Ours</p>
 					<p class="text-base leading-relaxed text-ink">
-						You message one of us. That person already knows your RTO rate, your
-						margin, and what we changed last Tuesday. There is no relay because
-						there is nobody to relay to.
+						You message one of us. That person already knows how many of your
+						parcels come back refused, your margin, and what we changed last
+						Tuesday. There is no relay because there is nobody to relay to.
 					</p>
 				</div>
 			</div>
+
+			{/* Category exclusivity, stated full-width rather than as a fourth
+			    comparison column — it is a position, not another point in the
+			    contrast. For a founder handing an outsider their ad data,
+			    margins and courier performance this is the single most
+			    reassuring commitment on the site, and very few Indian agencies
+			    will make it. It previously appeared exactly once, as FAQ #4 on
+			    a page reachable only from the footer. */}
+			<p class="text-base text-ink-muted leading-relaxed mt-10 max-w-prose border-t border-rule pt-8">
+				We also won't run two brands in the same category and price band. Your
+				competitor cannot hire us while we have you.
+			</p>
+
+			<p class="text-small text-ink-muted mt-6">
+				<a href="/how-we-work" class="text-accent hover:text-accent-hover link-draw">
+					How we work, week by week &rarr;
+				</a>
+			</p>
 		</div>
 	</section>
 
@@ -155,6 +173,20 @@ const initials = (name: string) =>
 							))}
 						</ul>
 
+						{/* Background, where it exists. Module 5 §6: a specific, checkable,
+						    unglamorous fact ("Google Ads for ~25 sellers at Shopdeck")
+						    outperforms any adjective, and is most of what a two-person
+						    company has to offer as proof. Rendered only when supplied —
+						    a card with nothing here is an honest gap, not a hole to fill
+						    with prose. */}
+						{f.credentials.length > 0 && (
+							<ul class="mt-5 pt-5 border-t border-rule space-y-2">
+								{f.credentials.map((c) => (
+									<li class="font-mono text-micro text-ink-muted leading-relaxed">{c}</li>
+								))}
+							</ul>
+						)}
+
 						{f.linkedin && (
 							<p class="mt-6">
 								<a
@@ -179,7 +211,7 @@ const initials = (name: string) =>
 				<div>
 					<p class="kicker mb-4">Capacity</p>
 					<h2 class="text-h1 font-serif">
-						We take on four new Partner Brands a quarter.
+						We take on at most four new Partner Brands a quarter.
 					</h2>
 				</div>
 				<div class="max-w-prose">
@@ -236,7 +268,7 @@ const initials = (name: string) =>
 				one Partner Brand. Flipkart Gold tier for another.
 			</p>
 			<div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-				<WhatsAppCTA message={ctaMsg} />
+				<WhatsAppCTA message={ctaMsg} note="No forms, no discovery call booking, no sales sequence. A conversation." noteCentered />
 				<a
 					href="/work"
 					class="font-sans text-base text-accent hover:text-accent-hover link-draw"

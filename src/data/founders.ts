@@ -3,12 +3,17 @@
  *
  * IMPORTANT — the `bio` and `does` fields below are DRAFTS written to get
  * the page shipped. They describe the work honestly but the operator must
- * correct the personal specifics (background, years of experience, the
- * actual split of responsibilities between the two founders).
+ * correct the personal specifics (years of experience, the actual split of
+ * responsibilities between the two founders).
  *
- * Nothing here asserts a biographical fact — no employers, no education,
- * no dates — precisely because those cannot be invented about real people.
- * Fill them in and the page gets stronger.
+ * `credentials` is different: those entries are operator-supplied facts taken
+ * verbatim from docs/Module-05 §6, not invented. Module 5 argues they are the
+ * most persuasive thing a two-person company has — "managed Google Ads for
+ * ~25 sellers at Shopdeck" is specific, checkable and unglamorous, which is
+ * exactly why it beats any adjective. They were simply never wired into the
+ * page. Prashant's array is intentionally empty: §10 logs his background as
+ * still outstanding, and an honestly empty slot is the correct representation
+ * of a known gap rather than padded prose.
  */
 
 export type Founder = {
@@ -20,6 +25,12 @@ export type Founder = {
   bio: string;
   /** What this person actually handles day to day. */
   does: string[];
+  /**
+   * Checkable background facts — education, prior employers, real numbers.
+   * Verbatim from Module 5 §6. Empty array where the operator has not
+   * supplied them; the card then shows nothing rather than filler.
+   */
+  credentials: string[];
   /** Photo path in /public. TODO(§13): supply real portraits. */
   photo: string | null;
   /** TODO(§7 Layer 4): LinkedIn profile URL. */
@@ -40,6 +51,10 @@ export const founders: Founder[] = [
       'Conversion tracking and analytics setup',
       'Monthly client reporting',
     ],
+    credentials: [
+      'B.Tech, Chemical Engineering — SVNIT Surat',
+      'Performance Marketing Specialist, Shopdeck Bengaluru — Google Ads for ~25 ecommerce sellers',
+    ],
     photo: null, // TODO(§13): add /founders/kiran.jpg (square, min 800×800)
     linkedin: '',  // TODO(§7 Layer 4)
   },
@@ -55,6 +70,8 @@ export const founders: Founder[] = [
       'Catalogue and listing optimisation',
       'RTO disputes, logistics and checkout integration',
     ],
+    // TODO(§13): Prashant's background — logged in Module 5 §10 as outstanding.
+    credentials: [],
     photo: null, // TODO(§13): add /founders/prashant.jpg (square, min 800×800)
     linkedin: '',  // TODO(§7 Layer 4)
   },

@@ -162,6 +162,17 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 			<p class="text-base text-ink-muted mt-10 max-w-prose">
 				Nobody on the first two models is doing anything wrong — they're doing exactly what their pricing rewards. We built Orcas Prime on the third because it's the only one that pays us to think about your business the way you do.
 			</p>
+
+			{/* Surfaced here as well as on /about — this is the point in the page
+			    where the reader is actively weighing the model, and exclusivity
+			    is part of what they are being offered for the 3.5%. */}
+			<p class="text-base text-ink-muted mt-6 max-w-prose">
+				We also won't run two brands in the same category and price band. Your
+				competitor cannot hire us while we have you.
+				<a href="/how-we-work" class="text-accent hover:text-accent-hover link-draw ml-1">
+					How we work &rarr;
+				</a>
+			</p>
 		</div>
 	</section>
 
@@ -333,7 +344,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 				It’s already written &mdash; just hit send.
 			</p>
 			<div class="mt-8 flex justify-center">
-				<WhatsAppCTA message={ctaMsg} />
+				<WhatsAppCTA message={ctaMsg} note="No forms, no sales sequence. We'll tell you honestly if the model doesn't fit your numbers." noteCentered />
 			</div>
 			<p class="text-small text-ink-muted mt-6">
 				Not selling on Amazon yet?

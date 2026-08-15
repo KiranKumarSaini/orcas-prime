@@ -19,6 +19,12 @@ export type ServiceContent = {
   name: string;
   navLabel: string;              // shorter label for footer/nav
   kicker: string;
+  /**
+   * Hub link text. Specific per service, because five identical 'Read more'
+   * links tell the reader nothing about which of five very different pages
+   * they are about to open (Module 6 §6's secondary-CTA library).
+   */
+  linkLabel: string;
   h1: string;
   lead: string;
   meta: {                        // per-page <head> data
@@ -39,6 +45,7 @@ export type ServiceContent = {
 export const services: ServiceContent[] = [
   {
     slug: 'shopify-meta-google-ads',
+    linkLabel: 'See what running the store looks like',
     name: 'Shopify + Meta and Google Ads',
     navLabel: 'Shopify + ads',
     kicker: 'The core service',
@@ -74,6 +81,7 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'shopify-store-development',
+    linkLabel: 'See the build scope',
     name: 'Shopify store development',
     navLabel: 'Shopify build',
     kicker: 'One-time build',
@@ -105,6 +113,7 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'amazon-account-management',
+    linkLabel: 'See what we run on Amazon',
     name: 'Amazon account management',
     navLabel: 'Amazon',
     kicker: 'Marketplace',
@@ -136,6 +145,7 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'flipkart-meesho-management',
+    linkLabel: 'See how the marketplaces differ',
     name: 'Flipkart and Meesho management',
     navLabel: 'Flipkart & Meesho',
     kicker: 'Marketplace',
@@ -169,6 +179,7 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'creative-and-catalogue',
+    linkLabel: 'See what we produce',
     name: 'Creative and catalogue',
     navLabel: 'Creative & catalogue',
     kicker: 'Production',

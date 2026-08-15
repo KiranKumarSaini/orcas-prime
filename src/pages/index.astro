@@ -826,8 +826,26 @@ const learnGuides = learnSlugs
 			</a>
 		</div>
 
-		<p class="text-small opacity-65 mt-5" data-animate-item style="--i:3">
+		<p class="text-small text-ink-muted mt-5" data-animate-item style="--i:3">
 			No forms, no discovery call booking, no sales sequence. A conversation.
+		</p>
+
+		{/* Module 3 §8 requires contact details as literal text alongside the
+		    WhatsApp link — a founder who has read the whole page and is nearly
+		    convinced but not ready to open a chat otherwise has nothing to do
+		    but leave. The /how-we-work link answers the objection this section
+		    exists to remove ("am I committing to something?"); that page was
+		    previously reachable from the footer only. Kept to one quiet line so
+		    it reads as a footnote to the ask, not a second ask. */}
+		<p class="text-small text-ink-muted mt-3 leading-relaxed" data-animate-item style="--i:4">
+			Or email <a href={`mailto:${SITE.contact.email}`} class="text-accent hover:text-accent-hover link-draw">{SITE.contact.email}</a>
+			<span aria-hidden="true"> · </span>
+			<span class="num">{SITE.contact.phone}</span>
+			<br class="sm:hidden" />
+			<span class="hidden sm:inline" aria-hidden="true"> · </span>
+			<a href="/how-we-work" class="text-accent hover:text-accent-hover link-draw">
+				What Day 0 to Week 2 actually looks like &rarr;
+			</a>
 		</p>
 
 		{/* The wedge offer — a distinct alternative path, not a second pitch. */}

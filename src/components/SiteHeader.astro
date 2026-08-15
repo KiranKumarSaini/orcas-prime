@@ -32,6 +32,22 @@ const nav = [
   { href: '/about',    label: 'About' },
 ];
 
+/*
+  Mobile-only extras. Deliberately NOT added to `nav` above — that array also
+  drives the desktop <ul> and the aria-current logic, and these two are not
+  peers of the primary destinations.
+
+  A visitor who has deliberately opened the menu is looking for a destination,
+  not a chat link. /contact carries the four pre-written situation routes (the
+  site's only "pick the version of this that is you" surface, and a lower-
+  commitment entry than a raw WhatsApp button) and /how-we-work answers "what
+  happens if I reach out". Both were previously reachable from the footer only.
+*/
+const mobileExtra = [
+  { href: '/how-we-work', label: 'How we work' },
+  { href: '/contact',     label: 'Contact' },
+];
+
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const digits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
@@ -113,6 +129,28 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 									class:list={[
 										'block py-4 font-sans text-base',
 										active ? 'text-accent' : 'text-ink',
+									]}
+								>
+									{item.label}
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+
+				{/* Secondary group — its own rule and a muted colour so these read
+				    as supporting routes rather than nav items of equal rank. */}
+				<ul class="flex flex-col divide-y divide-rule border-t border-rule-strong">
+					{mobileExtra.map((item) => {
+						const active = currentPath === item.href;
+						return (
+							<li>
+								<a
+									href={item.href}
+									aria-current={active ? 'page' : undefined}
+									class:list={[
+										'block py-4 font-sans text-small',
+										active ? 'text-accent' : 'text-ink-muted',
 									]}
 								>
 									{item.label}
