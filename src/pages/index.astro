@@ -636,15 +636,15 @@ const learnGuides = learnSlugs
 		</div>
 
 		{/* Block B — aggregate */}
-		<dl class="mt-12 grid gap-3 grid-cols-3">
+		<dl class="mt-12 grid gap-3 grid-cols-1 sm:grid-cols-3">
 			{stats.map((s, i) => (
-				<div class="card p-4 md:p-6" data-animate-item style={`--i:${i + 2}`}>
+				<div class="card p-4 md:p-6 flex items-baseline justify-between gap-4 sm:block" data-animate-item style={`--i:${i + 2}`}>
 					<dd>
-						<span class="num text-ink block" style="font-size: clamp(1.25rem, 5vw, 2.25rem); line-height: 1.05;">
+						<span class="num text-ink block" style="font-size: clamp(1.5rem, 5vw, 2.25rem); line-height: 1.05;">
 							{s.value}
 						</span>
 					</dd>
-					<dt class="kicker mt-2.5 leading-snug">{s.label}</dt>
+					<dt class="kicker leading-snug sm:mt-2.5 text-right sm:text-left">{s.label}</dt>
 				</div>
 			))}
 		</dl>

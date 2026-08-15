@@ -92,8 +92,24 @@
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.028em;
 
-  --text-h1: clamp(2rem, 3vw + 1rem, 3rem);
-  --text-h1--line-height: 1.08;
+  /*
+    Section headings. NOT page heroes — those use --text-display; this token
+    is only ever applied to <h2> section headings sitewide (verified).
+
+    Mobile floor lowered from 2rem to 1.75rem on 2026-08-15 to restore
+    hierarchy on the surface that matters most. At 375px the old floors put
+    the hero at 34px and every section heading at 32px — a ratio of 1.06,
+    which is no hierarchy at all: the page read as one flat band of large
+    serif with nothing leading it.
+
+    The hero could not grow to fix this. Measured on the running build, the
+    locked headline is 5 lines at 34px, 6 lines at 36px and 7 at 38px, so
+    raising the display floor costs a line and ~50px per 2px gained. Opening
+    the gap from below is free. Now 34/28 on mobile (1.21) and 72/44 on
+    desktop (1.64), up from 1.06/1.50.
+  */
+  --text-h1: clamp(1.75rem, 3vw + 0.5rem, 2.75rem);
+  --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.022em;
 
   --text-h2: clamp(1.5rem, 1.5vw + 1rem, 2.125rem);
@@ -117,10 +133,34 @@
   --text-micro--line-height: 1.4;
 
   /* ─── Radii — small, consistent, no soft-serve corners ────────────────── */
-  --radius-sm: 2px;
-  --radius: 3px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
+  /*
+    Radius scale, reconciled 2026-08-15.
+
+    These were 2 / 3 / 4 / 6px — from the original sharp editorial design
+    language, and never revisited when the floating-panel system landed on
+    2026-08-08 with 24px and 32px corners. The result was two design systems
+    running at once: a 4px button sitting inside a 24px panel reads as a
+    control borrowed from a different product, and the homepage ended up
+    rendering seven distinct non-pill radii while interior pages still wore
+    the old 3px corner.
+
+    Now one 4px-step scale that sits under the panel corners rather than
+    fighting them. Names are unchanged so no markup had to move.
+
+      sm  6px   focus rings, skip link, small marks
+      md 10px   buttons, inputs (also the bare `rounded` default)
+      lg 14px   cards
+      xl 18px   larger inner blocks
+      2xl 22px  panel-adjacent containers (mobile nav, accordion shells)
+      panel     24px mobile / 32px desktop, defined on .panel
+      full      pills — header, sticky CTA, tags
+  */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 22px;
 
   /* ─── Layout ──────────────────────────────────────────────────────────── */
   --container-prose: 44rem;
