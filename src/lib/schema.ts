@@ -59,7 +59,24 @@ export function organization() {
   };
 }
 
-/** LocalBusiness — the "in Jaipur" anchor. Emitted sitewide (§7 Layer 5). */
+/**
+ * LocalBusiness — the "in Jaipur" anchor. Emitted sitewide (§7 Layer 5).
+ *
+ * Carries the fee as STRUCTURED data, not just prose. "3.5% of net sales"
+ * is the single most citable commercial fact on the site and the exact thing
+ * a founder asks an assistant ("what do Indian ecommerce agencies charge?"),
+ * yet it previously existed nowhere machine-readable — only inside an FAQ
+ * answer string, while this object advertised `priceRange: '₹₹'`, which
+ * carries no information at all and is the kind of filler that makes the
+ * rest of the markup less trustworthy.
+ *
+ * Modelled as an Offer with a UnitPriceSpecification: schema.org has no
+ * native "percentage of a customer's revenue" price type, so the percentage
+ * is expressed via referenceQuantity (3.5 per 100 of net sales) with a plain
+ * `description` carrying the human-readable version. Both the number and its
+ * base are machine-readable, and nothing here asserts a figure the visible
+ * page does not already state.
+ */
 export function localBusiness() {
   return {
     '@context': 'https://schema.org',
@@ -69,11 +86,46 @@ export function localBusiness() {
     url: SITE.url,
     image: abs('/og-default.png'),
     description: SITE.shortDescription,
-    priceRange: '₹₹',
     address: postalAddress(),
     areaServed: {
       '@type': 'Country',
       name: 'India',
+    },
+    currenciesAccepted: SITE.priceCurrency,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Ecommerce growth management',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          name: 'Ecommerce growth management',
+          description:
+            '3.5% + GST of net sales, charged after refunds, returns and RTOs are deducted. No monthly retainer, no setup fee, no lock-in.',
+          priceCurrency: SITE.priceCurrency,
+          priceSpecification: {
+            '@type': 'UnitPriceSpecification',
+            price: 3.5,
+            priceCurrency: SITE.priceCurrency,
+            referenceQuantity: {
+              '@type': 'QuantitativeValue',
+              value: 100,
+              unitText: 'net sales',
+            },
+            valueAddedTaxIncluded: false,
+            description: '3.5% of net sales after returns and RTOs, plus GST',
+          },
+          url: abs('/pricing'),
+        },
+        {
+          '@type': 'Offer',
+          name: 'Amazon seller onboarding',
+          description:
+            'Account setup, listings and full management for the first three months at no cost, funded by Amazon\'s seller referral programme. No lock-in afterwards.',
+          price: 0,
+          priceCurrency: SITE.priceCurrency,
+          url: abs('/amazon-free-onboarding'),
+        },
+      ],
     },
     telephone: SITE.contact.phone,
     email: SITE.contact.email,
