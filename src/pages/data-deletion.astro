@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+
+/*
+  /data-deletion — the "User data deletion" instructions URL required by Meta
+  App settings. Must stay publicly reachable, no login, no redirect to a form.
+*/
+
+const { contact } = SITE;
+const subject = encodeURIComponent('Data deletion request');
+const steps = [
+  {
+    title: 'Send a request',
+    detail: `Email <a href="mailto:${contact.email}?subject=${subject}" class="text-accent hover:text-accent-hover link-draw">${contact.email}</a> with the subject "Data deletion request", or message ${contact.phone} on WhatsApp.`,
+  },
+  {
+    title: 'Tell us who you are',
+    detail: `Include your name, your brand or business name, and, if the request relates to advertising data, the ad account ID (it starts with <code>act_</code>). We use this only to find your records and to confirm the request is genuine.`,
+  },
+  {
+    title: 'We delete it',
+    detail: `We delete the data and revoke any stored access within 30 days, then confirm by email. Records we are legally required to keep, such as invoices and tax records, are kept only for the period the law requires.`,
+  },
+];
+---
+
+<BaseLayout
+	title="Data Deletion"
+	description="How to ask Orcas Prime to delete your data, including data received through Meta's advertising platform."
+	canonicalPath="/data-deletion"
+>
+	<section class="bg-paper panel mt-3 md:mt-4 mb-3 md:mb-4">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-16 md:pb-24">
+			<p class="kicker mb-4">Legal</p>
+			<h1 class="text-display font-serif max-w-[18ch]">Delete your data</h1>
+			<p class="text-lead text-ink-muted mt-6 max-w-prose leading-relaxed">
+				You can ask Orcas Prime to delete the data we hold about you or your business at any time. This includes advertising performance data we received through Meta's Marketing API.
+			</p>
+
+			<ol class="mt-12 max-w-prose border-t border-rule">
+				{steps.map((s, i) => (
+					<li class="border-b border-rule py-6 grid gap-2 md:grid-cols-[3rem_1fr]">
+						<span class="font-mono text-small text-ink-muted num">0{i + 1}</span>
+						<div>
+							<h2 class="font-serif text-h3 font-medium text-ink">{s.title}</h2>
+							<p class="text-base text-ink-muted mt-2 leading-relaxed" set:html={s.detail} />
+						</div>
+					</li>
+				))}
+			</ol>
+
+			<div class="mt-12 max-w-prose">
+				<h2 class="font-serif text-h3 font-medium text-ink">Faster: cut off access yourself</h2>
+				<p class="text-base text-ink-muted mt-3 leading-relaxed">
+					If you shared an ad account with Orcas Prime, you can stop all further data collection immediately. In Meta Business Settings, go to Accounts, then Ad accounts, select the account, and remove Orcas Prime under Partners. We stop receiving that account's data from that moment. Deleting what we already hold still needs the request above.
+				</p>
+			</div>
+
+			<p class="text-small text-ink-muted mt-10">
+				<a href="/privacy-policy" class="text-accent hover:text-accent-hover link-draw">&larr; Privacy Policy</a>
+			</p>
+		</div>
+	</section>
+</BaseLayout>

@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+
+/*
+  /privacy-policy — required by Meta (App Review → App settings → Privacy
+  policy URL) for the Orcas Prime Marketing API app, and by good practice for
+  a site that runs GA4 and takes enquiries.
+
+  Describes only what Orcas Prime actually does. Any change to the data flows
+  in docs (new tool, new region, new retention window) must be reflected here.
+*/
+
+const { contact } = SITE;
+const updated = '16 October 2026';
+
+const sections = [
+  {
+    id: 'who-we-are',
+    title: 'Who we are',
+    body: [
+      `Orcas Prime is a marketing agency based in Jaipur, Rajasthan, India. We build and run Shopify stores and online advertising for D2C brands, and we are paid a percentage of net sales. This policy explains what information we collect, why, and how you can have it removed. "We", "us" and "our" mean Orcas Prime.`,
+    ],
+  },
+  {
+    id: 'what-we-collect',
+    title: 'What we collect',
+    list: [
+      `<strong>This website.</strong> Standard analytics data (pages viewed, device type, approximate location, referring site) collected through Google Analytics 4. If you contact us by email or WhatsApp, we keep the message and the details you give us.`,
+      `<strong>Client business data.</strong> When a brand becomes our client, it gives us access to its own business accounts so we can report on and improve results. This includes advertising performance data (spend, impressions, clicks, campaign, ad set and ad names, purchases and revenue attributed to ads), store order data (order values, products, order status, payment method, delivery and return status) and shipping status data from the client's courier.`,
+      `<strong>Customer details inside client order data.</strong> For each order this can include the customer's email address, phone number, and delivery city and PIN code. We do not store customer names or street addresses. We use these only to measure delivery and return outcomes for that client. We do not use them to contact those customers or for any purpose of our own.`,
+      `<strong>Meta (Facebook and Instagram) advertising data.</strong> With the client's permission, we read advertising performance data for the client's own ad accounts through Meta's Marketing API. We receive reporting data about the client's ads. We do not receive, request or store the profiles, messages, posts or personal information of Facebook or Instagram users.`,
+    ],
+  },
+  {
+    id: 'how-we-use',
+    title: 'How we use it',
+    list: [
+      `To show each client its own profit, advertising and delivery figures in a private dashboard.`,
+      `To advise on and optimise the client's advertising, store and shipping operations.`,
+      `To respond to enquiries and to operate and improve this website.`,
+      `To meet legal, accounting and tax obligations.`,
+    ],
+    after: `We do not sell personal data. We do not use client data to advertise to anyone, to build profiles of individuals, or for any purpose other than serving the client it belongs to. One client's data is never shown to another client.`,
+  },
+  {
+    id: 'meta-data',
+    title: 'Data obtained from Meta',
+    body: [
+      `We access Meta platform data only with the permission of the business that owns the ad account, granted by that business through Meta's own business tools. We use the <code>ads_read</code> permission to read advertising performance data, and we use it only to produce reports for that same business. We do not share Meta platform data with third parties other than the service providers listed below, who process it on our behalf. A client can withdraw our access at any time in its Meta Business Settings, and we then stop receiving its data.`,
+    ],
+  },
+  {
+    id: 'who-processes',
+    title: 'Who else handles the data',
+    body: [
+      `We use a small number of service providers to store and process data on our behalf: a managed database provider and a dedicated server provider, both with data centres in the European Union; a workflow automation tool that we host ourselves; Shopify, courier and advertising platforms that the client already uses; and Google Analytics for website statistics. They process data only to provide their service to us. We may also disclose information where the law requires it.`,
+    ],
+  },
+  {
+    id: 'security',
+    title: 'Security',
+    body: [
+      `Access credentials are stored in encrypted or access-controlled systems and are not kept in the reporting database. Dashboards are private to the client they belong to and are shared only through links given to that client. Access to our systems is limited to the people who need it to do the work.`,
+    ],
+  },
+  {
+    id: 'retention',
+    title: 'How long we keep it',
+    body: [
+      `We keep client data for as long as we work with that client. When the engagement ends, or when a client asks, we delete the client's advertising, store and shipping data and revoke the stored credentials within 30 days, except for records we must keep by law, such as invoices and tax records. Website analytics are kept for the period set in our Google Analytics property.`,
+    ],
+  },
+  {
+    id: 'your-rights',
+    title: 'Your choices and rights',
+    body: [
+      `You can ask us to tell you what we hold about you, correct it, or delete it. Instructions for deletion are on our <a href="/data-deletion" class="text-accent hover:text-accent-hover link-draw">data deletion page</a>. If you are a customer of one of our clients, your data was supplied by that client, who is responsible for it; you can ask either the client or us, and we will act on a request relating to data we hold. We follow India's Digital Personal Data Protection Act, 2023, and the Information Technology Act, 2000.`,
+    ],
+  },
+  {
+    id: 'children',
+    title: 'Children',
+    body: [`Our services are for businesses. We do not knowingly collect personal data from children.`],
+  },
+  {
+    id: 'changes',
+    title: 'Changes to this policy',
+    body: [`If we change this policy we will post the new version on this page and update the date at the top.`],
+  },
+  {
+    id: 'contact',
+    title: 'Contact and grievances',
+    body: [
+      `For any question, request or complaint about your data, write to <a href="mailto:${contact.email}" class="text-accent hover:text-accent-hover link-draw">${contact.email}</a> or call ${contact.phone}. We reply within 7 working days.`,
+    ],
+  },
+];
+---
+
+<BaseLayout
+	title="Privacy Policy"
+	description="What information Orcas Prime collects, how it is used, who handles it, and how to have it deleted."
+	canonicalPath="/privacy-policy"
+>
+	<section class="bg-paper panel mt-3 md:mt-4 mb-3 md:mb-4">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-16 md:pb-24">
+			<p class="kicker mb-4">Legal</p>
+			<h1 class="text-display font-serif max-w-[16ch]">Privacy Policy</h1>
+			<p class="text-small text-ink-muted mt-6">Last updated <span class="num">{updated}</span></p>
+
+			<div class="mt-12 max-w-prose">
+				{sections.map((s) => (
+					<section id={s.id} class="mb-10 scroll-mt-24">
+						<h2 class="font-serif text-h3 font-medium text-ink">{s.title}</h2>
+						{s.body && s.body.map((p) => (
+							<p class="text-base text-ink-muted mt-3 leading-relaxed" set:html={p} />
+						))}
+						{s.list && (
+							<ul class="mt-3 grid gap-3">
+								{s.list.map((li) => (
+									<li class="text-base text-ink-muted leading-relaxed pl-5 relative before:content-[''] before:absolute before:left-0 before:top-[0.7em] before:w-2 before:h-px before:bg-ink-muted" set:html={li} />
+								))}
+							</ul>
+						)}
+						{s.after && (
+							<p class="text-base text-ink-muted mt-4 leading-relaxed">{s.after}</p>
+						)}
+					</section>
+				))}
+			</div>
+
+			<p class="text-small text-ink-muted mt-4">
+				<a href="/data-deletion" class="text-accent hover:text-accent-hover link-draw">How to request deletion of your data &rarr;</a>
+			</p>
+		</div>
+	</section>
+</BaseLayout>
