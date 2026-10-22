@@ -55,6 +55,11 @@ export default defineConfig({
     // Emit /about.html rather than /about/index.html, so the served URL is
     // /about — matching the canonical and the sitemap entry above.
     format: 'file',
+
+    // Inline the stylesheet into each page. The single external CSS file was
+    // the page's only render-blocking request (PageSpeed mobile, 2026-10-23:
+    // ~1,050 ms est. savings); inlining removes that round trip from first paint.
+    inlineStylesheets: 'always',
   },
 
   vite: {
