@@ -37,9 +37,14 @@ const priceRows = [
     detail: 'one-time, depending on scope',
   },
   {
-    item: 'Amazon · Flipkart · Meesho management',
-    price: 'Free',
-    detail: 'for the first 3 months, via seller referral',
+    item: 'Amazon · Flipkart · Meesho — 30+ orders a day',
+    price: '3.5% + GST',
+    detail: 'of net sales, after returns and RTOs are deducted',
+  },
+  {
+    item: 'Amazon · Flipkart · Meesho — under 30 orders a day',
+    price: '₹7,000 + GST',
+    detail: 'a month, flat',
   },
   {
     item: 'Setup, onboarding, creative, reporting fees',
@@ -80,9 +85,9 @@ const faqs = [
       'You can end the arrangement in any month by giving 30 days’ notice so we can hand over accounts cleanly. No exit fee, no minimum term, no cancellation penalty.',
   },
   {
-    question: 'Why is Amazon free for the first three months?',
+    question: 'How is Amazon, Flipkart or Meesho management charged?',
     answer:
-      'Amazon pays a referral commission when we bring a new seller onto their platform. That commission covers our work during your first 90 days. After the three months, marketplace management is included in the 3.5% (if you also run Shopify with us) or moves to a separate rate we agree on before the free period ends.',
+      'It depends on your order volume. At 30 or more orders a day, it is 3.5% + GST of net sales, the same as Shopify. Below 30 orders a day, it is a flat ₹7,000 + GST a month: at a handful of orders, 3.5% of sales comes to a few hundred rupees, which cannot pay for listings, ads and account health work done properly. Once you are steadily above 30 a day, you can move to the 3.5%. If we also run your Shopify store, marketplace management is included in that 3.5%.',
   },
   {
     question: 'What size store is this best for?',
@@ -104,7 +109,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 
 <BaseLayout
 	title="Pricing"
-	description="Orcas Prime takes 3.5% + GST of net sales after returns. A Shopify build is ₹10,000–₹20,000 one-time. No retainer, no lock-in, no setup fees."
+	description="Orcas Prime takes 3.5% + GST of net sales after returns. A Shopify build is ₹10,000–₹20,000 one-time. No lock-in, no setup fees."
 	canonicalPath="/pricing"
 	stickyMessage={ctaMsg}
 >
@@ -127,7 +132,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 				One fee. Charged on what you actually keep.
 			</h1>
 			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
-				Orcas Prime takes <span class="num text-accent">3.5% + GST</span> of net sales after returns are deducted. A Shopify build is <span class="num">₹10,000–₹20,000</span> one-time. Amazon, Flipkart and Meesho are free for the first three months. No retainer, no lock-in, no setup fees.
+				Orcas Prime takes <span class="num text-accent">3.5% + GST</span> of net sales after returns are deducted. A Shopify build is <span class="num">₹10,000–₹20,000</span> one-time. Amazon, Flipkart and Meesho are the same 3.5% at 30+ orders a day, or <span class="num">₹7,000 + GST</span> a month below that. No lock-in, no setup fees.
 			</p>
 		</div>
 	</section>
@@ -278,6 +283,9 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 			<p class="text-base text-ink-muted leading-relaxed mt-5 max-w-prose mx-auto">
 				Below that, a percentage of your sales won't fund the work properly — and we'll say so in the first conversation rather than take the account. Above it, the model still works, but a fixed retainer may suit you better and we'll tell you that too.
 			</p>
+			<p class="text-base text-ink-muted leading-relaxed mt-5 max-w-prose mx-auto">
+				Marketplace-only sellers need <span class="num">30+</span> orders a day for the 3.5%. Below that, it's a flat <span class="num">₹7,000 + GST</span> a month.
+			</p>
 		</div>
 	</section>
 
@@ -347,9 +355,9 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 				<WhatsAppCTA message={ctaMsg} note="No forms, no sales sequence. We'll tell you honestly if the model doesn't fit your numbers." noteCentered />
 			</div>
 			<p class="text-small text-ink-muted mt-6">
-				Not selling on Amazon yet?
-				<a href="/amazon-free-onboarding" class="text-accent hover:text-accent-hover link-draw">
-					Start there free for three months &rarr;
+				Only on Amazon, Flipkart or Meesho?{' '}
+				<a href="/services/amazon-account-management" class="text-accent hover:text-accent-hover link-draw">
+					See how marketplace management works &rarr;
 				</a>
 			</p>
 		</div>

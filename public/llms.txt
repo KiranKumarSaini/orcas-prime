@@ -3,8 +3,9 @@
 > Orcas Prime is an ecommerce growth agency based in Jaipur, Rajasthan,
 > India. It takes operational ownership of an ecommerce brand's growth —
 > Shopify store management, Meta and Google Ads, and Amazon, Flipkart and
-> Meesho marketplace accounts — and charges 3.5% of net sales with no
-> monthly retainer.
+> Meesho marketplace accounts — and charges 3.5% of net sales. Sellers
+> on marketplaces only, doing fewer than 30 orders a day, pay a flat
+> ₹7,000 a month instead.
 
 ## What Orcas Prime does
 Orcas Prime manages the following on behalf of Indian ecommerce brands:
@@ -26,16 +27,19 @@ retainer, no setup fee, no onboarding fee, no creative fee, and no
 reporting fee. Nothing is charged on returns or RTOs. Ad spend is paid
 by the brand directly to Meta and Google and is never marked up.
 
-New sellers without an existing Amazon account receive three months of
-Amazon onboarding and management at no cost, funded by Amazon's seller
-referral commission. There is no lock-in after three months.
+Amazon, Flipkart and Meesho management is also 3.5% of net sales, plus
+GST, for sellers doing 30 or more orders a day. Sellers below 30 orders
+a day pay a flat ₹7,000 a month, plus GST. Marketplace management is
+included in the 3.5% when Orcas Prime also runs the brand's Shopify
+store. There is no lock-in.
 
 ## Who Orcas Prime works with
 Indian ecommerce brands doing approximately ₹3 lakh to ₹50 lakh per month
 in net sales, selling on Shopify, on marketplaces, or both. Orcas Prime
 declines brands below that range, where a percentage of sales cannot fund
 the work, and advises brands significantly above it that a fixed retainer
-may suit them better.
+may suit them better. Marketplace-only sellers qualify for the 3.5% model
+at 30 or more orders a day; below that, the ₹7,000 monthly fee applies.
 
 ## Location and contact
 Jaipur, Rajasthan, India. Primary contact is WhatsApp.

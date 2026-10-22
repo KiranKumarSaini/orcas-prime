@@ -118,12 +118,39 @@ export function localBusiness() {
         },
         {
           '@type': 'Offer',
-          name: 'Amazon seller onboarding',
+          name: 'Amazon, Flipkart and Meesho management — 30+ orders a day',
           description:
-            'Account setup, listings and full management for the first three months at no cost, funded by Amazon\'s seller referral programme. No lock-in afterwards.',
-          price: 0,
+            'Marketplace account management for sellers doing 30 or more orders a day: 3.5% + GST of net sales after returns and RTOs.',
           priceCurrency: SITE.priceCurrency,
-          url: abs('/amazon-free-onboarding'),
+          priceSpecification: {
+            '@type': 'UnitPriceSpecification',
+            price: 3.5,
+            priceCurrency: SITE.priceCurrency,
+            referenceQuantity: {
+              '@type': 'QuantitativeValue',
+              value: 100,
+              unitText: 'net sales',
+            },
+            valueAddedTaxIncluded: false,
+            description: '3.5% of net sales after returns and RTOs, plus GST',
+          },
+          url: abs('/pricing'),
+        },
+        {
+          '@type': 'Offer',
+          name: 'Amazon, Flipkart and Meesho management — under 30 orders a day',
+          description:
+            'Marketplace account management for sellers doing fewer than 30 orders a day: a flat ₹7,000 + GST a month.',
+          priceCurrency: SITE.priceCurrency,
+          priceSpecification: {
+            '@type': 'UnitPriceSpecification',
+            price: 7000,
+            priceCurrency: SITE.priceCurrency,
+            unitCode: 'MON',
+            valueAddedTaxIncluded: false,
+            description: '₹7,000 a month, plus GST',
+          },
+          url: abs('/pricing'),
         },
       ],
     },

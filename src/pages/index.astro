@@ -66,7 +66,7 @@ const channels = [
 
 const ctaMsg = {
 	general: 'Hi, I want to check if the 3.5% model fits my store.',
-	amazon: 'Hi, I want to start selling on Amazon with the free 3-month onboarding.',
+	marketplace: 'Hi, I sell on Amazon / Flipkart / Meesho. I do about ___ orders a day.',
 };
 
 const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
@@ -293,7 +293,7 @@ const learnGuides = learnSlugs
 
 <BaseLayout
 	title="Ecommerce growth partner for Indian brands — Orcas Prime"
-	description="We run your Shopify store, ads and marketplace accounts for 3.5% of net sales. No retainer. Based in Jaipur, working with Indian ecommerce brands."
+	description="We run your Shopify store, ads and marketplace accounts for 3.5% of net sales. No lock-in. Based in Jaipur, working with Indian ecommerce brands."
 	titleTemplate="none"
 	canonicalPath="/"
 	stickyMessage={ctaMsg.general}
@@ -321,7 +321,7 @@ const learnGuides = learnSlugs
 			    strip above the CTA, per Module 3 §1. */}
 			<div class="mt-9 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 border-l-2 border-accent pl-5 py-1" data-animate-item style="--i:3">
 				<span class="num text-h3 text-accent">3.5%</span>
-				<span class="text-base text-ink">of net sales. No retainer.</span>
+				<span class="text-base text-ink">of net sales. No lock-in.</span>
 				<span class="text-base text-ink-muted">Nothing charged on returns or RTOs.</span>
 			</div>
 
@@ -848,31 +848,32 @@ const learnGuides = learnSlugs
 			</a>
 		</p>
 
-		{/* The wedge offer — a distinct alternative path, not a second pitch. */}
+		{/* Marketplace-only sellers — a distinct path with its own volume rule. */}
 		<div
 			class="mt-16 border border-rule-strong bg-paper-raised rounded-2xl p-8 text-left"
 			data-animate-item
 			style="--i:4"
 		>
-			<h3 class="font-serif text-h3">Not selling online yet? Start on Amazon for free.</h3>
+			<h3 class="font-serif text-h3">Only selling on Amazon, Flipkart or Meesho?</h3>
 			<p class="text-base opacity-80 leading-relaxed mt-4">
-				We'll open your Amazon seller account, list your first products, and
-				run it for three months at no cost to you. Amazon pays us a referral
-				commission for bringing new sellers on — that's how it works, and
-				that's why it's free. There's no lock-in after month three.
+				At <span class="num">30+</span> orders a day, we run your marketplace
+				accounts for the same <span class="num">3.5% + GST</span> of net sales.
+				Below that, it's a flat <span class="num">₹7,000 + GST</span> a month:
+				at a handful of orders, a percentage can't pay for the work done
+				properly. Tell us your daily orders and we'll say which applies.
 			</p>
 			<div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
 				<a
-					href={`https://wa.me/${waDigits}?text=${encodeURIComponent(ctaMsg.amazon)}`}
+					href={`https://wa.me/${waDigits}?text=${encodeURIComponent(ctaMsg.marketplace)}`}
 					rel="noopener"
 					data-cta="whatsapp"
 					class="inline-flex items-center gap-2 border border-ink text-ink hover:bg-ink hover:text-paper px-5 py-3 rounded-md font-sans text-base font-medium transition-colors"
 				>
-					Start free on WhatsApp
+					Message us on WhatsApp
 					<span aria-hidden="true" class="num">&rarr;</span>
 				</a>
-				<a href="/amazon-free-onboarding" class="text-small font-mono link-draw">
-					How the 3 months works <span class="arrow-travel">&rarr;</span>
+				<a href="/pricing" class="text-small font-mono link-draw">
+					Full pricing <span class="arrow-travel">&rarr;</span>
 				</a>
 			</div>
 		</div>

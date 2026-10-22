@@ -21,13 +21,13 @@ export const SITE = {
     import.meta.env.SITE?.replace(/\/$/, '') ||
     'http://localhost:4321',
 
-  tagline: 'No retainer. We take 3.5% of what your customers actually keep.',
+  tagline: 'We take 3.5% of what your customers actually keep. No lock-in.',
 
   description:
-    'Marketing agency based in Jaipur, India. Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns and RTOs. No retainer, no lock-in.',
+    'Marketing agency based in Jaipur, India. Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns and RTOs. No lock-in.',
 
   shortDescription:
-    'Marketing agency based in Jaipur. 3.5% + GST of net sales after returns. No retainer.',
+    'Marketing agency based in Jaipur. 3.5% + GST of net sales after returns. No lock-in.',
 
   founders: [
     {

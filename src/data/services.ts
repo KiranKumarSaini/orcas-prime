@@ -119,11 +119,11 @@ export const services: ServiceContent[] = [
     kicker: 'Marketplace',
     h1: 'Running an Amazon seller account, properly.',
     lead:
-      'From listing quality to sponsored ads to A-to-Z claims. If you are already on Amazon, we take over the account. If you are not on Amazon yet, the first three months are free — see the Amazon onboarding page.',
+      'From listing quality to sponsored ads to A-to-Z claims. We take over your existing seller account, or open one for you if you are not on Amazon yet.',
     meta: {
       title: 'Amazon account management',
       description:
-        'Full Amazon seller account management for Indian D2C brands. Listings, Sponsored Products, FBA, disputes, reporting. Free for the first 3 months.',
+        'Amazon seller account management for Indian D2C brands: listings, Sponsored Products, FBA, disputes. 3.5% at 30+ orders a day, else ₹7,000/month.',
     },
     included: [
       { label: 'Listing optimisation', desc: 'Titles, bullets, A+ content, keywords, backend fields.' },
@@ -134,9 +134,9 @@ export const services: ServiceContent[] = [
       { label: 'Monthly reporting',    desc: 'Sales, ACoS, TACoS, inventory health.' },
     ],
     cost: {
-      headline: 'Free for 3 months',
-      subhead: 'then included in the 3.5% Shopify bundle, or a separate rate we agree on',
-      note: 'The free three months runs on Amazon\'s seller referral programme — full mechanics on the Amazon onboarding page.',
+      headline: '3.5% + GST',
+      subhead: 'of net sales at 30+ orders a day · ₹7,000 + GST a month below that',
+      note: 'Already running your Shopify store with us? Amazon management is included in that 3.5%.',
     },
     proof: null,
     ctaMessage: 'Hi, I want to talk about my Amazon seller account.',
@@ -165,8 +165,9 @@ export const services: ServiceContent[] = [
       { label: 'Monthly reporting',    desc: 'Sales, GMV, return rate by SKU.' },
     ],
     cost: {
-      headline: 'Free for 3 months',
-      subhead: 'then a rate we agree on based on your account volume',
+      headline: '3.5% + GST',
+      subhead: 'of net sales at 30+ orders a day · ₹7,000 + GST a month below that',
+      note: 'Already running your Shopify store with us? Flipkart and Meesho management is included in that 3.5%.',
     },
     proof: {
       clientSlug: 'divine-rudras',
