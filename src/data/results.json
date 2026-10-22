@@ -116,11 +116,12 @@
       "name": "Amrit Valley",
       "liveUrl": "https://www.amritvalley.in",
       "services": [
-        "Shopify store build"
+        "Shopify store build",
+        "Shopify management"
       ],
       "result": {
         "kind": "qualitative",
-        "description": "Store built and launched"
+        "description": "Built, launched and managed"
       }
     },
     {
@@ -128,11 +129,12 @@
       "name": "Brinza",
       "liveUrl": "https://www.brinzafoods.com",
       "services": [
-        "Shopify store build"
+        "Shopify store build",
+        "Shopify management"
       ],
       "result": {
         "kind": "qualitative",
-        "description": "Store built and launched"
+        "description": "Built, launched and managed"
       }
     },
     {
@@ -140,11 +142,12 @@
       "name": "HealthScot",
       "liveUrl": "https://healthscot.in",
       "services": [
-        "Shopify store build"
+        "Shopify store build",
+        "Shopify management"
       ],
       "result": {
         "kind": "qualitative",
-        "description": "Store built and launched"
+        "description": "Built, launched and managed"
       }
     },
     {
@@ -152,11 +155,12 @@
       "name": "PD Wellness",
       "liveUrl": "https://pharmadrugs.in",
       "services": [
-        "Shopify store build"
+        "Shopify store build",
+        "Shopify management"
       ],
       "result": {
         "kind": "qualitative",
-        "description": "Store built and launched"
+        "description": "Built, launched and managed"
       }
     },
     {
@@ -164,11 +168,12 @@
       "name": "Rajvanshi Suit",
       "liveUrl": "https://rajvanshisuit.com",
       "services": [
-        "Shopify store build"
+        "Shopify store build",
+        "Shopify management"
       ],
       "result": {
         "kind": "qualitative",
-        "description": "Store built and launched"
+        "description": "Built, launched and managed"
       }
     }
   ],
