@@ -22,20 +22,23 @@ const caseStudies = await getCollection('work');
 const studyMap = new Map(caseStudies.map((c) => [c.data.slug, c]));
 
 /*
-  §8's three-store showcase. Screenshots are real, captured from the live
-  sites by scripts/capture-stores.mjs — re-run it to refresh them.
+  Store showcase: every client with a live store link AND a real screenshot
+  of it (captured from the live sites, 1440×1080). A store whose site is down
+  loses its liveUrl in results.json and drops out of this grid on its own.
 
   Note: the domain is savanakurti.com, not thesavanakurti.com — the "the"
   variant has no DNS record and was pointing at a dead link until corrected.
 */
-const showcase = [
-  { slug: 'ladakh-berry', shot: storefrontFor('ladakh-berry') },
-  { slug: 'vastramahal',  shot: storefrontFor('vastramahal') },
-  { slug: 'savana-kurti', shot: storefrontFor('savana-kurti') },
-]
-  .map((s) => {
-    const client = clients.find((c) => c.slug === s.slug);
-    return client ? { ...s, client } : null;
+const showcaseOrder = [
+  'ladakh-berry', 'brinza', 'rajvanshi-suit',
+  'healthscot', 'savana-kurti', 'amrit-valley',
+  'vastranama', 'khamma-ghani', 'pd-wellness',
+];
+const showcase = showcaseOrder
+  .map((slug) => {
+    const client = clients.find((c) => c.slug === slug);
+    const shot = storefrontFor(slug);
+    return client?.liveUrl && shot ? { slug, shot, client } : null;
   })
   .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
@@ -44,7 +47,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 
 <BaseLayout
 	title="Work"
-	description="Every Partner Brand we've worked with, and what we decided. Live numbers — Ladakh Berry at 5.1x on Google Ads, Divine Rudras on Flipkart Gold tier, six more."
+	description="Every Partner Brand we've worked with, and what we decided. Ladakh Berry at 5.1x on Google Ads, Divine Rudras on Flipkart Gold tier, nine live stores."
 	canonicalPath="/work"
 	stickyMessage={ctaMsg}
 >
@@ -124,7 +127,7 @@ const ctaMsg = 'Hi, I want to check if the 3.5% model fits my store.';
 		</div>
 	</section>
 
-	{/* ─── 3 · All 8 clients — with case-study links where available ── */}
+	{/* ─── 3 · Every client — with case-study links where available ── */}
 	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">All Partner Brands</p>

@@ -1,7 +1,7 @@
 {
   "$schema": "./results.schema.json",
   "_notice": "This file is the ONLY source of truth for client metrics on the site. Every value is verbatim from docs/PROJECT-BRIEF.md §5. No fabricated, inflated, or placeholder metrics. If a client has no metric, the qualitative description stays.",
-  "lastUpdated": "2026-08-02",
+  "lastUpdated": "2026-10-23",
   "onboardingYear": 2026,
   "clients": [
     {
@@ -41,6 +41,7 @@
     {
       "slug": "vastranama",
       "name": "Vastranama",
+      "liveUrl": "https://vastranama.in",
       "services": [
         "Shopify management"
       ],
@@ -52,7 +53,6 @@
     {
       "slug": "vastramahal",
       "name": "Vastramahal",
-      "liveUrl": "https://thevastramahal.in",
       "services": [
         "Shopify management",
         "Google Ads",
@@ -67,6 +67,7 @@
     {
       "slug": "khamma-ghani",
       "name": "Khamma Ghani",
+      "liveUrl": "https://thekhammaghani.in",
       "services": [
         "Shopify management",
         "creative"
@@ -108,6 +109,66 @@
       "result": {
         "kind": "qualitative",
         "description": "Launched and managed, ongoing optimisation"
+      }
+    },
+    {
+      "slug": "amrit-valley",
+      "name": "Amrit Valley",
+      "liveUrl": "https://www.amritvalley.in",
+      "services": [
+        "Shopify store build"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Store built and launched"
+      }
+    },
+    {
+      "slug": "brinza",
+      "name": "Brinza",
+      "liveUrl": "https://www.brinzafoods.com",
+      "services": [
+        "Shopify store build"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Store built and launched"
+      }
+    },
+    {
+      "slug": "healthscot",
+      "name": "HealthScot",
+      "liveUrl": "https://healthscot.in",
+      "services": [
+        "Shopify store build"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Store built and launched"
+      }
+    },
+    {
+      "slug": "pd-wellness",
+      "name": "PD Wellness",
+      "liveUrl": "https://pharmadrugs.in",
+      "services": [
+        "Shopify store build"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Store built and launched"
+      }
+    },
+    {
+      "slug": "rajvanshi-suit",
+      "name": "Rajvanshi Suit",
+      "liveUrl": "https://rajvanshisuit.com",
+      "services": [
+        "Shopify store build"
+      ],
+      "result": {
+        "kind": "qualitative",
+        "description": "Store built and launched"
       }
     }
   ],
@@ -155,7 +216,7 @@
       "descriptor": "total ad spend under management"
     },
     "brandCount": {
-      "value": 8,
+      "value": 13,
       "descriptor": "brands across Shopify and Flipkart"
     },
     "platforms": [

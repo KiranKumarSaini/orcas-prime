@@ -17,15 +17,29 @@ import type { ImageMetadata } from 'astro';
 import ladakhBerry from '../assets/work/ladakh-berry.jpg';
 import vastramahal from '../assets/work/vastramahal.jpg';
 import savanaKurti from '../assets/work/savana-kurti.jpg';
+import amritValley from '../assets/work/amrit-valley.jpg';
+import brinza from '../assets/work/brinza.jpg';
+import healthscot from '../assets/work/healthscot.jpg';
+import pdWellness from '../assets/work/pd-wellness.jpg';
+import rajvanshiSuit from '../assets/work/rajvanshi-suit.jpg';
+import vastranama from '../assets/work/vastranama.jpg';
+import khammaGhani from '../assets/work/khamma-ghani.jpg';
 
 /** Storefront screenshots, by Partner Brand slug. */
 export const storefronts: Record<string, ImageMetadata> = {
   'ladakh-berry': ladakhBerry,
   vastramahal: vastramahal,
   'savana-kurti': savanaKurti,
+  'amrit-valley': amritValley,
+  brinza: brinza,
+  healthscot: healthscot,
+  'pd-wellness': pdWellness,
+  'rajvanshi-suit': rajvanshiSuit,
+  vastranama: vastranama,
+  'khamma-ghani': khammaGhani,
 };
 
-/** Undefined for brands without a screenshot — 5 of the 8 currently. */
+/** Undefined for brands without a screenshot (marketplace-only accounts). */
 export function storefrontFor(slug: string): ImageMetadata | undefined {
   return storefronts[slug];
 }
