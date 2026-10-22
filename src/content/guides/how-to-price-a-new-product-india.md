@@ -3,7 +3,7 @@ question: How do you decide pricing for a new product in D2C ecommerce?
 shortTitle: How we decide pricing for a new product
 category: Product strategy
 directAnswer: We price backward from your real per-unit cost including returns and RTO, then test where demand actually holds — not by copying a competitor's number or picking a round figure that feels right.
-description: A working framework for pricing a new D2C product in India — why the "real" cost is higher than the invoice cost, and how to test a price instead of guessing it.
+description: A framework for pricing a new D2C product in India — why the real cost is higher than the invoice cost, and how to test a price instead of guessing it.
 updated: 2026-08-09
 faqs:
   - question: Should I price to match competitors or ignore them entirely?

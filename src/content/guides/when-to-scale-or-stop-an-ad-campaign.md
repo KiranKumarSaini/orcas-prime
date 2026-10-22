@@ -3,7 +3,7 @@ question: How do you decide when to scale an ad campaign, and when to stop?
 shortTitle: When to scale a campaign — and when to stop
 category: Ads
 directAnswer: Scale only when new orders convert into money that actually stays with you, not RTOs or one-time buyers. Stop the moment new spend buys volume instead of profit — even when the on-screen numbers still look good.
-description: How to decide whether to increase or pause ad spend on a campaign that's already running — the numbers that matter beyond ROAS, and why a "profitable" campaign can still be the wrong one to scale.
+description: How to decide whether to scale or pause a running ad campaign — the numbers beyond ROAS, and why a profitable campaign can be the wrong one to scale.
 updated: 2026-08-09
 faqs:
   - question: Isn't a campaign with good ROAS always worth scaling?

@@ -3,7 +3,7 @@ question: How do you choose a courier partner for a D2C store in India?
 shortTitle: How we choose a courier partner
 category: RTO and returns
 directAnswer: We choose a courier by real delivery success in your specific pin codes, not headline rate. A cheaper courier that fails more often costs more overall — you pay for it as RTOs instead of on the invoice.
-description: How to actually choose between courier partners for an Indian D2C store — why the cheapest rate card is rarely the cheapest courier, and the region-by-region way to compare them properly.
+description: How to choose a courier partner for an Indian D2C store — why the cheapest rate card is rarely the cheapest courier, and how to compare them region by region.
 updated: 2026-08-09
 faqs:
   - question: Should I use one courier for everything, or split volume across a few?

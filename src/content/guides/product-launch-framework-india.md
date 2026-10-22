@@ -3,7 +3,7 @@ question: What's a good framework for launching a new product online in India?
 shortTitle: Our product launch framework
 category: Product strategy
 directAnswer: A launch works when creative, listings and ad budget are ready before the launch date, sequenced in a fixed order — not scrambled together afterward. Launch week is the result of prior setup, not the starting point.
-description: A practical sequence for launching a new product on Shopify or a marketplace in India — what has to be ready before launch day, and the order it has to happen in.
+description: A practical sequence for launching a new product on Shopify or a marketplace in India — what must be ready before launch day, and the order it happens in.
 updated: 2026-08-09
 faqs:
   - question: How far ahead of launch day should I actually start preparing?
