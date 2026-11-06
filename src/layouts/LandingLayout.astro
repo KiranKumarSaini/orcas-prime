@@ -10,7 +10,7 @@
 // Not global.css: this page uses none of the site's Tailwind utilities or
 // fonts, and the build inlines CSS, so leaving it out keeps the page light.
 import '../styles/landing.css';
-import { MessageCircle } from '@lucide/astro';
+import { MessageCircle, Languages, ChevronDown } from '@lucide/astro';
 import { SITE } from '../lib/site';
 import type { LandingCopy } from '../data/landing/fashion-copy';
 
@@ -28,6 +28,18 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
 const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
 const waHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(whatsappMessage)}`;
 const year = new Date().getFullYear();
+
+// Language menu. Each version is the same page under a language suffix
+// (/fashion, /fashion/en, /fashion/gu, /fashion/hi). Labels are in their
+// own script so a reader finds theirs at a glance.
+const LANGS = [
+  { lang: 'hi', suffix: '', label: 'Hinglish', htmlLang: 'hi-Latn' },
+  { lang: 'en', suffix: '/en', label: 'English', htmlLang: 'en' },
+  { lang: 'hi-deva', suffix: '/hi', label: 'हिन्दी', htmlLang: 'hi' },
+  { lang: 'gu', suffix: '/gu', label: 'ગુજરાતી', htmlLang: 'gu' },
+] as const;
+const basePath = Astro.url.pathname.replace(/\/$/, '').replace(/\/(en|gu|hi)$/, '');
+const current = LANGS.find((l) => l.lang === c.lang) ?? LANGS[0];
 ---
 
 <!doctype html>
@@ -92,10 +104,32 @@ const year = new Date().getFullYear();
 					</svg>
 					<span>Orcas Prime</span>
 				</span>
+				<div class="lp-top__right">
+				<details class="lp-lang" data-lang-menu>
+					<summary aria-label={`Language: ${current.label}`}>
+						<Languages size={16} aria-hidden="true" />
+						<span>{current.label}</span>
+						<ChevronDown size={14} aria-hidden="true" class="lp-lang__chev" />
+					</summary>
+					<ul class="lp-lang__menu">
+						{LANGS.map((l) => (
+							<li>
+								<a
+									href={basePath + l.suffix}
+									lang={l.htmlLang}
+									hreflang={l.htmlLang}
+									aria-current={l.lang === c.lang ? 'page' : undefined}
+									data-lang-link
+								>{l.label}</a>
+							</li>
+						))}
+					</ul>
+				</details>
 				<a class="lp-wa" href={waHref} target="_blank" rel="noopener" aria-label={c.ui.waLinkLabel}>
 					<MessageCircle size={18} aria-hidden="true" />
 					<span>{c.ui.waLink}</span>
 				</a>
+				</div>
 			</div>
 		</header>
 
@@ -110,5 +144,22 @@ const year = new Date().getFullYear();
 		</footer>
 
 		<slot name="after" />
+
+		<script is:inline>
+			(function () {
+				// Keep ad tracking (utm_*, fbclid, gclid) when switching language.
+				var q = location.search + location.hash;
+				document.querySelectorAll('[data-lang-link]').forEach(function (a) {
+					if (q) a.setAttribute('href', a.getAttribute('href') + q);
+				});
+				// Close the menu on an outside tap or Escape.
+				var menu = document.querySelector('[data-lang-menu]');
+				if (!menu) return;
+				document.addEventListener('click', function (e) { if (!menu.contains(e.target)) menu.open = false; });
+				document.addEventListener('keydown', function (e) {
+					if (e.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary').focus(); }
+				});
+			})();
+		</script>
 	</body>
 </html>

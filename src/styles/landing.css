@@ -88,6 +88,40 @@ img, video { display: block; max-width: 100%; height: auto; }
 }
 .lp-wa:hover { background: var(--green-wash); }
 
+/* Language menu, beside the WhatsApp link. On narrow phones the logo
+   stays on one line and WhatsApp shows as its icon only (it keeps its
+   aria-label). */
+.lp-logo { white-space: nowrap; }
+@media (max-width: 420px) {
+  .lp-wa span { display: none; }
+  .lp-wa { padding: 0 0.625rem; }
+}
+.lp-top__right { display: flex; align-items: center; gap: 0.25rem; }
+.lp-lang { position: relative; }
+.lp-lang summary {
+  display: inline-flex; align-items: center; gap: 0.375rem;
+  min-height: 44px; padding: 0 0.75rem; list-style: none; cursor: pointer;
+  font-size: 0.875rem; font-weight: 500; color: var(--ink-2);
+  border: 1px solid var(--rule-2); border-radius: 999px; background: var(--raised);
+}
+.lp-lang summary::-webkit-details-marker { display: none; }
+.lp-lang summary:hover { border-color: var(--ctl-border); color: var(--ink); }
+.lp-lang[open] .lp-lang__chev { transform: rotate(180deg); }
+.lp-lang__chev { transition: transform 150ms var(--ease); }
+.lp-lang__menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 20;
+  min-width: 10rem; margin: 0; padding: 0.375rem; list-style: none;
+  background: var(--raised); border: 1px solid var(--rule); border-radius: var(--r-ctl);
+  box-shadow: var(--shadow-lift);
+}
+.lp-lang__menu a {
+  display: flex; align-items: center; min-height: 44px; padding: 0 0.75rem;
+  font-size: 0.9375rem; text-decoration: none; border-radius: 8px; color: var(--ink);
+}
+.lp-lang__menu a:hover { background: var(--sunken); }
+.lp-lang__menu a[aria-current="page"] { background: var(--green-wash); color: var(--green); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .lp-lang__chev { transition: none; } }
+
 /* ── Shared pieces ───────────────────────────────────────────────────── */
 .lp-section { padding-block: 4.5rem; position: relative; }
 @media (min-width: 1024px) { .lp-section { padding-block: 7rem; } }
