@@ -11,7 +11,7 @@ faqs:
   - question: How do I calculate my real ROAS?
     answer: Take the platform's reported conversion value, multiply by (1 − your RTO rate), then divide by ad spend. At a reported 4.0x with a 25% RTO rate, your real return is closer to 3.0x. Do this once and it changes how you read every report afterwards.
   - question: Is any agency actually paid on net?
-    answer: Very few. Most charge a flat retainer or a percentage of ad spend, and neither is affected by whether orders get delivered. Orcas Prime charges 3.5% + GST of net sales after returns and RTOs, which is unusual specifically because it puts return rate on our side of the ledger too.
+    answer: Very few. Most charge a flat retainer or a percentage of ad spend, and neither is affected by whether orders get delivered. Orcas Prime charges ₹20,000 a month or 4% of net sales after returns and RTOs, whichever is higher, plus GST. Above the minimum, return rate sits on our side of the ledger too, which is unusual.
 related:
   - what-is-rto-and-what-does-it-cost
   - how-much-do-ecommerce-agencies-charge-in-india
@@ -69,7 +69,7 @@ The mistake is using it as the business number. Use gross to evaluate the advert
 
 ## How we do it
 
-Orcas Prime charges **3.5% + GST of net sales after returns and RTOs are deducted**. When a shipment is refused and comes back, it leaves the base we bill on.
+Orcas Prime charges **₹20,000 a month or 4% of net sales after returns and RTOs, whichever is higher, plus GST**. When a shipment is refused and comes back, it leaves the base we bill on.
 
 This is the most differentiating fact about how we work, and it exists for exactly the reason described above — the RTO problem should sit on the same side of the table as the people who can do something about it.
 

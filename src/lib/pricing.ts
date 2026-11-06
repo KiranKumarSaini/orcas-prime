@@ -12,8 +12,23 @@
  * anchored to the published rows exactly.
  */
 
-/** Our rate. 3.5% of net sales, quoted plus GST — never GST-inclusive. */
-export const FEE_RATE = 0.035;
+/**
+ * Our fee (decided 2026-11-06 with Prashant): ₹20,000 a month or 4% of net
+ * sales, whichever is higher, plus GST. Quoted plus GST, never GST-inclusive.
+ * The two meet at ₹5 lakh of net sales.
+ */
+export const FEE_MIN = 20000;
+export const FEE_RATE = 0.04;
+/** Amazon, Flipkart or Meesho account management: flat, plus GST. */
+export const MARKETPLACE_FEE = 20000;
+
+/** The fee in words, for every place the site states it. */
+export const FEE_TEXT = {
+  short: '₹20,000/month or 4% of net sales',
+  full: '₹20,000 a month or 4% of net sales, whichever is higher, plus GST',
+  rule: 'whichever is higher, plus GST',
+  marketplace: '₹20,000 + GST a month',
+} as const;
 
 /**
  * The published comparison rows, verbatim from PricingTable and /pricing.
@@ -39,8 +54,11 @@ export const FIT_MAX = 5000000; // ₹50 lakh
 
 /** Our fee at a given monthly net sales figure, excluding GST. */
 export function orcasFee(netSales: number): number {
-  return netSales * FEE_RATE;
+  return Math.max(FEE_MIN, netSales * FEE_RATE);
 }
+
+/** Net sales at which 4% overtakes the ₹20,000 minimum (₹5 lakh). */
+export const FEE_CROSSOVER = FEE_MIN / FEE_RATE;
 
 /**
  * Typical retainer for a business of this size.
@@ -78,7 +96,10 @@ export function typicalRetainer(netSales: number): number {
  */
 export function honestNote(netSales: number): string {
   if (netSales < FIT_MIN) {
-    return "Below ₹3 lakh a month, a percentage of your sales won't fund the work properly — we'd say so in the first conversation rather than take the account.";
+    return "Below ₹3 lakh a month, the ₹20,000 minimum is a big share of your sales. We'd say so in the first conversation rather than take the account.";
+  }
+  if (netSales < FEE_CROSSOVER) {
+    return 'Below ₹5 lakh a month you pay the ₹20,000 minimum. Above it, the fee is 4% of net sales.';
   }
   if (netSales > FIT_MAX) {
     return 'The model still works at this size, but a fixed retainer may suit you better — and we’d tell you that too.';

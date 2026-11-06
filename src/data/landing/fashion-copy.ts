@@ -91,7 +91,7 @@ const hi: LandingCopy = {
   htmlLang: 'hi-Latn',
   meta: {
     title: 'Fashion aur ethnic wear brands ke liye: ads, store, RTO aur profit dashboard | Orcas Prime',
-    description: 'Meta aur Google ads, Shopify store, RTO control aur profit dashboard. Sab ek team ke paas. ₹25,000/mahina + GST ya net sales ka 4%, jo bhi zyada ho. Koi lock-in nahi.',
+    description: 'Meta aur Google ads, Shopify store, RTO control aur profit dashboard. Sab ek team ke paas. ₹20,000/mahina + GST ya net sales ka 4%, jo bhi zyada ho. Koi lock-in nahi.',
   },
   ui: { skip: 'Content pe jaayein', waLink: 'WhatsApp', waLinkLabel: 'WhatsApp pe baat karein (naye tab mein khulega)', privacy: 'Privacy policy', newTab: '(naye tab mein khulega)' },
   waMessage: 'Namaste, mujhe apne fashion brand ke liye Orcas Prime ke baare mein jaanna hai.',
@@ -214,7 +214,7 @@ const hi: LandingCopy = {
   faq: {
     h2: 'Aapke sawaal',
     items: [
-      { q: '4% kis pe lagta hai?', a: 'Net sales pe, yaani returns aur RTO ke baad jo sales bachti hai. Har mahine ₹25,000 ya net sales ka 4%, jo bhi zyada ho, plus GST.' },
+      { q: '4% kis pe lagta hai?', a: 'Net sales pe, yaani returns aur RTO ke baad jo sales bachti hai. Har mahine ₹20,000 ya net sales ka 4%, jo bhi zyada ho, plus GST.' },
       { q: 'Kya aap fashion brands ke saath kaam karte hain?', a: 'Haan. Savana Kurti, Rajvanshi Suit, Vastranama aur Khamma Ghani jaise brands ke store hum sambhalte hain. Links upar diye hain.' },
       { q: 'Kaam kitne din mein shuru hoga?', a: 'Shopify store pehle se hai to store aur ad accounts ka access dijiye, hum 1 din mein live kar dete hain. Naya store chahiye to 7 din mein ready.' },
       { q: 'Kaam pasand na aaye to?', a: 'Jab chahein band kar dijiye. Koi lock-in nahi, koi notice period nahi.' },
@@ -247,7 +247,7 @@ const en: LandingCopy = {
   htmlLang: 'en-IN',
   meta: {
     title: 'Ads, store, RTO and a profit dashboard for fashion brands | Orcas Prime',
-    description: 'Meta and Google ads, your Shopify store, RTO control and a profit dashboard, all with one team. ₹25,000/month + GST or 4% of net sales, whichever is higher. No lock-in.',
+    description: 'Meta and Google ads, your Shopify store, RTO control and a profit dashboard, all with one team. ₹20,000/month + GST or 4% of net sales, whichever is higher. No lock-in.',
   },
   ui: { skip: 'Skip to content', waLink: 'WhatsApp', waLinkLabel: 'Chat on WhatsApp (opens in a new tab)', privacy: 'Privacy policy', newTab: '(opens in a new tab)' },
   waMessage: "Hi, I'd like to know more about Orcas Prime for my fashion brand.",
@@ -370,7 +370,7 @@ const en: LandingCopy = {
   faq: {
     h2: 'Common questions',
     items: [
-      { q: 'What is the 4% charged on?', a: "On net sales, meaning the sales left after returns and RTO. Each month you pay ₹25,000 or 4% of net sales, whichever is higher, plus GST." },
+      { q: 'What is the 4% charged on?', a: "On net sales, meaning the sales left after returns and RTO. Each month you pay ₹20,000 or 4% of net sales, whichever is higher, plus GST." },
       { q: 'Do you work with fashion brands?', a: 'Yes. We manage the stores of brands like Savana Kurti, Rajvanshi Suit, Vastranama and Khamma Ghani. Their links are above.' },
       { q: 'How soon can you start?', a: 'If you already have a Shopify store, give us access to it and your ad accounts and we go live in 1 day. If you need a new store, it is ready in 7 days.' },
       { q: "What if I'm not happy with the work?", a: 'Stop whenever you like. No lock-in, no notice period.' },
@@ -403,7 +403,7 @@ const gu: LandingCopy = {
   htmlLang: 'gu',
   meta: {
     title: 'ફેશન અને એથનિક વેર બ્રાન્ડ્સ માટે એડ્સ, સ્ટોર, RTO અને પ્રોફિટ ડેશબોર્ડ | Orcas Prime',
-    description: 'Meta અને Google Ads, Shopify સ્ટોર, RTO કંટ્રોલ અને પ્રોફિટ ડેશબોર્ડ, બધું એક જ ટીમ પાસે. ₹25,000/મહિને + GST અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે. કોઈ લૉક-ઇન નહીં.',
+    description: 'Meta અને Google Ads, Shopify સ્ટોર, RTO કંટ્રોલ અને પ્રોફિટ ડેશબોર્ડ, બધું એક જ ટીમ પાસે. ₹20,000/મહિને + GST અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે. કોઈ લૉક-ઇન નહીં.',
   },
   ui: { skip: 'કન્ટેન્ટ પર જાઓ', waLink: 'WhatsApp', waLinkLabel: 'WhatsApp પર વાત કરો (નવા ટૅબમાં ખુલશે)', privacy: 'પ્રાઇવસી પૉલિસી', newTab: '(નવા ટૅબમાં ખુલશે)' },
   waMessage: 'નમસ્તે, મારે મારી ફેશન બ્રાન્ડ માટે Orcas Prime વિશે જાણવું છે.',
@@ -526,7 +526,7 @@ const gu: LandingCopy = {
   faq: {
     h2: 'તમારા સવાલ',
     items: [
-      { q: '4% શેના પર લાગે છે?', a: 'નેટ સેલ્સ પર, એટલે કે રિટર્ન અને RTO પછી જે સેલ્સ બચે તેના પર. દર મહિને ₹25,000 અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે, વત્તા GST.' },
+      { q: '4% શેના પર લાગે છે?', a: 'નેટ સેલ્સ પર, એટલે કે રિટર્ન અને RTO પછી જે સેલ્સ બચે તેના પર. દર મહિને ₹20,000 અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે, વત્તા GST.' },
       { q: 'શું તમે ફેશન બ્રાન્ડ્સ સાથે કામ કરો છો?', a: 'હા. Savana Kurti, Rajvanshi Suit, Vastranama અને Khamma Ghani જેવી બ્રાન્ડ્સના સ્ટોર અમે સંભાળીએ છીએ. તેમની લિંક ઉપર આપેલી છે.' },
       { q: 'કામ કેટલા દિવસમાં શરૂ થાય?', a: 'Shopify સ્ટોર પહેલેથી હોય તો સ્ટોર અને એડ એકાઉન્ટનો એક્સેસ આપો, અમે 1 દિવસમાં લાઇવ કરી દઈએ. નવો સ્ટોર જોઈએ તો 7 દિવસમાં તૈયાર.' },
       { q: 'કામ પસંદ ન આવે તો?', a: 'જ્યારે ઇચ્છો ત્યારે બંધ કરી દો. કોઈ લૉક-ઇન નહીં, કોઈ નોટિસ પિરિયડ નહીં.' },
@@ -559,7 +559,7 @@ const hiDeva: LandingCopy = {
   htmlLang: 'hi',
   meta: {
     title: 'फैशन और एथनिक वियर ब्रांड्स के लिए ऐड्स, स्टोर, RTO और प्रॉफिट डैशबोर्ड | Orcas Prime',
-    description: 'Meta और Google Ads, Shopify स्टोर, RTO कंट्रोल और प्रॉफिट डैशबोर्ड, सब एक ही टीम के पास। ₹25,000/महीना + GST या नेट सेल्स का 4%, जो भी ज्यादा हो। कोई लॉक-इन नहीं।',
+    description: 'Meta और Google Ads, Shopify स्टोर, RTO कंट्रोल और प्रॉफिट डैशबोर्ड, सब एक ही टीम के पास। ₹20,000/महीना + GST या नेट सेल्स का 4%, जो भी ज्यादा हो। कोई लॉक-इन नहीं।',
   },
   ui: { skip: 'कंटेंट पर जाएं', waLink: 'WhatsApp', waLinkLabel: 'WhatsApp पर बात करें (नए टैब में खुलेगा)', privacy: 'प्राइवेसी पॉलिसी', newTab: '(नए टैब में खुलेगा)' },
   waMessage: 'नमस्ते, मुझे अपने फैशन ब्रांड के लिए Orcas Prime के बारे में जानना है।',
@@ -682,7 +682,7 @@ const hiDeva: LandingCopy = {
   faq: {
     h2: 'आपके सवाल',
     items: [
-      { q: '4% किस पर लगता है?', a: 'नेट सेल्स पर, यानी रिटर्न और RTO के बाद जो सेल्स बचती है। हर महीने ₹25,000 या नेट सेल्स का 4%, जो भी ज्यादा हो, साथ में GST।' },
+      { q: '4% किस पर लगता है?', a: 'नेट सेल्स पर, यानी रिटर्न और RTO के बाद जो सेल्स बचती है। हर महीने ₹20,000 या नेट सेल्स का 4%, जो भी ज्यादा हो, साथ में GST।' },
       { q: 'क्या आप फैशन ब्रांड्स के साथ काम करते हैं?', a: 'हां। Savana Kurti, Rajvanshi Suit, Vastranama और Khamma Ghani जैसे ब्रांड्स के स्टोर हम संभालते हैं। उनके लिंक ऊपर दिए हैं।' },
       { q: 'काम कितने दिन में शुरू होगा?', a: 'Shopify स्टोर पहले से है तो स्टोर और ऐड अकाउंट का एक्सेस दीजिए, हम 1 दिन में लाइव कर देते हैं। नया स्टोर चाहिए तो 7 दिन में तैयार।' },
       { q: 'काम पसंद न आए तो?', a: 'जब चाहें बंद कर दीजिए। कोई लॉक-इन नहीं, कोई नोटिस पीरियड नहीं।' },

@@ -140,9 +140,12 @@ claims — confirm before they go live on Module 3.
 - **Category name.** Deliberately deferred: *"Stripe didn't start by calling
   themselves financial infrastructure. That came later."* Philosophy and
   promise (§1) are locked; the label is not. Revisit in Module 6 (Copy).
-- **3% vs 3.5% pricing.** ✅ Resolved 2026-08-07 — **3.5% + GST, one rate, all
-  channels.** No separate marketplace rate exists. This entry stays only as a
-  historical note; nothing downstream should treat it as open.
+- **Pricing.** ⚠️ Superseded 2026-11-06 — the 3.5%-only model (resolved
+  2026-08-07) is replaced by **₹20,000 + GST a month or 4% of net sales,
+  whichever is higher** for Shopify, and a flat **₹20,000 + GST a month** for
+  marketplaces. Source of truth: docs/growth/01-offer-decisions.md §1 and
+  src/lib/pricing.ts. Any older "3.5%" or "no retainer" line in these modules
+  is history, not a rule.
 - **Cold Meta/Google traffic vs. calm AI-referral homepage tone.** ✅ Resolved
   in Module 3 §1 — the hero orders itself (recognition → plain-language
   category → alignment proof) so it works for both without forking the page.

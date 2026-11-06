@@ -30,6 +30,10 @@ const nav = [
   { href: '/pricing',  label: 'Pricing' },
   { href: '/guides',   label: 'Learn' },
   { href: '/about',    label: 'About' },
+  // Last on purpose: offered, not pushed. Shopify is the business (2026-11-06).
+  // Hidden from the desktop bar below lg so the pill doesn't wrap at tablet
+  // width; always in the mobile menu and the footer.
+  { href: '/marketplaces', label: 'Marketplaces', lgOnly: true },
 ];
 
 /*
@@ -52,7 +56,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const digits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
 const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
-  'Hi, I want to check if the 3.5% model fits my store.'
+  'Hi, I want to know if Orcas Prime fits my Shopify store.'
 )}`;
 ---
 
@@ -63,7 +67,7 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 			class="bg-paper/95 backdrop-blur-md border border-rule rounded-full shadow-[0_1px_2px_rgba(20,18,15,0.05)] transition-shadow duration-200"
 		>
 			<div class="px-5 md:px-7 h-14 md:h-16 flex items-center justify-between gap-6">
-				<a href="/" class="font-serif text-lg md:text-xl tracking-tight text-ink hover:text-accent transition-colors">
+				<a href="/" class="font-serif text-lg md:text-xl tracking-tight text-ink hover:text-accent transition-colors whitespace-nowrap">
 					Orcas Prime
 				</a>
 
@@ -72,12 +76,12 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 						{nav.map((item) => {
 							const active = currentPath === item.href;
 							return (
-								<li>
+								<li class:list={[item.lgOnly && 'hidden lg:block']}>
 									<a
 										href={item.href}
 										aria-current={active ? 'page' : undefined}
 										class:list={[
-											'font-sans text-small transition-colors',
+											'font-sans text-small transition-colors whitespace-nowrap',
 											active ? 'text-accent' : 'text-ink hover:text-accent',
 										]}
 									>
@@ -93,7 +97,7 @@ const ctaHref = `https://wa.me/${digits}?text=${encodeURIComponent(
 					href={ctaHref}
 					rel="noopener"
 					data-cta="whatsapp"
-					class="hidden md:inline-flex items-center gap-1.5 bg-accent text-paper hover:bg-accent-hover px-4 py-2 rounded-full font-sans text-small font-medium transition-colors"
+					class="hidden md:inline-flex items-center gap-1.5 bg-accent text-paper hover:bg-accent-hover px-4 py-2 rounded-full font-sans text-small font-medium transition-colors whitespace-nowrap"
 				>
 					Start on WhatsApp
 					<span aria-hidden="true" class="arrow-travel">&rarr;</span>

@@ -16,8 +16,13 @@ interface Props {
 
 const { svc } = Astro.props;
 
-// Other services shown at the bottom — everyone else, in file order.
-const otherServices = services.filter((s) => s.slug !== svc.slug);
+// Other services shown at the bottom: the rest of the same group (Shopify
+// or marketplace), in file order.
+const otherServices = services.filter((s) => s.slug !== svc.slug && s.group === svc.group);
+const isMarketplace = svc.group === 'marketplace';
+const hub = isMarketplace
+	? { name: 'Marketplaces', path: '/marketplaces' }
+	: { name: 'What We Own', path: '/services' };
 
 const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 ---
@@ -39,7 +44,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 			}),
 			breadcrumb([
 				{ name: 'Home', path: '/' },
-				{ name: 'What We Own', path: '/services' },
+				hub,
 				{ name: svc.name, path: `/services/${svc.slug}` },
 			]),
 		]}
@@ -49,7 +54,7 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	<section class="bg-paper panel mt-3 md:mt-4 mb-3 md:mb-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
 			<p class="kicker mb-4">
-				<a href="/services" class="hover:text-accent transition-colors">What We Own</a>
+				<a href={hub.path} class="hover:text-accent transition-colors">{hub.name}</a>
 				<span aria-hidden="true"> · </span>
 				<span class="text-accent">{svc.kicker}</span>
 			</p>
@@ -149,13 +154,13 @@ const proofClient = svc.proof ? findClient(svc.proof.clientSlug) : null;
 	{/* ─── 5 · Other services ──────────────────────────────────────── */}
 	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
-			<p class="kicker mb-4">The other four</p>
+			<p class="kicker mb-4">{isMarketplace ? 'Also' : 'The rest of the job'}</p>
 			<h2 class="text-h2 font-serif">
-				What else we do.
+				{isMarketplace ? 'Our main work is Shopify.' : 'What else we do.'}
 			</h2>
 
 			<ul class="mt-8 grid gap-4 md:grid-cols-2">
-				{otherServices.map((s) => (
+				{[...otherServices, ...(isMarketplace ? services.filter((s) => s.slug === 'shopify-meta-google-ads') : [])].map((s) => (
 					<li>
 						<a
 							href={`/services/${s.slug}`}

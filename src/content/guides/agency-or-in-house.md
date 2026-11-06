@@ -52,9 +52,9 @@ At ₹5,00,000 monthly net sales:
 | Do it yourself | ₹0 cash | 10–20 hours of founder time |
 | Employee | ₹35,000–₹80,000 + overhead | One skill set, full attention |
 | Agency (retainer) | ₹75,000+ | Several skill sets, split attention |
-| Agency (3.5% of net) | ₹17,500 | Several skill sets, split attention |
+| Orcas Prime (₹20,000 or 4% of net) | ₹20,000 | Several skill sets, split attention |
 
-The percentage model changes the arithmetic materially at smaller scale — which is precisely why we chose it. At ₹5 lakh net sales, ₹17,500 is close to what a good freelancer costs and considerably less than a retainer.
+A small minimum plus a percentage changes the arithmetic materially at smaller scale — which is precisely why we chose it. At ₹5 lakh net sales, ₹20,000 is close to what a good freelancer costs and considerably less than a retainer.
 
 ## Questions to ask before signing anything
 

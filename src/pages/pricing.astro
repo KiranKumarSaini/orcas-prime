@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PricingTable from '../components/PricingTable.astro';
 import FeeCalculator from '../components/FeeCalculator.astro';
+import HireCompare from '../components/HireCompare.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import Schema from '../components/Schema.astro';
 import { faqPage, breadcrumb } from '../lib/schema';
@@ -19,7 +20,8 @@ import { SITE } from '../lib/site';
     - Contextual WhatsApp close
 
   RULES (§4):
-    - Publish as "3.5% + GST", never GST-inclusive.
+    - Publish as "₹20,000/month or 4% of net sales, whichever is higher, + GST",
+      never GST-inclusive (decided 2026-11-06).
     - Never mention that the rate is negotiable.
     - Do NOT include the ₹2,000 security deposit — handled off-site.
 */
@@ -27,81 +29,77 @@ import { SITE } from '../lib/site';
 // Priced items — verbatim from §4. Do not add rows without brief approval.
 const priceRows = [
   {
-    item: 'Shopify management — everything included',
-    price: '3.5% + GST',
-    detail: 'of net sales, after returns and RTOs are deducted',
+    item: 'Shopify growth management — everything included',
+    price: '₹20,000/month',
+    detail: 'or 4% of net sales after returns and RTOs, whichever is higher, plus GST',
   },
   {
     item: 'New Shopify store build',
     price: '₹10,000–₹20,000',
-    detail: 'one-time, depending on scope',
-  },
-  {
-    item: 'Amazon · Flipkart · Meesho — 30+ orders a day',
-    price: '3.5% + GST',
-    detail: 'of net sales, after returns and RTOs are deducted',
-  },
-  {
-    item: 'Amazon · Flipkart · Meesho — under 30 orders a day',
-    price: '₹7,000 + GST',
-    detail: 'a month, flat',
+    detail: 'one-time, depending on scope, ready in about 7 days',
   },
   {
     item: 'Setup, onboarding, creative, reporting fees',
     price: 'None',
-    detail: 'included in the 3.5%',
+    detail: 'all included in the monthly fee',
   },
   {
     item: 'Lock-in contract',
     price: 'None',
-    detail: '30 days’ notice, no exit fee',
+    detail: 'stop whenever you like, no notice period, no exit fee',
   },
 ];
 
 const scope = [
-  { label: 'Store management',      desc: 'The whole Shopify admin, day to day.' },
-  { label: 'Meta and Google Ads',   desc: 'Build, run, adjust, report — all inside your ad account.' },
-  { label: 'Creative production',   desc: 'Ad graphics, product-page assets, banners.' },
-  { label: 'RTO management',        desc: 'Dispute filing, courier follow-ups, address validation.' },
-  { label: 'Catalogue management',  desc: 'Variants, tags, on-page SEO, availability.' },
-  { label: 'Logistics + checkout',  desc: 'Payment gateway integration, shipping partners, cart-to-doorstep flow.' },
-  { label: 'Monthly reporting',     desc: 'The numbers, plain, plus what changed and what we changed next.' },
+  { label: 'Meta and Google Ads',   desc: 'Build, run, adjust, inside your own ad accounts. Pixel and CAPI tracking, free Google Merchant Center listings.' },
+  { label: 'Shopify store',         desc: 'Day-to-day changes and fixes, the whole admin.' },
+  { label: 'Profit dashboard',      desc: 'Daily, weekly and monthly P&L after RTO, shipping and ads. Every ad marked Scale, Keep or Cut.' },
+  { label: 'RTO, COD and NDR',      desc: 'COD confirmed on WhatsApp, risky pincodes blocked, prepaid nudges, NDR call list.' },
+  { label: 'AI photos and video',   desc: 'Model shots from hanger or flat-lay photos for the whole catalogue, and up to 10 AI video ads a month.' },
+  { label: 'WhatsApp and Instagram', desc: 'Abandoned cart, order updates, reorder reminders, festive broadcasts. Reels, captions, posting.' },
+  { label: 'Festive calendar',      desc: 'Diwali, wedding season, Rakhi, end-of-season sale. Planned 4–6 weeks ahead.' },
+  { label: 'Reports and a weekly call', desc: 'A daily summary and weekly report on WhatsApp, and a 15-minute review call every week.' },
 ];
 
 const faqs = [
+  {
+    question: 'How is the fee worked out?',
+    answer:
+      'Each month you pay ₹20,000 or 4% of your net sales, whichever is higher, plus GST. The two meet at ₹5 lakh of net sales: below that you pay ₹20,000, above it you pay 4%. At ₹10 lakh of net sales, for example, the fee is ₹40,000 + GST.',
+  },
   {
     question: 'What counts as "net sales"?',
     answer:
       'Net sales is the money that stayed with your business after refunds, returns, and RTOs are deducted. If a customer refuses delivery and the shipment comes back, that transaction is removed from the base we charge on. This is different from gross revenue, which most agencies use.',
   },
   {
-    question: 'Does the 3.5% include GST?',
+    question: 'Does the fee include GST?',
     answer:
-      'No. The 3.5% is our service fee. GST is added on top at the government rate (currently 18%), so the bill reads "3.5% + GST." We publish it this way to stay directly comparable to other agencies’ pre-GST rates.',
+      'No. GST is added on top at the government rate (currently 18%), and you get a GST invoice every month. We publish the fee before GST to stay directly comparable to other agencies’ rates.',
   },
   {
     question: 'What does "no lock-in" mean?',
     answer:
-      'You can end the arrangement in any month by giving 30 days’ notice so we can hand over accounts cleanly. No exit fee, no minimum term, no cancellation penalty.',
-  },
-  {
-    question: 'How is Amazon, Flipkart or Meesho management charged?',
-    answer:
-      'It depends on your order volume. At 30 or more orders a day, it is 3.5% + GST of net sales, the same as Shopify. Below 30 orders a day, it is a flat ₹7,000 + GST a month: at a handful of orders, 3.5% of sales comes to a few hundred rupees, which cannot pay for listings, ads and account health work done properly. Once you are steadily above 30 a day, you can move to the 3.5%. If we also run your Shopify store, marketplace management is included in that 3.5%.',
+      'You can stop whenever you like. No notice period, no exit fee, no minimum term. Your ad accounts and your store are already yours, so there is nothing to hand back.',
   },
   {
     question: 'What size store is this best for?',
     answer:
-      'Brands doing roughly ₹3–50 lakh a month in net sales. Below ₹3 lakh, 3.5% of your sales doesn’t fund the work properly, and we’d rather say so in the first conversation than take the account and under-serve it. Above ₹50 lakh the model still works, but a fixed retainer may suit you better — we’ll tell you that too.',
+      'Shopify brands doing roughly ₹3–50 lakh a month in net sales. Below ₹3 lakh, the ₹20,000 minimum is a big share of your sales, and we’d rather say so in the first conversation than take the account. Above ₹50 lakh the model still works, but a fixed retainer may suit you better — we’ll tell you that too.',
   },
   {
     question: 'What if I only want ads run, not store management?',
     answer:
-      'The 3.5% covers everything as one bundle — store, ads, creative, catalogue, logistics. We don’t split it into "just ads." If you only need one piece, a specialist agency will serve you better than we would.',
+      'The fee covers everything as one bundle — ads, store, creative, RTO and reporting. We don’t split it into "just ads." If you only need one piece, a specialist will serve you better than we would.',
+  },
+  {
+    question: 'Do you manage Amazon, Flipkart or Meesho?',
+    answer:
+      'Yes, for a flat ₹20,000 + GST a month, charged separately from Shopify management. Our focus is Shopify, so we take on only a few marketplace accounts.',
   },
 ];
 
-const ctaMsg = 'Hi, I want to understand the 3.5% fee for my store.';
+const ctaMsg = 'Hi, I want to understand the Orcas Prime fee for my store.';
 const correctionMsg = 'Hi, I have an agency quote you should see for your pricing footnote.';
 const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
 const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(correctionMsg)}`;
@@ -109,7 +107,7 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 
 <BaseLayout
 	title="Pricing"
-	description="Orcas Prime takes 3.5% + GST of net sales after returns. A Shopify build is ₹10,000–₹20,000 one-time. No lock-in, no setup fees."
+	description="Orcas Prime charges ₹20,000 a month or 4% of net sales after returns, whichever is higher, plus GST. A Shopify build is ₹10,000–₹20,000 one-time. No lock-in, no setup fees."
 	canonicalPath="/pricing"
 	stickyMessage={ctaMsg}
 >
@@ -129,10 +127,10 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
 			<p class="kicker mb-4">Pricing</p>
 			<h1 class="text-display font-serif max-w-[20ch]">
-				One fee. Charged on what you actually keep.
+				One fee. Everything included.
 			</h1>
 			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
-				Orcas Prime takes <span class="num text-accent">3.5% + GST</span> of net sales after returns are deducted. A Shopify build is <span class="num">₹10,000–₹20,000</span> one-time. Amazon, Flipkart and Meesho are the same 3.5% at 30+ orders a day, or <span class="num">₹7,000 + GST</span> a month below that. No lock-in, no setup fees.
+				Orcas Prime charges <span class="num text-accent">₹20,000</span> a month or <span class="num text-accent">4%</span> of net sales after returns and RTOs, whichever is higher, plus GST. That covers Meta and Google ads, your Shopify store, RTO control, AI photos and video, and a profit dashboard. A new Shopify store is <span class="num">₹10,000–₹20,000</span> one-time. No lock-in, no setup fees.
 			</p>
 		</div>
 	</section>
@@ -142,13 +140,13 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">Why this structure</p>
 			<h2 class="text-h1 font-serif max-w-[24ch]">
-				There are three ways an agency can be paid. Only one of them is paid to think about your business the way you do.
+				There are three ways an agency can be paid. Ours is built to think about your business the way you do.
 			</h2>
 			<div class="mt-10 grid gap-10 md:grid-cols-3 md:gap-12">
 				<div>
-					<p class="kicker text-ink-muted mb-3">A retainer</p>
+					<p class="kicker text-ink-muted mb-3">A big retainer</p>
 					<p class="text-base leading-relaxed text-ink-muted">
-						Bills you the same amount whether your store made money or lost money last month. Neither side's incentive changes with the result.
+						Usually ₹75,000 and up, billed the same whether your store made money or lost money last month. Neither side's incentive changes with the result.
 					</p>
 				</div>
 				<div>
@@ -158,19 +156,19 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 					</p>
 				</div>
 				<div class="border-l-2 border-accent pl-6 md:pl-8">
-					<p class="kicker text-accent mb-3">A percentage of net sales</p>
+					<p class="kicker text-accent mb-3">A small minimum + 4% of net sales</p>
 					<p class="text-base leading-relaxed text-ink">
-						Tracks the only number that actually matters to you — the money that actually stayed in your account after refunds, returns and RTOs. When a shipment gets refused, we absorb that with you.
+						₹20,000 keeps the work funded. Above ₹5 lakh, the fee tracks the money that actually stayed in your account after refunds, returns and RTOs. A refused shipment comes out of the base we charge on.
 					</p>
 				</div>
 			</div>
 			<p class="text-base text-ink-muted mt-10 max-w-prose">
-				Nobody on the first two models is doing anything wrong — they're doing exactly what their pricing rewards. We built Orcas Prime on the third because it's the only one that pays us to think about your business the way you do.
+				Nobody on the first two models is doing anything wrong — they're doing exactly what their pricing rewards. We built Orcas Prime on the third because it pays us more only when you keep more.
 			</p>
 
 			{/* Surfaced here as well as on /about — this is the point in the page
 			    where the reader is actively weighing the model, and exclusivity
-			    is part of what they are being offered for the 3.5%. */}
+			    is part of what they are being offered for the fee. */}
 			<p class="text-base text-ink-muted mt-6 max-w-prose">
 				We also won't run two brands in the same category and price band. Your
 				competitor cannot hire us while we have you.
@@ -246,16 +244,17 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 		</div>
 	</section>
 
-	{/* ─── 4 · What the 3.5% covers ────────────────────────────────── */}
+	{/* ─── 4 · What the fee covers ────────────────────────────────── */}
 	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
 			<p class="kicker mb-4">What’s covered</p>
 			<h2 class="text-h1 font-serif max-w-[22ch]">
-				What the <span class="num text-accent">3.5%</span> covers.
+				What the fee covers.
 			</h2>
 			<p class="text-lead text-ink-muted mt-6 max-w-prose">
 				One fee. Everything you need to run and grow the store.
 			</p>
+			<HireCompare class="mt-10 max-w-prose" />
 
 			<dl class="mt-12 grid gap-x-12 md:grid-cols-2 border-t border-rule">
 				{scope.map((item) => (
@@ -278,13 +277,10 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
 			<p class="kicker mb-4">Who this works for</p>
 			<p class="text-lead text-ink leading-relaxed max-w-prose mx-auto">
-				This works best for brands doing roughly <span class="num text-accent">₹3–50 lakh</span> a month in net sales, on Shopify, on marketplaces, or both.
+				This works best for Shopify brands doing roughly <span class="num text-accent">₹3–50 lakh</span> a month in net sales.
 			</p>
 			<p class="text-base text-ink-muted leading-relaxed mt-5 max-w-prose mx-auto">
-				Below that, a percentage of your sales won't fund the work properly — and we'll say so in the first conversation rather than take the account. Above it, the model still works, but a fixed retainer may suit you better and we'll tell you that too.
-			</p>
-			<p class="text-base text-ink-muted leading-relaxed mt-5 max-w-prose mx-auto">
-				Marketplace-only sellers need <span class="num">30+</span> orders a day for the 3.5%. Below that, it's a flat <span class="num">₹7,000 + GST</span> a month.
+				Below that, the ₹20,000 minimum is a big share of your sales, and we'll say so in the first conversation rather than take the account. Above it, the model still works, but a fixed retainer may suit you better and we'll tell you that too.
 			</p>
 		</div>
 	</section>
@@ -345,8 +341,8 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 	<section class="bg-paper panel my-3 md:my-4">
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
 			<p class="font-serif text-h2 max-w-[30ch] mx-auto">
-				If <span class="num text-accent">3.5%</span> of net sales sounds like it might
-				fit, the next step is a two-line WhatsApp message.
+				If <span class="num text-accent">₹20,000</span> or 4% of net sales sounds like
+				it might fit, the next step is a two-line WhatsApp message.
 			</p>
 			<p class="text-lead text-ink-muted mt-4">
 				It’s already written &mdash; just hit send.
@@ -356,8 +352,8 @@ const correctionHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(corr
 			</div>
 			<p class="text-small text-ink-muted mt-6">
 				Only on Amazon, Flipkart or Meesho?{' '}
-				<a href="/services/amazon-account-management" class="text-accent hover:text-accent-hover link-draw">
-					See how marketplace management works &rarr;
+				<a href="/marketplaces" class="text-accent hover:text-accent-hover link-draw">
+					Marketplace management is ₹20,000 + GST a month &rarr;
 				</a>
 			</p>
 		</div>

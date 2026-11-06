@@ -7,7 +7,7 @@ description: Indian ecommerce agency pricing explained — retainer ranges, perc
 updated: 2026-08-05
 faqs:
   - question: Is a retainer or a percentage model better for a small brand?
-    answer: Below roughly ₹10 lakh a month in net sales, a percentage model almost always costs less than a retainer. At ₹5 lakh net sales, 3.5% is ₹17,500 against a typical retainer floor of ₹75,000. The crossover point where a retainer becomes competitive is usually somewhere above ₹25–30 lakh a month, and it depends entirely on what the retainer includes.
+    answer: Below roughly ₹10 lakh a month in net sales, a percentage model almost always costs less than a retainer. At ₹5 lakh net sales, 4% is ₹20,000 against a typical retainer floor of ₹75,000. The crossover point where a retainer becomes competitive is usually somewhere above ₹25–30 lakh a month, and it depends entirely on what the retainer includes.
   - question: Why do most Indian agencies not publish their prices?
     answer: Published pricing removes negotiating room and invites direct comparison. It also commits the agency to a number it has to defend. The practical effect is that a seller has to run several discovery calls just to learn the range, which is why the question gets asked so often.
   - question: What should be included in the fee?
@@ -39,7 +39,7 @@ Less common in India. The agency takes a cut of sales. The critical detail is **
 
 That distinction matters enormously in Indian D2C, where cash-on-delivery return rates and RTO (return-to-origin) can remove a large share of apparent revenue. A percentage of *gross* revenue still bills you for orders that came back. A percentage of *net* revenue does not.
 
-Orcas Prime charges **3.5% + GST of net sales after returns and RTOs are deducted**. If a shipment is refused and comes back, it leaves the base we charge on.
+Orcas Prime charges **₹20,000 a month or 4% of net sales after returns and RTOs, whichever is higher, plus GST**. If a shipment is refused and comes back, it leaves the base we charge on.
 
 ## What to actually ask when comparing quotes
 
@@ -51,15 +51,15 @@ Orcas Prime charges **3.5% + GST of net sales after returns and RTOs are deducte
 
 ## A worked comparison
 
-At three revenue levels, comparing a percentage-of-net-sales model against a typical retainer floor:
+At three revenue levels, comparing our fee (₹20,000 or 4% of net sales, whichever is higher) against a typical retainer floor:
 
-| Net sales / month | At 3.5% | Typical retainer |
+| Net sales / month | Orcas Prime | Typical retainer |
 |---|---|---|
-| ₹5,00,000 | ₹17,500 | ₹75,000+ |
-| ₹10,00,000 | ₹35,000 | ₹1,50,000+ |
-| ₹25,00,000 | ₹87,500 | ₹3,00,000+ |
+| ₹5,00,000 | ₹20,000 | ₹75,000+ |
+| ₹10,00,000 | ₹40,000 | ₹1,50,000+ |
+| ₹25,00,000 | ₹1,00,000 | ₹3,00,000+ |
 
-The percentage model costs less at every level shown, and it scales with the business rather than ahead of it. The trade-off is that a percentage model only makes sense if the agency is doing the full scope — a media-buying-only shop taking a percentage of all revenue would be charging for sales it did not influence.
+The minimum-plus-percentage model costs less at every level shown, and above the minimum it scales with the business rather than ahead of it. The trade-off is that a percentage model only makes sense if the agency is doing the full scope — a media-buying-only shop taking a percentage of all revenue would be charging for sales it did not influence.
 
 ## Sources
 

@@ -67,7 +67,7 @@ A meaningful share of refusals come from parcels arriving later than the buyer e
 
 ## How we handle it
 
-RTO management is inside the 3.5%, not an add-on — address validation, confirmation flows, courier routing, dispute filing on incorrectly marked attempts, and monthly reporting on the rate by SKU and region. Because we are paid on net sales after RTOs are deducted, a high RTO rate costs us directly. That is the point of the structure.
+RTO management is inside our monthly fee, not an add-on — COD confirmation on WhatsApp, risky-pincode blocking, courier routing, NDR follow-up, dispute filing on incorrectly marked attempts, and RTO by SKU and region on the dashboard. Above the ₹20,000 minimum we are paid 4% of net sales after RTOs are deducted, so a high RTO rate costs us directly. That is the point of the structure.
 
 ## Sources
 

@@ -15,9 +15,9 @@ const palette = [
 // Static class map — Tailwind v4 tree-shakes based on literal source scanning,
 // so we must reference every utility as a literal string, not a template.
 const typeScale = [
-  { token: 'display', class: 'text-display', useCase: 'Homepage hero, page opener',      isHeading: true,  sample: 'No retainer. No monthly fee.' },
+  { token: 'display', class: 'text-display', useCase: 'Homepage hero, page opener',      isHeading: true,  sample: 'One team. One fee.' },
   { token: 'h1',      class: 'text-h1',      useCase: 'Page titles',                     isHeading: true,  sample: 'How much do agencies charge?' },
-  { token: 'h2',      class: 'text-h2',      useCase: 'Major section headings',          isHeading: true,  sample: 'What the 3.5% covers' },
+  { token: 'h2',      class: 'text-h2',      useCase: 'Major section headings',          isHeading: true,  sample: 'What the fee covers' },
   { token: 'h3',      class: 'text-h3',      useCase: 'Subsection headings, card titles',isHeading: true,  sample: 'Store management' },
   { token: 'lead',    class: 'text-lead',    useCase: 'Deck, opening paragraph, subhead',isHeading: false, sample: 'Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho.' },
   { token: 'base',    class: 'text-base',    useCase: 'Body copy',                       isHeading: false, sample: 'Ratios have no scale. "5.1x return on Google Ads" is a strong claim that doesn\'t reveal company size, which is exactly what an agency of two founders wants to talk about.' },
@@ -33,9 +33,9 @@ const radii = [
 ];
 
 const pricingRows = [
-  { net: 500000,  op: 17500,  ret: 75000 },
-  { net: 1000000, op: 35000,  ret: 150000 },
-  { net: 2500000, op: 87500,  ret: 300000 },
+  { net: 500000,  op: 20000,  ret: 75000 },
+  { net: 1000000, op: 40000,  ret: 150000 },
+  { net: 2500000, op: 100000, ret: 300000 },
 ];
 
 const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
@@ -257,7 +257,7 @@ const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
 									<span class="kicker">Net sales / month</span>
 								</th>
 								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink border-b border-rule-strong">
-									<span class="kicker">Orcas Prime <span class="normal-case text-accent">(3.5% + GST)</span></span>
+									<span class="kicker">Orcas Prime <span class="normal-case text-accent">(₹20K or 4% + GST)</span></span>
 								</th>
 								<th scope="col" class="p-4 md:p-5 font-sans text-small font-medium text-ink-muted border-b border-rule-strong border-l border-rule">
 									<span class="kicker">Typical agency retainer</span>

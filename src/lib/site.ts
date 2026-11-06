@@ -21,13 +21,13 @@ export const SITE = {
     import.meta.env.SITE?.replace(/\/$/, '') ||
     'http://localhost:4321',
 
-  tagline: 'We take 3.5% of what your customers actually keep. No lock-in.',
+  tagline: 'One team for your Shopify store, Meta and Google ads, RTO and profit. No lock-in.',
 
   description:
-    'Marketing agency based in Jaipur, India. Shopify stores built, launched and scaled — plus Amazon, Flipkart and Meesho. 3.5% + GST of net sales after returns and RTOs. No lock-in.',
+    'Shopify growth agency based in Jaipur, India. Meta and Google ads, Shopify store management, RTO control and a profit dashboard, one team. ₹20,000 a month or 4% of net sales after returns and RTOs, whichever is higher, plus GST. No lock-in.',
 
   shortDescription:
-    'Marketing agency based in Jaipur. 3.5% + GST of net sales after returns. No lock-in.',
+    'Shopify growth agency based in Jaipur. ₹20,000/month or 4% of net sales, whichever is higher, plus GST. No lock-in.',
 
   founders: [
     {

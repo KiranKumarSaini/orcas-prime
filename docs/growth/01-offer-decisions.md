@@ -7,13 +7,16 @@
 
 ## 1. Price (proposed)
 
-- **DECIDED 2026-11-05: list price ₹25,000 + GST a month, or 3.5% of net sales,
-  whichever is higher.** Net sales = sales after returns and RTOs. This is the
-  only price on the website.
-- **Founding-partner rate: ₹20,000 + GST**, for the first 5 clients only,
-  locked for 6 months. In exchange they give permission to publish their
-  numbers, a short video testimonial, and agree to take reference calls.
-  Offered on the sales call, never advertised (brand rule: no "limited slots").
+- **FINAL 2026-11-06 (Kiran with Prashant): ₹20,000 + GST a month, or 4% of
+  net sales, whichever is higher.** Net sales = sales after returns and RTOs.
+  The two meet at ₹5 lakh of net sales. This is the only Shopify price on the
+  website and the ad pages; the numbers live in src/lib/pricing.ts.
+- **Marketplaces (Amazon, Flipkart, Meesho): flat ₹20,000 + GST a month,**
+  charged separately from Shopify. We don't push it: it lives on /marketplaces,
+  last in the menu, with one line on the homepage. Shopify is the business.
+- Superseded: ₹25,000 or 3.5%/4% (2026-11-05/06) and the ₹20,000
+  founding-partner rate for the first 5 clients (₹20,000 is now the list price).
+- **No lock-in and no notice period** on any plan.
 - **Capacity line (DECIDED 2026-11-05, Kiran):** the site and ads say we take on
   **3 new brands a month**. This replaces the old "no limited slots" rule
   (LOCKED #36) for this one message. It must stay true and calm: a statement of

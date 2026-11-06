@@ -1,0 +1,40 @@
+---
+/**
+ * "One fee instead of five salaries": what the same work costs with an
+ * in-house team. Same figures as the ad landing pages (fashion-copy.ts, en),
+ * so the two can never disagree. The salaries are estimates and the
+ * component says so.
+ */
+import { fashionCopy } from '../data/landing/fashion-copy';
+import { FEE_MIN, inr } from '../lib/pricing';
+
+export interface Props {
+  class?: string;
+}
+const { class: extraClass = '' } = Astro.props;
+const hire = fashionCopy.en.fee.hire;
+---
+
+<div class:list={['border border-rule-strong rounded-lg bg-paper p-6 md:p-8', extraClass]}>
+	<p class="kicker mb-2">One fee instead of five salaries</p>
+	<h3 class="font-serif text-h3 text-ink">{hire.title}</h3>
+
+	<dl class="mt-6 border-t border-rule">
+		{hire.roles.map((r) => (
+			<div class="flex items-baseline justify-between gap-4 py-3 border-b border-rule">
+				<dt class="text-base text-ink-muted">{r.role}</dt>
+				<dd class="num text-base text-ink-muted whitespace-nowrap">{r.cost}</dd>
+			</div>
+		))}
+		<div class="flex items-baseline justify-between gap-4 py-4 border-b border-rule">
+			<dt class="text-base text-ink">{hire.totalLabel}</dt>
+			<dd class="num text-lead text-ink whitespace-nowrap">{hire.total}</dd>
+		</div>
+		<div class="flex items-baseline justify-between gap-4 pt-4">
+			<dt class="text-base text-accent font-medium">Orcas Prime, all of it</dt>
+			<dd class="num text-lead text-accent whitespace-nowrap">from {inr(FEE_MIN)}</dd>
+		</div>
+	</dl>
+
+	<p class="text-small text-ink-muted mt-5">{hire.note}</p>
+</div>

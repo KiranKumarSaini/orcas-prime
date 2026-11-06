@@ -12,6 +12,7 @@ import VendorChain from '../components/VendorChain.astro';
 import HeroConverge from '../components/HeroConverge.astro';
 import PricingTable from '../components/PricingTable.astro';
 import FeeCalculator from '../components/FeeCalculator.astro';
+import HireCompare from '../components/HireCompare.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import Schema from '../components/Schema.astro';
 import { faqPage, service as serviceSchema } from '../lib/schema';
@@ -26,6 +27,7 @@ import {
 	adSpendBasis,
 } from '../data/results';
 import { SITE } from '../lib/site';
+import { FEE_TEXT, FEE_MIN, inr } from '../lib/pricing';
 import { Image } from 'astro:assets';
 import { storefrontFor, storefrontAlt } from '../lib/images';
 import ImageBreak from '../components/ImageBreak.astro';
@@ -58,15 +60,16 @@ import imgTextile from '../assets/editorial/textile.jpg';
 */
 
 const channels = [
-	'Shopify store builds',
 	'Meta & Google Ads',
-	'Amazon · Flipkart · Meesho',
-	'Returns & RTO handled',
+	'Shopify store',
+	'Profit dashboard',
+	'RTO, COD & NDR',
+	'AI photos & videos',
+	'WhatsApp & Instagram',
 ];
 
 const ctaMsg = {
-	general: 'Hi, I want to check if the 3.5% model fits my store.',
-	marketplace: 'Hi, I sell on Amazon / Flipkart / Meesho. I do about ___ orders a day.',
+	general: 'Hi, I want to know if Orcas Prime fits my Shopify store.',
 };
 
 const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
@@ -94,7 +97,7 @@ const situations = [
 const vendorChain = [
 	{ who: 'Ads agency',   owns: 'Optimises for orders' },
 	{ who: 'Developer',    owns: "Doesn't see the ad data" },
-	{ who: 'Marketplaces', owns: 'Someone else again' },
+	{ who: 'Photographer', owns: 'Someone else again' },
 	{ who: 'Courier',      owns: 'A separate relationship' },
 ];
 
@@ -133,8 +136,8 @@ const rtoPanels = [
 /* Sub-block 3 — the incentive problem, as a comparison rather than prose. */
 const payModels = [
 	{
-		model: 'A retainer',
-		effect: 'Gets paid the same whether you had a good month or a terrible one.',
+		model: 'A big retainer',
+		effect: 'Gets paid the same large amount whether you had a good month or a terrible one.',
 		ours: false,
 	},
 	{
@@ -143,8 +146,8 @@ const payModels = [
 		ours: false,
 	},
 	{
-		model: 'A percentage of net sales',
-		effect: 'Gets paid only on the money that actually stayed in your account after refunds, returns and RTOs.',
+		model: 'A small minimum + 4% of net sales',
+		effect: 'A ₹20,000 minimum keeps the work funded. Above ₹5 lakh, the fee grows only with the money that stayed in your account after refunds, returns and RTOs.',
 		ours: true,
 	},
 ];
@@ -153,8 +156,9 @@ const payModels = [
 const youKeep = ['Your product', 'Manufacturing', 'Buying inventory', 'Dispatching orders'];
 
 /*
-  The same 15 items from Module 3 §4, wording untouched, grouped into five
-  clusters.
+  What we take over, grouped into six clusters. Rewritten 2026-11-06 to match
+  the ad-page offer (dashboard, reports, AI photos and video) and to drop
+  marketplaces, which now live on /marketplaces.
 
   Flat, they were 15 long phrases in a column — which is a wall of text no
   matter how it's styled, and it's what made this section read as a document.
@@ -165,41 +169,51 @@ const youKeep = ['Your product', 'Manufacturing', 'Buying inventory', 'Dispatchi
 */
 const weTakeClusters = [
 	{
-		title: 'Your store',
-		items: [
-			'Your Shopify store — the whole admin, day to day',
-			'Branding and how the product is positioned',
-			'Pricing strategy',
-			'Conversion improvements on the store',
-		],
-	},
-	{
 		title: 'Advertising',
 		items: [
-			'Meta and Google Ads, run inside your own accounts',
-			'Ad creative — graphics, video cuts, banners',
+			'Meta Ads, with Pixel and CAPI tracking',
+			'Google Ads: Search, Shopping, Performance Max',
+			'Free product listings on Google Merchant Center',
 		],
 	},
 	{
-		title: 'Marketplaces',
-		items: ['Amazon, Flipkart and Meesho — listings and accounts'],
+		title: 'Your Shopify store',
+		items: [
+			'The whole admin, day to day',
+			'Conversion improvements on the store',
+			'Pricing and how the product is positioned',
+		],
 	},
 	{
-		title: 'Orders and logistics',
+		title: 'Creative',
 		items: [
-			'RTO reduction and courier disputes',
+			'AI catalogue photos, from a hanger or flat-lay photo',
+			'Up to 10 AI video ads a month',
+			'Instagram reels, captions and posting',
+		],
+	},
+	{
+		title: 'Orders and RTO',
+		items: [
+			'COD confirmation and risky-pincode blocking',
+			'NDR follow-up and courier disputes',
 			'Which courier to use, and where',
-			'Inventory planning',
+		],
+	},
+	{
+		title: 'Numbers',
+		items: [
+			'Profit dashboard: daily, weekly and monthly P&L',
+			'Daily summary and weekly report on WhatsApp',
+			'A 15-minute review call every week',
 		],
 	},
 	{
 		title: 'Growth',
 		items: [
-			'Product launches',
-			'Scaling decisions',
-			'Email and WhatsApp follow-up',
-			'Analytics and reporting',
-			'Overall growth strategy',
+			'WhatsApp automation and festive broadcasts',
+			'Festive calendar, planned 4–6 weeks ahead',
+			'Scaling decisions and product launches',
 		],
 	},
 ];
@@ -218,7 +232,7 @@ const decisions = [
 	},
 	{
 		heading: 'When we tell a brand not to spend more',
-		body: "Sometimes the honest answer is that the product isn't ready, the price is wrong, or the store converts too poorly for more traffic to help. Spending more at that point is the most expensive way to find out. Because we're paid on what you keep, telling you to pause costs us money too — which is exactly why you can trust us when we say it.",
+		body: "Sometimes the honest answer is that the product isn't ready, the price is wrong, or the store converts too poorly for more traffic to help. Spending more at that point is the most expensive way to find out. Because most of our fee grows with what you keep, telling you to pause costs us money too — which is exactly why you can trust us when we say it.",
 	},
 ];
 
@@ -230,19 +244,19 @@ const ownershipServices = [
 		slug: 'shopify-meta-google-ads',
 	}),
 	serviceSchema({
-		name: 'Amazon account management',
-		description: 'Amazon seller account management for Indian D2C brands.',
-		slug: 'amazon-account-management',
-	}),
-	serviceSchema({
-		name: 'Flipkart and Meesho management',
-		description: 'Marketplace account management on Flipkart and Meesho Seller Hub.',
-		slug: 'flipkart-meesho-management',
+		name: 'Meta and Google Ads management',
+		description: 'Meta and Google ads run inside your own ad accounts, judged on profit after RTO and shipping.',
+		slug: 'shopify-meta-google-ads',
 	}),
 	serviceSchema({
 		name: 'Creative and catalogue',
-		description: 'Product photography, ad creative, and catalogue optimisation.',
+		description: 'AI catalogue photos, AI video ads and ad creative.',
 		slug: 'creative-and-catalogue',
+	}),
+	serviceSchema({
+		name: 'Shopify store development',
+		description: 'New Shopify store builds for Indian D2C brands.',
+		slug: 'shopify-store-development',
 	}),
 ];
 
@@ -292,8 +306,8 @@ const learnGuides = learnSlugs
 ---
 
 <BaseLayout
-	title="Ecommerce growth partner for Indian brands — Orcas Prime"
-	description="We run your Shopify store, ads and marketplace accounts for 3.5% of net sales. No lock-in. Based in Jaipur, working with Indian ecommerce brands."
+	title="Shopify growth partner for Indian brands — Orcas Prime"
+	description="Meta and Google ads, your Shopify store, RTO control and a profit dashboard, one team. ₹20,000/month or 4% of net sales, whichever is higher, plus GST. No lock-in. Based in Jaipur."
 	titleTemplate="none"
 	canonicalPath="/"
 	stickyMessage={ctaMsg.general}
@@ -305,12 +319,13 @@ const learnGuides = learnSlugs
 		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-16 pb-20 md:pt-24 md:pb-28" data-animate-group>
 			<h1 class="text-display font-serif max-w-[18ch]" data-animate-item style="--i:0">
 				Stop managing five different agencies.<br />
-				We're one team that owns your ecommerce growth.
+				We're one team that owns your Shopify growth.
 			</h1>
 
 			<p class="text-lead text-ink-muted mt-7 max-w-[52ch] leading-relaxed" data-animate-item style="--i:1">
-				Shopify store management, Meta and Google Ads, and Amazon, Flipkart and
-				Meesho — one team, one fee, tied to what you actually keep.
+				We run your Meta and Google ads, look after your Shopify store, keep RTO
+				in check, and show you on a dashboard what you actually made. One team,
+				one fee.
 			</p>
 
 			<ul class="mt-9 flex flex-wrap gap-2" data-animate-item style="--i:2">
@@ -320,9 +335,9 @@ const learnGuides = learnSlugs
 			{/* Price line — demoted from headline position to a secondary fact
 			    strip above the CTA, per Module 3 §1. */}
 			<div class="mt-9 inline-flex flex-wrap items-baseline gap-x-3 gap-y-1 border-l-2 border-accent pl-5 py-1" data-animate-item style="--i:3">
-				<span class="num text-h3 text-accent">3.5%</span>
-				<span class="text-base text-ink">of net sales. No lock-in.</span>
-				<span class="text-base text-ink-muted">Nothing charged on returns or RTOs.</span>
+				<span class="num text-h3 text-accent">{inr(FEE_MIN)}</span>
+				<span class="text-base text-ink">a month or 4% of net sales, whichever is higher. + GST.</span>
+				<span class="text-base text-ink-muted">No lock-in.</span>
 			</div>
 
 			<div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" data-animate-item style="--i:4">
@@ -390,8 +405,8 @@ const learnGuides = learnSlugs
 						<p>
 							You hire an ads agency. They optimise for orders, because that's what
 							they're measured on. You hire a developer for the store, but they
-							don't see the ad data. Someone else handles your marketplace
-							listings. Your courier is a separate relationship again.
+							don't see the ad data. Someone else shoots your product photos.
+							Your courier is a separate relationship again.
 						</p>
 						<p>
 							Nobody in that chain is responsible for whether your business made
@@ -703,16 +718,18 @@ const learnGuides = learnSlugs
 		<div class="mt-20 pt-16 border-t border-rule" data-animate-item style="--i:6">
 			<Eyebrow class="mb-4">Why our fee works the way it does</Eyebrow>
 			<p class="max-w-[54ch] text-lead text-ink leading-relaxed">
-				We charge <span class="num text-accent">3.5%</span> of net sales — the
-				money left after refunds, returns and RTOs come out. The money that
-				actually stayed in your account. Not orders placed.
+				We charge <span class="num text-accent">₹20,000</span> a month or
+				<span class="num text-accent">4%</span> of net sales, whichever is
+				higher, plus GST. Net sales is the money left after refunds, returns and
+				RTOs come out. Not orders placed.
 			</p>
 			<div class="mt-5">
 				<Reveal label="How that differs from a retainer">
 					<p class="text-base text-ink-muted leading-relaxed max-w-[54ch]">
-						A retainer bills you the same whether you made money last month or
-						lost it. A percentage of ad spend bills you more the more it spends,
-						whether or not that spend worked.
+						A typical agency retainer starts around ₹75,000 and stays the same
+						whether you made money last month or lost it. Our ₹20,000 minimum
+						covers the work; above ₹5 lakh of net sales, the fee only grows when
+						the money you kept grows.
 					</p>
 				</Reveal>
 			</div>
@@ -722,8 +739,8 @@ const learnGuides = learnSlugs
 			<div class="mt-10">
 				<FeeCalculator default={1200000} />
 				<p class="text-small text-ink-muted mt-5 leading-relaxed max-w-[52ch]">
-					When a shipment gets refused, we absorb that alongside you. No setup
-					fee, no onboarding fee, no creative fee, no reporting fee.
+					When a shipment gets refused, it comes out of the base we charge on.
+					No setup fee, no onboarding fee, no creative fee, no reporting fee.
 				</p>
 			</div>
 
@@ -732,6 +749,7 @@ const learnGuides = learnSlugs
 			    published rows a model can lift whole, with no interaction needed. */}
 			<div class="mt-8">
 				<PricingTable />
+				<HireCompare class="mt-8" />
 				<div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
 					<WhatsAppCTA message={ctaMsg.general} />
 					<a href="/pricing" class="text-small text-ink-muted hover:text-accent font-mono">
@@ -746,15 +764,14 @@ const learnGuides = learnSlugs
 			<Callout class="max-w-[62ch]">
 				<Eyebrow class="mb-3">Who this works for</Eyebrow>
 				<p class="text-lead text-ink leading-relaxed">
-					This works best for brands doing roughly
-					<span class="num text-accent"> ₹3–50 lakh</span> a month in net sales,
-					on Shopify, on marketplaces, or both.
+					This works best for Shopify brands doing roughly
+					<span class="num text-accent"> ₹3–50 lakh</span> a month in net sales.
 				</p>
 				<p class="text-base text-ink-muted leading-relaxed mt-4">
-					Below that, a percentage of your sales won't fund the work properly —
-					and we'll say so in the first conversation rather than take the
-					account. Above it, the model still works, but a fixed retainer may
-					suit you better and we'll tell you that too.
+					Below that, the ₹20,000 minimum is a big share of your sales, and
+					we'll say so in the first conversation rather than take the account.
+					Above it, the model still works, but a fixed retainer may suit you
+					better and we'll tell you that too.
 				</p>
 			</Callout>
 		</div>
@@ -848,35 +865,12 @@ const learnGuides = learnSlugs
 			</a>
 		</p>
 
-		{/* Marketplace-only sellers — a distinct path with its own volume rule. */}
-		<div
-			class="mt-16 border border-rule-strong bg-paper-raised rounded-2xl p-8 text-left"
-			data-animate-item
-			style="--i:4"
-		>
-			<h3 class="font-serif text-h3">Only selling on Amazon, Flipkart or Meesho?</h3>
-			<p class="text-base opacity-80 leading-relaxed mt-4">
-				At <span class="num">30+</span> orders a day, we run your marketplace
-				accounts for the same <span class="num">3.5% + GST</span> of net sales.
-				Below that, it's a flat <span class="num">₹7,000 + GST</span> a month:
-				at a handful of orders, a percentage can't pay for the work done
-				properly. Tell us your daily orders and we'll say which applies.
-			</p>
-			<div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
-				<a
-					href={`https://wa.me/${waDigits}?text=${encodeURIComponent(ctaMsg.marketplace)}`}
-					rel="noopener"
-					data-cta="whatsapp"
-					class="inline-flex items-center gap-2 border border-ink text-ink hover:bg-ink hover:text-paper px-5 py-3 rounded-md font-sans text-base font-medium transition-colors"
-				>
-					Message us on WhatsApp
-					<span aria-hidden="true" class="num">&rarr;</span>
-				</a>
-				<a href="/pricing" class="text-small font-mono link-draw">
-					Full pricing <span class="arrow-travel">&rarr;</span>
-				</a>
-			</div>
-		</div>
+		{/* Marketplaces: offered, not pushed (2026-11-06). One quiet line. */}
+		<p class="mt-14 pt-8 border-t border-rule-strong text-small opacity-80" data-animate-item style="--i:5">
+			Also selling on Amazon, Flipkart or Meesho? We can run those accounts too,
+			for <span class="num">{FEE_TEXT.marketplace}</span>.
+			<a href="/marketplaces" class="text-accent hover:text-accent-hover link-draw ml-1">Marketplaces &rarr;</a>
+		</p>
 	</SectionShell>
 
 </BaseLayout>

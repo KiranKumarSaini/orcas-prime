@@ -9,6 +9,7 @@
  * Organization, LocalBusiness, Service, FAQPage, Person, BreadcrumbList.
  */
 
+import { FEE_MIN, FEE_TEXT, MARKETPLACE_FEE } from './pricing';
 import { SITE } from './site';
 
 const abs = (path: string) => {
@@ -62,20 +63,15 @@ export function organization() {
 /**
  * LocalBusiness — the "in Jaipur" anchor. Emitted sitewide (§7 Layer 5).
  *
- * Carries the fee as STRUCTURED data, not just prose. "3.5% of net sales"
- * is the single most citable commercial fact on the site and the exact thing
- * a founder asks an assistant ("what do Indian ecommerce agencies charge?"),
- * yet it previously existed nowhere machine-readable — only inside an FAQ
- * answer string, while this object advertised `priceRange: '₹₹'`, which
- * carries no information at all and is the kind of filler that makes the
- * rest of the markup less trustworthy.
+ * Carries the fee as STRUCTURED data, not just prose, because it is the
+ * fact a founder asks an assistant about ("what do Indian ecommerce agencies
+ * charge?").
  *
- * Modelled as an Offer with a UnitPriceSpecification: schema.org has no
- * native "percentage of a customer's revenue" price type, so the percentage
- * is expressed via referenceQuantity (3.5 per 100 of net sales) with a plain
- * `description` carrying the human-readable version. Both the number and its
- * base are machine-readable, and nothing here asserts a figure the visible
- * page does not already state.
+ * The Shopify fee is ₹20,000 a month or 4% of net sales, whichever is higher.
+ * schema.org has no "the greater of" price type, so the offer states the
+ * monthly minimum as a machine-readable minPrice and carries the 4% rule in
+ * plain `description` text. Nothing here asserts a figure the visible pages
+ * don't already state. Numbers come from lib/pricing.ts.
  */
 export function localBusiness() {
   return {
@@ -98,59 +94,35 @@ export function localBusiness() {
       itemListElement: [
         {
           '@type': 'Offer',
-          name: 'Ecommerce growth management',
+          name: 'Shopify growth management',
           description:
-            '3.5% + GST of net sales, charged after refunds, returns and RTOs are deducted. No monthly retainer, no setup fee, no lock-in.',
+            'Meta and Google ads, Shopify store management, RTO control and a profit dashboard. ' +
+            `${FEE_TEXT.full}. Net sales means sales after refunds, returns and RTOs. No setup fee, no lock-in.`,
           priceCurrency: SITE.priceCurrency,
           priceSpecification: {
             '@type': 'UnitPriceSpecification',
-            price: 3.5,
-            priceCurrency: SITE.priceCurrency,
-            referenceQuantity: {
-              '@type': 'QuantitativeValue',
-              value: 100,
-              unitText: 'net sales',
-            },
-            valueAddedTaxIncluded: false,
-            description: '3.5% of net sales after returns and RTOs, plus GST',
-          },
-          url: abs('/pricing'),
-        },
-        {
-          '@type': 'Offer',
-          name: 'Amazon, Flipkart and Meesho management — 30+ orders a day',
-          description:
-            'Marketplace account management for sellers doing 30 or more orders a day: 3.5% + GST of net sales after returns and RTOs.',
-          priceCurrency: SITE.priceCurrency,
-          priceSpecification: {
-            '@type': 'UnitPriceSpecification',
-            price: 3.5,
-            priceCurrency: SITE.priceCurrency,
-            referenceQuantity: {
-              '@type': 'QuantitativeValue',
-              value: 100,
-              unitText: 'net sales',
-            },
-            valueAddedTaxIncluded: false,
-            description: '3.5% of net sales after returns and RTOs, plus GST',
-          },
-          url: abs('/pricing'),
-        },
-        {
-          '@type': 'Offer',
-          name: 'Amazon, Flipkart and Meesho management — under 30 orders a day',
-          description:
-            'Marketplace account management for sellers doing fewer than 30 orders a day: a flat ₹7,000 + GST a month.',
-          priceCurrency: SITE.priceCurrency,
-          priceSpecification: {
-            '@type': 'UnitPriceSpecification',
-            price: 7000,
+            minPrice: FEE_MIN,
             priceCurrency: SITE.priceCurrency,
             unitCode: 'MON',
             valueAddedTaxIncluded: false,
-            description: '₹7,000 a month, plus GST',
+            description: `${FEE_TEXT.full}`,
           },
           url: abs('/pricing'),
+        },
+        {
+          '@type': 'Offer',
+          name: 'Amazon, Flipkart and Meesho account management',
+          description: `Marketplace account management: a flat ${FEE_TEXT.marketplace}.`,
+          priceCurrency: SITE.priceCurrency,
+          priceSpecification: {
+            '@type': 'UnitPriceSpecification',
+            price: MARKETPLACE_FEE,
+            priceCurrency: SITE.priceCurrency,
+            unitCode: 'MON',
+            valueAddedTaxIncluded: false,
+            description: `${FEE_TEXT.marketplace}`,
+          },
+          url: abs('/marketplaces'),
         },
       ],
     },

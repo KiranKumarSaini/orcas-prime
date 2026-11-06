@@ -1,7 +1,10 @@
+import { FEE_TEXT } from '../lib/pricing';
+
 /**
  * Service content — one entry per /services/[slug] page.
  *
- * §6 mandates 5 services. Each entry must contain enough to build a
+ * §6 mandated 5 services. Since 2026-11-06 Shopify is the focus: three
+ * Shopify services up front, the two marketplace ones on /marketplaces. Each entry must contain enough to build a
  * conversion-ready page independently: a visitor from ChatGPT lands here
  * having never seen the homepage. Every page needs what it is, what's
  * included, what it costs, a proof anchor where honest, and a contextual
@@ -16,6 +19,12 @@ export type ProofRef = {
 
 export type ServiceContent = {
   slug: string;
+  /**
+   * 'shopify' services are the business and get the spotlight (/services,
+   * homepage). 'marketplace' ones live on /marketplaces only: offered at a
+   * flat fee for whoever wants them, never pushed (decision 2026-11-06).
+   */
+  group: 'shopify' | 'marketplace';
   name: string;
   navLabel: string;              // shorter label for footer/nav
   kicker: string;
@@ -45,29 +54,32 @@ export type ServiceContent = {
 export const services: ServiceContent[] = [
   {
     slug: 'shopify-meta-google-ads',
+    group: 'shopify',
     linkLabel: 'See what running the store looks like',
     name: 'Shopify + Meta and Google Ads',
     navLabel: 'Shopify + ads',
     kicker: 'The core service',
-    h1: 'Build the store, run the ads, own the number.',
+    h1: 'Meta and Google ads, your Shopify store, RTO and profit. One team.',
     lead:
-      'What most Partner Brands take. We manage your Shopify store day-to-day and run Meta and Google ads inside your own ad accounts. One team, one fee, no separate creative agency.',
+      'What most Partner Brands take. We run Meta and Google ads inside your own ad accounts, look after your Shopify store, keep RTO in check, and show you on a dashboard what you actually made.',
     meta: {
       title: 'Shopify + Meta and Google Ads',
       description:
-        'One team for the Shopify admin, Meta ads, Google Ads, creative, RTO, and reporting. 3.5% + GST of net sales after returns. No retainer.',
+        `Meta and Google ads, Shopify store management, RTO control, AI catalogue photos and a profit dashboard, one team. ${FEE_TEXT.full}. No lock-in.`,
     },
     included: [
-      { label: 'Shopify admin',        desc: 'Products, collections, apps, theme fixes, day-to-day operations.' },
-      { label: 'Meta ad campaigns',    desc: 'Setup, targeting, budget, creative rotation, weekly review.' },
-      { label: 'Google Ads campaigns', desc: 'Search, Performance Max, Shopping, remarketing.' },
-      { label: 'Creative production',  desc: 'Static and motion assets for both platforms.' },
-      { label: 'RTO management',       desc: 'Address validation, courier follow-ups, dispute filing.' },
-      { label: 'Monthly reporting',    desc: 'The numbers, plain, plus what we changed and what we changed next.' },
+      { label: 'Meta Ads',             desc: 'Campaign structure, audiences, creative testing, budget pacing, Pixel and CAPI tracking. A written log of what changed each week.' },
+      { label: 'Google Ads',           desc: 'Search, Shopping, Performance Max and remarketing, plus free product listings on Google Merchant Center.' },
+      { label: 'Shopify store',        desc: 'Day-to-day changes and fixes: products, collections, apps, theme.' },
+      { label: 'Profit dashboard',     desc: 'Daily, weekly and monthly P&L after RTO, shipping and ads. Every ad marked Scale, Keep or Cut.' },
+      { label: 'RTO, COD and NDR',     desc: 'COD confirmed on WhatsApp, risky pincodes blocked, prepaid nudges, and an NDR call list.' },
+      { label: 'AI photos and video',  desc: 'Model shots from flat-lay or hanger photos for the whole catalogue, and up to 10 AI video ads a month.' },
+      { label: 'WhatsApp and Instagram', desc: 'Abandoned cart, order updates, reorder reminders, festive broadcasts. Reels, captions and posting.' },
+      { label: 'Reports and a weekly call', desc: 'A daily summary and a weekly report on WhatsApp, and a 15-minute review call every week.' },
     ],
     cost: {
-      headline: '3.5% + GST',
-      subhead: 'of net sales after returns and RTOs are deducted',
+      headline: '₹20,000/month',
+      subhead: 'or 4% of net sales after returns and RTOs, whichever is higher, plus GST',
       note: 'Ad spend goes on your card, into your ad accounts. We do not mark it up.',
     },
     proof: {
@@ -75,19 +87,20 @@ export const services: ServiceContent[] = [
       figure: '5.1x',
       description: 'return on Google Ads, lifetime',
     },
-    ctaMessage: 'Hi, I want to check if the 3.5% Shopify + ads model fits my store.',
+    ctaMessage: 'Hi, I want to know if Orcas Prime fits my Shopify store.',
     ctaLabel: 'Start on WhatsApp',
   },
 
   {
     slug: 'shopify-store-development',
+    group: 'shopify',
     linkLabel: 'See the build scope',
     name: 'Shopify store development',
     navLabel: 'Shopify build',
     kicker: 'One-time build',
     h1: 'A Shopify store you can run for years.',
     lead:
-      'A clean, fast Shopify store built to your brand. Ready for ads on day one. ₹10,000–₹20,000 one time, depending on scope. Optional ongoing management at the 3.5% rate.',
+      'A clean, fast Shopify store built to your brand. Ready for ads on day one, in about 7 days. ₹10,000–₹20,000 one time, depending on scope. Ongoing management is optional.',
     meta: {
       title: 'Shopify store development',
       description:
@@ -104,7 +117,7 @@ export const services: ServiceContent[] = [
     cost: {
       headline: '₹10,000–₹20,000',
       subhead: 'one time · scope determines the number',
-      note: 'After launch, ongoing management is 3.5% + GST of net sales — or you run it yourself, no obligation.',
+      note: `After launch, ongoing management is ${FEE_TEXT.full}. Or you run it yourself, no obligation.`,
     },
     proof: null,
     ctaMessage: 'Hi, I want a quote for a new Shopify store.',
@@ -113,17 +126,18 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'amazon-account-management',
+    group: 'marketplace',
     linkLabel: 'See what we run on Amazon',
     name: 'Amazon account management',
     navLabel: 'Amazon',
-    kicker: 'Marketplace',
+    kicker: 'Amazon',
     h1: 'Running an Amazon seller account, properly.',
     lead:
       'From listing quality to sponsored ads to A-to-Z claims. We take over your existing seller account, or open one for you if you are not on Amazon yet.',
     meta: {
       title: 'Amazon account management',
       description:
-        'Amazon seller account management for Indian D2C brands: listings, Sponsored Products, FBA, disputes. 3.5% at 30+ orders a day, else ₹7,000/month.',
+        'Amazon seller account management for Indian D2C brands: listings, Sponsored Products, FBA, disputes. ₹20,000 + GST a month.',
     },
     included: [
       { label: 'Listing optimisation', desc: 'Titles, bullets, A+ content, keywords, backend fields.' },
@@ -134,9 +148,9 @@ export const services: ServiceContent[] = [
       { label: 'Monthly reporting',    desc: 'Sales, ACoS, TACoS, inventory health.' },
     ],
     cost: {
-      headline: '3.5% + GST',
-      subhead: 'of net sales at 30+ orders a day · ₹7,000 + GST a month below that',
-      note: 'Already running your Shopify store with us? Amazon management is included in that 3.5%.',
+      headline: '₹20,000 + GST',
+      subhead: 'a month, flat',
+      note: 'Charged separately from Shopify management. Ad spend goes into your own seller account; we do not mark it up.',
     },
     proof: null,
     ctaMessage: 'Hi, I want to talk about my Amazon seller account.',
@@ -145,17 +159,18 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'flipkart-meesho-management',
+    group: 'marketplace',
     linkLabel: 'See how the marketplaces differ',
     name: 'Flipkart and Meesho management',
     navLabel: 'Flipkart & Meesho',
-    kicker: 'Marketplace',
+    kicker: 'Flipkart & Meesho',
     h1: 'Flipkart and Meesho, run the way you would if you had time.',
     lead:
       'Two of the highest-volume Indian marketplaces. Different rules from Amazon, different economics, different customer. We know both.',
     meta: {
       title: 'Flipkart and Meesho management',
       description:
-        'Full Flipkart Seller Hub and Meesho account management. Listings, PLAs, RTO handling, pricing, monthly reporting. For Indian D2C brands.',
+        'Full Flipkart Seller Hub and Meesho account management. Listings, PLAs, RTO handling, pricing, monthly reporting. ₹20,000 + GST a month.',
     },
     included: [
       { label: 'Listing setup',        desc: 'Product uploads, variant handling, image compliance.' },
@@ -165,9 +180,9 @@ export const services: ServiceContent[] = [
       { label: 'Monthly reporting',    desc: 'Sales, GMV, return rate by SKU.' },
     ],
     cost: {
-      headline: '3.5% + GST',
-      subhead: 'of net sales at 30+ orders a day · ₹7,000 + GST a month below that',
-      note: 'Already running your Shopify store with us? Flipkart and Meesho management is included in that 3.5%.',
+      headline: '₹20,000 + GST',
+      subhead: 'a month, flat',
+      note: 'Charged separately from Shopify management. Ad spend goes into your own seller account; we do not mark it up.',
     },
     proof: {
       clientSlug: 'divine-rudras',
@@ -180,34 +195,39 @@ export const services: ServiceContent[] = [
 
   {
     slug: 'creative-and-catalogue',
+    group: 'shopify',
     linkLabel: 'See what we produce',
     name: 'Creative and catalogue',
     navLabel: 'Creative & catalogue',
     kicker: 'Production',
     h1: 'The pictures and the catalogue that make the sale.',
     lead:
-      'Ad creative, product-page assets, catalogue optimisation. Included in the 3.5% if we already run your store. Available as a stand-alone if you already have an agency running your ads.',
+      'AI catalogue photos, up to 10 AI video ads a month, ad creative and product-page assets. Included in the fee if we run your store. Available on its own if another agency runs your ads.',
     meta: {
       title: 'Creative and catalogue',
       description:
-        'Static and motion ad creative, product-page assets, and catalogue optimisation for Indian D2C brands. Included in the 3.5% bundle or quoted separately.',
+        'AI catalogue photos, AI video ads, static ad creative and product-page assets for Indian D2C brands. Included in the Shopify fee or quoted separately.',
     },
     included: [
-      { label: 'Static ad creative',       desc: 'Meta, Google, Amazon Sponsored Brands.' },
-      { label: 'Motion / video ads',       desc: 'Short-form product demos, testimonial cuts.' },
+      { label: 'AI catalogue photos',      desc: 'Model shots from flat-lay or hanger photos, for the whole catalogue. No photographer, model or studio.' },
+      { label: 'AI video ads',             desc: 'Up to 10 a month, included in the fee.' },
+      { label: 'Static ad creative',       desc: 'For Meta and Google.' },
       { label: 'Product-page assets',      desc: 'PDP banners, hero images, A+ content modules.' },
       { label: 'Catalogue optimisation',   desc: 'Variant structure, tagging, on-page copy, SEO.' },
       { label: 'Photo direction',          desc: 'What to shoot, how to shoot it, when to reshoot.' },
     ],
     cost: {
       headline: 'Included',
-      subhead: 'in the 3.5% if we run your store · quoted separately for standalone work',
+      subhead: 'in the Shopify fee if we run your store · quoted separately for standalone work',
     },
     proof: null,
     ctaMessage: 'Hi, I want a quote for creative or catalogue work.',
     ctaLabel: 'Start on WhatsApp',
   },
 ];
+
+export const shopifyServices = services.filter((s) => s.group === 'shopify');
+export const marketplaceServices = services.filter((s) => s.group === 'marketplace');
 
 export function findService(slug: string): ServiceContent | undefined {
   return services.find((s) => s.slug === slug);

@@ -1,0 +1,100 @@
+---
+/*
+  /marketplaces: Amazon, Flipkart and Meesho account management.
+
+  Decision 2026-11-06: Shopify is the business and gets the spotlight
+  everywhere else. Marketplace management is offered for whoever wants it,
+  at a flat fee, and lives here, last in the menu, with one line on the
+  homepage. The two service pages stay at their old /services/ URLs.
+*/
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import Schema from '../components/Schema.astro';
+import { breadcrumb, service as serviceSchema } from '../lib/schema';
+import { marketplaceServices } from '../data/services';
+import { FEE_TEXT } from '../lib/pricing';
+
+const ctaMsg = 'Hi, I sell on Amazon / Flipkart / Meesho and want to talk about account management.';
+---
+
+<BaseLayout
+	title="Amazon, Flipkart and Meesho management"
+	description={`Amazon, Flipkart and Meesho seller account management for Indian brands: listings, marketplace ads, returns and reporting. A flat ${FEE_TEXT.marketplace}.`}
+	canonicalPath="/marketplaces"
+	stickyMessage={ctaMsg}
+>
+	<Schema
+		slot="head"
+		data={[
+			breadcrumb([
+				{ name: 'Home', path: '/' },
+				{ name: 'Marketplaces', path: '/marketplaces' },
+			]),
+			...marketplaceServices.map((s) =>
+				serviceSchema({ name: s.name, description: s.meta.description, slug: s.slug, priceDescription: `${s.cost.headline} ${s.cost.subhead}` })
+			),
+		]}
+	/>
+
+	<section class="bg-paper panel mt-3 md:mt-4 mb-3 md:mb-4">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 pt-14 md:pt-24 pb-12">
+			<p class="kicker mb-4">Marketplaces</p>
+			<h1 class="text-display font-serif max-w-[20ch]">
+				Amazon, Flipkart and Meesho, run properly.
+			</h1>
+			<p class="text-lead text-ink mt-6 max-w-prose leading-relaxed">
+				Listings, marketplace ads, returns and account health, for a flat
+				<span class="num text-accent">{FEE_TEXT.marketplace}</span>.
+				Our main work is Shopify, so we take on only a few marketplace
+				accounts at a time.
+			</p>
+			<div class="mt-10">
+				<WhatsAppCTA message={ctaMsg} />
+			</div>
+		</div>
+	</section>
+
+	<section class="bg-paper panel my-3 md:my-4">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24">
+			<ul class="grid gap-4 md:grid-cols-2">
+				{marketplaceServices.map((s) => (
+					<li>
+						<a
+							href={`/services/${s.slug}`}
+							class="group block h-full border border-rule bg-paper rounded-2xl p-6 md:p-8 hover:border-accent transition-colors"
+						>
+							<p class="font-mono text-micro uppercase tracking-wider text-accent">{s.cost.headline} {s.cost.subhead}</p>
+							<h2 class="font-serif text-h2 text-ink mt-3 group-hover:text-accent transition-colors">{s.name}</h2>
+							<p class="text-base text-ink-muted leading-relaxed mt-3">{s.lead}</p>
+							<ul class="mt-5 space-y-1.5">
+								{s.included.slice(0, 4).map((i) => (
+									<li class="text-small text-ink">{i.label}</li>
+								))}
+							</ul>
+							<span class="inline-block mt-6 font-mono text-small text-accent">
+								{s.linkLabel} <span class="arrow-travel">&rarr;</span>
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section class="bg-paper panel my-3 md:my-4">
+		<div class="max-w-[76rem] mx-auto px-6 md:px-10 py-16 md:py-24 text-center">
+			<p class="font-serif text-h2 max-w-[30ch] mx-auto">
+				Selling on your own Shopify store too?
+			</p>
+			<p class="text-lead text-ink-muted mt-4 max-w-prose mx-auto">
+				That's where we do our best work: Meta and Google ads, the store, RTO
+				control and a profit dashboard, one team.
+			</p>
+			<p class="mt-8">
+				<a href="/services/shopify-meta-google-ads" class="font-sans text-base text-accent hover:text-accent-hover link-draw">
+					See Shopify management &rarr;
+				</a>
+			</p>
+		</div>
+	</section>
+</BaseLayout>
