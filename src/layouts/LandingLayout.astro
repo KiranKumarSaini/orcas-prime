@@ -38,7 +38,7 @@ const LANGS = [
   { lang: 'hi-deva', suffix: '/hi', label: 'हिन्दी', htmlLang: 'hi' },
   { lang: 'gu', suffix: '/gu', label: 'ગુજરાતી', htmlLang: 'gu' },
 ] as const;
-const basePath = Astro.url.pathname.replace(/\/$/, '').replace(/\/(en|gu|hi)$/, '');
+const basePath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '').replace(/\/(en|gu|hi)$/, '');
 const current = LANGS.find((l) => l.lang === c.lang) ?? LANGS[0];
 ---
 
