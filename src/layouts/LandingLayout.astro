@@ -1,0 +1,114 @@
+---
+/**
+ * Minimal layout for paid-ad landing pages (docs/growth/02b).
+ *
+ * No site menu, no footer navigation: an ad visitor has one job on these
+ * pages, which is the form. Logo only (not a link, so it can't leak the
+ * visitor to the homepage), a small WhatsApp link, and a privacy link.
+ * Always noindex: ad pages are not for search.
+ */
+// Not global.css: this page uses none of the site's Tailwind utilities or
+// fonts, and the build inlines CSS, so leaving it out keeps the page light.
+import '../styles/landing.css';
+import { MessageCircle } from '@lucide/astro';
+import { SITE } from '../lib/site';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  /** Pre-filled WhatsApp message for the corner link. */
+  whatsappMessage: string;
+}
+
+const { title, description, ogImage = '/og-default.png', whatsappMessage } = Astro.props;
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const canonicalUrl = siteOrigin + Astro.url.pathname;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
+const waDigits = SITE.contact.whatsapp.replace(/[^0-9]/g, '');
+const waHref = `https://wa.me/${waDigits}?text=${encodeURIComponent(whatsappMessage)}`;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="hi-Latn" class="lp-root">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		{/* Runs before first paint. Hidden pre-animation states only apply when
+		    motion is allowed AND JS runs. If the page script never starts
+		    (blocked, failed), everything is shown again after 2.5 s. */}
+		<script is:inline>
+			(function () {
+				var d = document.documentElement;
+				if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+					d.classList.add('lp-anim');
+					setTimeout(function () { if (!window.__lpReady) d.classList.add('lp-done'); }, 2500);
+				}
+				d.classList.add('lp-js');
+			})();
+		</script>
+
+		{SITE.analytics.googleAnalyticsId && (
+			<>
+				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.analytics.googleAnalyticsId}`}></script>
+				<script is:inline define:vars={{ gaId: SITE.analytics.googleAnalyticsId }}>
+					window.dataLayer = window.dataLayer || [];
+					function gtag() { dataLayer.push(arguments); }
+					gtag('js', new Date());
+					gtag('config', gaId);
+				</script>
+			</>
+		)}
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="robots" content="noindex, nofollow" />
+		<link rel="canonical" href={canonicalUrl} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="theme-color" content="#FAF7F2" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={SITE.name} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:card" content="summary_large_image" />
+	</head>
+	<body class="lp">
+		<a href="#main" class="skip-link">Content pe jaayein</a>
+
+		<header class="lp-top">
+			<div class="lp-wrap lp-top__inner">
+				<span class="lp-logo">
+					<svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true">
+						<rect width="64" height="64" rx="14" fill="#2F4739" />
+						<path d="M32.5 12c1.2 6.9 4.6 14.5 10.4 21.4H26.8C28.6 26.6 30.9 19.4 32.5 12Z" fill="#FAF7F2" />
+						<path d="M12 39.5h16.4M35.6 39.5H52" stroke="#FAF7F2" stroke-width="3.2" stroke-linecap="round" opacity="0.55" />
+						<path d="M18 47.5c5.2-3.4 10.1-5.1 14-5.1s8.8 1.7 14 5.1" stroke="#FAF7F2" stroke-width="3.2" stroke-linecap="round" fill="none" />
+					</svg>
+					<span>Orcas Prime</span>
+				</span>
+				<a class="lp-wa" href={waHref} target="_blank" rel="noopener" aria-label="WhatsApp pe baat karein (naye tab mein khulega)">
+					<MessageCircle size={18} aria-hidden="true" />
+					<span>WhatsApp</span>
+				</a>
+			</div>
+		</header>
+
+		<main id="main">
+			<slot />
+		</main>
+
+		<footer class="lp-foot">
+			<div class="lp-wrap">
+				<p>© {year} Orcas Prime · <a href="/privacy-policy">Privacy policy</a></p>
+			</div>
+		</footer>
+
+		<slot name="after" />
+	</body>
+</html>

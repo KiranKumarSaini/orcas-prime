@@ -9,7 +9,7 @@
  * `credentials` is different: those entries are operator-supplied facts taken
  * verbatim from docs/Module-05 §6, not invented. Module 5 argues they are the
  * most persuasive thing a two-person company has — "managed Google Ads for
- * ~25 sellers at Shopdeck" is specific, checkable and unglamorous, which is
+ * ~25 ecommerce sellers" is specific and unglamorous, which is
  * exactly why it beats any adjective. They were simply never wired into the
  * page. Prashant's array is intentionally empty: §10 logs his background as
  * still outstanding, and an honestly empty slot is the correct representation
@@ -53,7 +53,8 @@ export const founders: Founder[] = [
     ],
     credentials: [
       'B.Tech, Chemical Engineering — SVNIT Surat',
-      'Performance Marketing Specialist, Shopdeck Bengaluru — Google Ads for ~25 ecommerce sellers',
+      // Former employer's name removed on purpose (Kiran, 2026-11-06). Don't add it back.
+      'Performance marketing — Google Ads for ~25 ecommerce sellers',
     ],
     photo: null, // TODO(§13): add /founders/kiran.jpg (square, min 800×800)
     linkedin: '',  // TODO(§7 Layer 4)
