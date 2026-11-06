@@ -15,7 +15,7 @@ import type { LandingCopy } from '../../data/landing/fashion-copy';
 import {
   Megaphone, Search, ShoppingBag, ChartLine, PackageX, MessageCircle,
   CircleX, CircleCheck, Store, Image, Clapperboard, MessageSquare, Camera,
-  CalendarDays, PhoneCall, Check, ArrowRight, ArrowUpRight, ShieldAlert,
+  CalendarDays, PhoneCall, Check, ArrowRight, ArrowUpRight,
   Mail, Star, CircleAlert,
 } from '@lucide/astro';
 
@@ -42,6 +42,15 @@ const stores = storeOrder
   .filter((x): x is (typeof results.clients)[number] & { liveUrl: string } => Boolean(x && 'liveUrl' in x && x.liveUrl));
 
 const problems = c.problems.items;
+
+// Hero wheel: 8 jobs around Orcas Prime. Positions on a circle, starting at
+// the top and going clockwise; percentages of the square stage.
+const wheelIcons = [Megaphone, Search, ShoppingBag, ChartLine, PackageX, PhoneCall, Image, MessageCircle];
+const WHEEL_R = 37;
+const wheel = c.wheel.items.map((label, i) => {
+  const a = ((-90 + i * (360 / c.wheel.items.length)) * Math.PI) / 180;
+  return { label, icon: wheelIcons[i], x: +(50 + WHEEL_R * Math.cos(a)).toFixed(2), y: +(50 + WHEEL_R * Math.sin(a)).toFixed(2) };
+});
 const tileIcons = [Store, Image, Clapperboard, MessageSquare, Camera, CalendarDays];
 const tiles = c.team.tiles.map((t, i) => ({ ...t, icon: tileIcons[i] }));
 const dashTabs = c.dash.tabs;
@@ -57,66 +66,41 @@ const kurtis = [1, 2, 3, 4];
 
 <LandingLayout copy={c}>
 	{/* ════ 1. Hero ════ */}
-	<section class="lp-hero lp-print" id="hero" aria-labelledby="hero-title">
+	<section class="lp-hero" id="hero" aria-labelledby="hero-title">
 		<div class="lp-wrap lp-hero__grid">
 			<div>
 				<p class="lp-hero__kicker" data-hero="0">{c.hero.kicker}</p>
 				<h1 id="hero-title" data-hero="0">{c.hero.h1} <em>{c.hero.h1Em}</em></h1>
 				<p class="lp-hero__sub" data-hero="120">{c.hero.sub}</p>
-				<ul class="lp-chips" data-hero="200" aria-label={c.hero.chipsLabel}>
-					<li class="lp-chip"><Megaphone size={15} aria-hidden="true" />Meta Ads</li>
-					<li class="lp-chip"><Search size={15} aria-hidden="true" />Google Ads</li>
-					<li class="lp-chip"><ShoppingBag size={15} aria-hidden="true" />Shopify</li>
-					<li class="lp-chip"><ChartLine size={15} aria-hidden="true" />{c.hero.profitChip}</li>
-					<li class="lp-chip"><PackageX size={15} aria-hidden="true" />RTO + NDR</li>
-					<li class="lp-chip"><MessageCircle size={15} aria-hidden="true" />WhatsApp</li>
-				</ul>
 				<div class="lp-hero__cta" data-hero="300">
 					<a href="#apply" class="lp-btn lp-btn--block">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
 					<p class="lp-note">{c.ctaNote}</p>
 				</div>
 			</div>
 
-			{/* Phone with the dashboard's "Aaj ka hisaab" screen. Drawn in HTML
-			    until the real 390 px screenshot exists (02b asset #1). */}
-			<div class="lp-hero__visual" data-hero="360">
-				<div class="lp-hero__device">
-				<div class="lp-phone" role="img" aria-label={`Orcas Dashboard, "Aaj ka hisaab" (${c.sample}): 42 orders, CPP ₹186, Meta wallet ₹8,400`}>
-					<div class="lp-phone__notch"></div>
-					<div class="lp-phone__screen">
-						<div class="lp-dash" aria-hidden="true">
-							<div class="lp-dash__head">
-								<span class="lp-dash__title">Aaj ka hisaab</span>
-								<span class="lp-sample">{c.sample}</span>
-							</div>
-							<div class="lp-dash__grid">
-								<div class="lp-kpi"><div class="lp-kpi__label">Orders</div><div class="lp-kpi__value">42</div></div>
-								<div class="lp-kpi"><div class="lp-kpi__label">Sales value</div><span class="lp-skel" style="width:80%"></span></div>
-								<div class="lp-kpi"><div class="lp-kpi__label">Ad spend</div><span class="lp-skel" style="width:70%"></span></div>
-								<div class="lp-kpi"><div class="lp-kpi__label">Cost per order</div><div class="lp-kpi__value">₹186</div></div>
-								<div class="lp-kpi lp-kpi--wide"><div><div class="lp-kpi__label">Meta wallet</div><div class="lp-kpi__value">₹8,400</div></div><Megaphone size={18} color="#2F4739" /></div>
-							</div>
-							<div class="lp-dash__chart">
-								<div class="lp-kpi__label">Orders, aaj</div>
-								<svg viewBox="0 0 200 60" preserveAspectRatio="none">
-									<polyline points="0,52 20,48 40,50 60,40 80,42 100,30 120,34 140,22 160,26 180,14 200,10" fill="none" stroke="#2F4739" stroke-width="2" vector-effect="non-scaling-stroke" />
-								</svg>
-							</div>
-						</div>
+			{/* The wheel: everything a seller juggles, handled by one team in the middle. */}
+			<figure class="lp-wheel" data-hero="360">
+				<figcaption class="lp-wheel__title">{c.wheel.title} <em>{c.wheel.titleEm}</em></figcaption>
+				<div class="lp-wheel__stage">
+					<svg class="lp-wheel__lines" viewBox="0 0 100 100" aria-hidden="true">
+						<circle cx="50" cy="50" r={WHEEL_R} class="lp-wheel__ring" />
+						{wheel.map((w) => <line x1={w.x} y1={w.y} x2="50" y2="50" class="lp-wheel__spoke" />)}
+					</svg>
+					<ul class="lp-wheel__items" aria-label={c.wheel.label}>
+						{wheel.map((w) => (
+							<li class="lp-wheel__item" style={`left:${w.x}%;top:${w.y}%`} data-wheel-item>
+								<span class="lp-wheel__icon"><w.icon size={22} aria-hidden="true" /></span>
+								<span class="lp-wheel__label">{w.label}</span>
+							</li>
+						))}
+					</ul>
+					<div class="lp-wheel__hub" data-wheel-hub>
+						<svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true"><path d="M32.5 12c1.2 6.9 4.6 14.5 10.4 21.4H26.8C28.6 26.6 30.9 19.4 32.5 12Z" fill="currentColor" /><path d="M12 39.5h16.4M35.6 39.5H52" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" opacity="0.55" /><path d="M18 47.5c5.2-3.4 10.1-5.1 14-5.1s8.8 1.7 14 5.1" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" fill="none" /></svg>
+						<strong>Orcas Prime</strong>
+						<span>{c.wheel.hubSub}</span>
 					</div>
 				</div>
-
-				<div class="lp-float lp-float--wa" data-float="700" aria-hidden="true">
-					<div class="lp-float__row"><MessageCircle size={14} />WhatsApp</div>
-					Aaj: 42 orders · CPP ₹186 · Wallet ₹8,400
-				</div>
-				<div class="lp-float lp-float--alert" data-float="1100" aria-hidden="true">
-					<div class="lp-float__row"><ShieldAlert size={14} />RTO risk</div>
-					3 orders, pincode block
-				</div>
-				<span class="lp-sample lp-hero__tag" aria-hidden="true">{c.sample}</span>
-				</div>
-			</div>
+			</figure>
 		</div>
 	</section>
 
@@ -180,22 +164,11 @@ const kurtis = [1, 2, 3, 4];
 	<section class="lp-section" aria-labelledby="s2-title">
 		<div class="lp-wrap">
 			<h2 id="s2-title" class="lp-h2" data-reveal>{c.problems.h2}</h2>
-			<div class="lp-ba__heads" aria-hidden="true"><span>{c.problems.nowLabel}</span><span>{c.problems.withLabel}</span></div>
-			<ul class="lp-ba">
-				{problems.map((p) => (
-					<li class="lp-ba__row" data-ba>
-						<div class="lp-ba__cell lp-ba__now" data-ba-now>
-							<CircleX size={20} aria-hidden="true" />
-							<p><span class="lp-ba__tag" aria-hidden="true">{c.problems.nowLabel}</span><span class="sr-only">{c.problems.nowLabel}: </span>{p.now}</p>
-						</div>
-						<svg class="lp-ba__arrow" viewBox="0 0 40 12" aria-hidden="true">
-							<path d="M0 6h36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="40" stroke-dashoffset="0" data-ba-line />
-							<path d="M31 1l6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.5" />
-						</svg>
-						<div class="lp-ba__cell lp-ba__fix" data-ba-fix>
-							<CircleCheck size={20} aria-hidden="true" />
-							<p><span class="lp-ba__tag" aria-hidden="true">{c.problems.withLabel}</span><span class="sr-only">{c.problems.withLabel}: </span><strong>{p.fixTitle}</strong>{p.fix && ' ' + p.fix}</p>
-						</div>
+			<ul class="lp-pcs" data-stagger="60">
+				{problems.map((p, i) => (
+					<li class={`lp-pc${i === problems.length - 1 ? ' lp-pc--last' : ''}`} data-reveal>
+						<p class="lp-pc__now"><CircleX size={18} aria-hidden="true" /><span><span class="sr-only">{c.problems.nowLabel}: </span>{p.now}</span></p>
+						<p class="lp-pc__fix"><CircleCheck size={18} aria-hidden="true" /><span><span class="sr-only">{c.problems.withLabel}: </span><strong>{p.fixTitle}</strong>{p.fix}</span></p>
 					</li>
 				))}
 			</ul>
@@ -428,24 +401,37 @@ const kurtis = [1, 2, 3, 4];
 		</div>
 	</section>
 
-	{/* ════ 7. Fee ════ */}
-	<section class="lp-section lp-print lp-fee" aria-labelledby="s7-title">
-		<div class="lp-wrap lp-fee">
-			<div class="lp-feecard" data-reveal>
-				<h2 id="s7-title" class="sr-only">{c.fee.h2}</h2>
-				<p class="lp-price"><span class="lp-price__amt">₹25,000</span><span class="lp-price__per">{c.fee.per}</span></p>
-				<p class="lp-price__or">{c.fee.or}</p>
-				<p class="lp-price__fine">{c.fee.fine}</p>
-				<ul class="lp-incl" data-stagger="60">
-					{c.fee.included.map((item) => (
-						<li data-reveal><Check size={18} aria-hidden="true" /><span>{item}</span></li>
-					))}
-				</ul>
-				<div class="lp-pills">
-					<span class="lp-pill"><Check size={14} aria-hidden="true" />{c.fee.pills[0]}</span>
-					<span class="lp-pill"><Check size={14} aria-hidden="true" />{c.fee.pills[1]}</span>
+	{/* ════ 7. Fee: what it replaces, then the price ════ */}
+	<section class="lp-section lp-print" aria-labelledby="s7-title">
+		<div class="lp-wrap">
+			<h2 id="s7-title" class="lp-h2 lp-fee__h2" data-reveal>{c.fee.h2}</h2>
+			<div class="lp-fee__grid">
+				<div class="lp-hire" data-reveal>
+					<h3>{c.fee.hire.title}</h3>
+					<ul class="lp-hire__list">
+						{c.fee.hire.roles.map((r) => (
+							<li><span>{r.role}</span><span class="lp-hire__cost">{r.cost}</span></li>
+						))}
+					</ul>
+					<p class="lp-hire__total"><span>{c.fee.hire.totalLabel}</span><s>{c.fee.hire.total}</s></p>
+					<p class="lp-hire__ours"><span>{c.fee.hire.oursLabel}</span><strong>₹25,000</strong></p>
+					<p class="lp-hire__note">{c.fee.hire.note}</p>
 				</div>
-				<a href="#apply" class="lp-btn">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
+				<div class="lp-feecard" data-reveal>
+					<p class="lp-price"><span class="lp-price__amt">₹25,000</span><span class="lp-price__per">{c.fee.per}</span></p>
+					<p class="lp-price__or">{c.fee.or}</p>
+					<p class="lp-price__fine">{c.fee.fine}</p>
+					<ul class="lp-incl" data-stagger="60">
+						{c.fee.included.map((item) => (
+							<li data-reveal><Check size={18} aria-hidden="true" /><span>{item}</span></li>
+						))}
+					</ul>
+					<div class="lp-pills">
+						<span class="lp-pill"><Check size={14} aria-hidden="true" />{c.fee.pills[0]}</span>
+						<span class="lp-pill"><Check size={14} aria-hidden="true" />{c.fee.pills[1]}</span>
+					</div>
+					<a href="#apply" class="lp-btn">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
+				</div>
 			</div>
 		</div>
 	</section>

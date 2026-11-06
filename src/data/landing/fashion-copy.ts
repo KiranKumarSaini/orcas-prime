@@ -30,7 +30,9 @@ export interface LandingCopy {
   cta: string;
   ctaNote: string;
   sample: string;
-  hero: { kicker: string; h1: string; h1Em: string; sub: string; chipsLabel: string; profitChip: string };
+  hero: { kicker: string; h1: string; h1Em: string; sub: string };
+  /** Hero wheel: the jobs a seller juggles, with Orcas Prime in the middle. */
+  wheel: { title: string; titleEm: string; label: string; hubSub: string; items: string[] }; // 8 items, same order as the icons
   team: {
     h2: string;
     meta: { title: string; body: string };
@@ -54,7 +56,11 @@ export interface LandingCopy {
     eyebrow: string; h2: string; lead: string; sliderAria: string;
     before: string; after: string; thumbsLabel: string; kurti: string; aiSample: string;
   };
-  fee: { h2: string; per: string; or: string; fine: string; included: string[]; pills: [string, string] };
+  fee: {
+    h2: string; per: string; or: string; fine: string; included: string[]; pills: [string, string];
+    /** "What the fee replaces": typical in-house salaries. Estimates, labelled as such on the page. */
+    hire: { title: string; roles: { role: string; cost: string }[]; totalLabel: string; total: string; oursLabel: string; note: string };
+  };
   proof: {
     h2: string;
     roasWhat: (spend: string, revenue: string) => string;
@@ -78,20 +84,24 @@ const hi: LandingCopy = {
   htmlLang: 'hi-Latn',
   meta: {
     title: 'Fashion aur ethnic wear brands ke liye: ads, store, RTO aur profit dashboard | Orcas Prime',
-    description: 'Meta ads, Shopify store, RTO control aur profit dashboard. Sab ek team ke paas. ₹25,000/mahina + GST ya net sales ka 4%, jo bhi zyada ho. Koi lock-in nahi.',
+    description: 'Meta aur Google ads, Shopify store, RTO control aur profit dashboard. Sab ek team ke paas. ₹25,000/mahina + GST ya net sales ka 4%, jo bhi zyada ho. Koi lock-in nahi.',
   },
   ui: { skip: 'Content pe jaayein', waLink: 'WhatsApp', waLinkLabel: 'WhatsApp pe baat karein (naye tab mein khulega)', privacy: 'Privacy policy', newTab: '(naye tab mein khulega)' },
   waMessage: 'Namaste, mujhe apne fashion brand ke liye Orcas Prime ke baare mein jaanna hai.',
-  cta: 'Apne brand ke baare mein batayein',
+  cta: 'Free call book karein',
   ctaNote: 'Koi lock-in nahi · Hum har mahine sirf 3 naye brands lete hain',
   sample: 'Sample data',
   hero: {
     kicker: 'Fashion aur ethnic wear brands ke liye',
-    h1: 'Meta ads, Shopify store, RTO control aur profit dashboard.',
+    h1: 'Meta aur Google ads, Shopify store, RTO control aur profit dashboard.',
     h1Em: 'Sab ek team ke paas.',
     sub: 'Hum aapke ads chalate hain, store sambhalte hain, RTO pe control rakhte hain, aur dashboard pe dikhate hain ki asal mein kitna profit hua.',
-    chipsLabel: 'Kya kya milta hai',
-    profitChip: 'Profit dashboard',
+  },
+  wheel: {
+    title: '8 kaam.', titleEm: '1 team.',
+    label: 'Orcas Prime yeh sab sambhalta hai',
+    hubSub: 'Ek team, ek fee',
+    items: ['Meta Ads', 'Google Ads', 'Shopify store', 'Profit dashboard', 'RTO aur COD', 'NDR calls', 'AI photos aur videos', 'WhatsApp aur Instagram'],
   },
   team: {
     h2: 'Ek team. Poora kaam.',
@@ -111,13 +121,13 @@ const hi: LandingCopy = {
     nowLabel: 'Abhi',
     withLabel: 'Orcas Prime ke saath',
     items: [
-      { now: 'Mahine ke end mein bhi pata nahi ki RTO aur returns ke baad profit hua ya loss.', fixTitle: 'Profit dashboard:', fix: 'har din, har hafte, har mahine ka P&L, RTO, shipping aur ad spend ke baad.' },
-      { now: 'COD orders dispatch hote hain, aur kai wapas aa jaate hain.', fixTitle: 'RTO control:', fix: 'WhatsApp pe COD confirmation, problem wale pincodes block, prepaid ke liye nudge.' },
-      { now: 'NDR wale parcels ka kisi ko pata nahi, customer ko call kisi ne nahi kiya.', fixTitle: 'NDR desk:', fix: 'har NDR parcel ki list, kisko call karna hai, re-attempt kab hai. Sab dashboard pe.' },
-      { now: 'Prepaid orders kam, COD zyada.', fixTitle: 'Meta CAPI setup,', fix: 'taaki ads zyada prepaid khareedne wale customers tak pahunchein.' },
-      { now: 'Ads pe paisa jaata hai, par kaun sa ad profit de raha hai, pata nahi.', fixTitle: 'Har ad ka faisla:', fix: 'Scale, Keep ya Cut, RTO aur shipping ke baad ke profit pe.' },
-      { now: 'Meta wallet khatam, ads band, aur pata baad mein chalta hai.', fixTitle: 'Wallet alert:', fix: 'paisa khatam hone se pehle hi khabar.' },
-      { now: 'Ads ek freelancer, photos doosra, website teesra.', fixTitle: 'Ek team, ek fee.', fix: '' },
+      { now: 'RTO aur returns ke baad profit hua ya loss, pata nahi', fixTitle: 'Profit dashboard', fix: 'Roz, hafte aur mahine ka P&L, RTO, shipping aur ads ke baad' },
+      { now: 'COD orders jaate hain, kai wapas aate hain', fixTitle: 'RTO control', fix: 'WhatsApp pe COD confirm, kharab pincodes block, prepaid nudge' },
+      { now: 'NDR parcels ko koi follow up nahi karta', fixTitle: 'NDR desk', fix: 'Kisko call karna hai, re-attempt kab hai, sab dashboard pe' },
+      { now: 'Prepaid kam, COD zyada', fixTitle: 'Meta CAPI setup', fix: 'Ads pahunchein prepaid dene wale customers tak' },
+      { now: 'Kaun sa ad profit de raha hai, pata nahi', fixTitle: 'Har ad ka faisla', fix: 'Scale, Keep ya Cut, RTO aur shipping ke baad ke profit pe' },
+      { now: 'Meta wallet khatam, ads band', fixTitle: 'Wallet alert', fix: 'Paisa khatam hone se pehle khabar' },
+      { now: 'Ads ek freelancer, photos doosra, website teesra', fixTitle: 'Ek team, ek fee', fix: 'Ads, photos, store aur hisaab, sab ek jagah' },
     ],
   },
   dash: {
@@ -157,7 +167,7 @@ const hi: LandingCopy = {
     aiSample: 'AI se bana sample',
   },
   fee: {
-    h2: 'Fee',
+    h2: 'Paanch salary ki jagah ek fee',
     per: '/mahina + GST',
     or: 'ya net sales ka 4%, jo bhi zyada ho',
     fine: 'Net sales matlab returns aur RTO ke baad ki sales.',
@@ -171,6 +181,20 @@ const hi: LandingCopy = {
       'Har hafte 15 minute ki review call',
     ],
     pills: ['Koi lock-in nahi', 'Jab chahein band kar sakte hain'],
+    hire: {
+      title: 'Yahi kaam apni team se karwayein to',
+      roles: [
+        { role: 'Ads expert (Meta + Google)', cost: '₹30–50K' },
+        { role: 'Graphic designer / video editor', cost: '₹20–30K' },
+        { role: 'Shopify developer', cost: '₹25–40K' },
+        { role: 'Photographer aur model (catalogue shoot)', cost: '₹15–40K' },
+        { role: 'Operations executive (RTO, NDR, reports)', cost: '₹15–25K' },
+      ],
+      totalLabel: 'Har mahine',
+      total: '₹1–1.8 lakh',
+      oursLabel: 'Orcas Prime',
+      note: 'India mein aam salary ke andaaze. Har sheher mein alag ho sakte hain.',
+    },
   },
   proof: {
     h2: 'Yeh brands hamare saath hain',
@@ -183,16 +207,16 @@ const hi: LandingCopy = {
   faq: {
     h2: 'Aapke sawaal',
     items: [
-      { q: 'Ads ka kharcha is fee mein shaamil hai?', a: 'Nahi. Ads ka paisa aap apne Meta aur Google account se seedha dete hain. Hamari fee alag hai.' },
       { q: '4% kis pe lagta hai?', a: 'Net sales pe, yaani returns aur RTO ke baad jo sales bachti hai. Har mahine ₹25,000 ya net sales ka 4%, jo bhi zyada ho, plus GST.' },
       { q: 'Kya aap fashion brands ke saath kaam karte hain?', a: 'Haan. Savana Kurti, Rajvanshi Suit, Vastranama aur Khamma Ghani jaise brands ke store hum sambhalte hain. Links upar diye hain.' },
+      { q: 'Kaam kitne din mein shuru hoga?', a: 'Shopify store pehle se hai to store aur ad accounts ka access dijiye, hum 1 din mein live kar dete hain. Naya store chahiye to 7 din mein ready.' },
       { q: 'Kaam pasand na aaye to?', a: 'Jab chahein band kar dijiye. Koi lock-in nahi, koi notice period nahi.' },
       { q: 'Ad account aur store ka access kiske paas rahega?', a: 'Aapke paas. Ads aapke apne account se chalte hain aur store bhi aapka hi rehta hai.' },
       { q: 'GST bill milega?', a: 'Haan, har mahine fee ka GST invoice milta hai.' },
     ],
   },
   form: {
-    h2: 'Apne brand ke baare mein batayein',
+    h2: 'Free call book karein',
     name: 'Aapka naam',
     phone: 'WhatsApp number',
     link: 'Store ya Instagram link',
@@ -202,10 +226,10 @@ const hi: LandingCopy = {
     errPhone: '10 digit ka WhatsApp number likhiye.',
     errLink: 'Store ya Instagram ka link likhiye.',
     errSpend: 'Ek option chuniye.',
-    submit: 'Application bhejiye',
-    thanks: 'Shukriya. Hamari team jaldi aapke WhatsApp pe sampark karegi.',
+    submit: 'Call book karein',
+    thanks: 'Shukriya. Call ka time tay karne ke liye hamari team jaldi aapko WhatsApp karegi.',
     waFallback: 'WhatsApp nahi khula? Yahan dabaiye',
-    waIntro: 'Namaste, mujhe apne brand ke liye Orcas Prime se baat karni hai.',
+    waIntro: 'Namaste, mujhe apne brand ke liye Orcas Prime ke saath call book karni hai.',
     waLabels: { name: 'Naam', whatsapp: 'WhatsApp', link: 'Store / Instagram', spend: 'Har mahine ka ad spend' },
   },
 };
@@ -216,20 +240,24 @@ const en: LandingCopy = {
   htmlLang: 'en-IN',
   meta: {
     title: 'Ads, store, RTO and a profit dashboard for fashion brands | Orcas Prime',
-    description: 'Meta ads, your Shopify store, RTO control and a profit dashboard, all with one team. ₹25,000/month + GST or 4% of net sales, whichever is higher. No lock-in.',
+    description: 'Meta and Google ads, your Shopify store, RTO control and a profit dashboard, all with one team. ₹25,000/month + GST or 4% of net sales, whichever is higher. No lock-in.',
   },
   ui: { skip: 'Skip to content', waLink: 'WhatsApp', waLinkLabel: 'Chat on WhatsApp (opens in a new tab)', privacy: 'Privacy policy', newTab: '(opens in a new tab)' },
   waMessage: "Hi, I'd like to know more about Orcas Prime for my fashion brand.",
-  cta: 'Tell us about your brand',
+  cta: 'Book a free call',
   ctaNote: 'No lock-in · We take on only 3 new brands a month',
   sample: 'Sample data',
   hero: {
     kicker: 'For fashion and ethnic wear brands',
-    h1: 'Meta ads, Shopify store, RTO control and a profit dashboard.',
+    h1: 'Meta and Google ads, Shopify store, RTO control and a profit dashboard.',
     h1Em: 'One team for all of it.',
     sub: 'We run your ads, look after your store, keep RTO in check, and show you on a dashboard what you actually made.',
-    chipsLabel: 'What you get',
-    profitChip: 'Profit dashboard',
+  },
+  wheel: {
+    title: '8 jobs.', titleEm: '1 team.',
+    label: 'What Orcas Prime handles',
+    hubSub: 'One team, one fee',
+    items: ['Meta Ads', 'Google Ads', 'Shopify store', 'Profit dashboard', 'RTO & COD', 'NDR calls', 'AI photos & videos', 'WhatsApp & Instagram'],
   },
   team: {
     h2: 'One team. The whole job.',
@@ -249,13 +277,13 @@ const en: LandingCopy = {
     nowLabel: 'Now',
     withLabel: 'With Orcas Prime',
     items: [
-      { now: "Even at month end, you don't know whether you made a profit or a loss after RTO and returns.", fixTitle: 'Profit dashboard:', fix: 'daily, weekly and monthly P&L, after RTO, shipping and ad spend.' },
-      { now: 'COD orders go out, and many of them come back.', fixTitle: 'RTO control:', fix: 'COD confirmation on WhatsApp, problem pincodes blocked, and nudges to pay prepaid.' },
-      { now: 'Nobody tracks NDR parcels, and nobody calls the customer.', fixTitle: 'NDR desk:', fix: 'every NDR parcel listed, who to call, and when the re-attempt is. All on the dashboard.' },
-      { now: 'Few prepaid orders, lots of COD.', fixTitle: 'Meta CAPI setup,', fix: 'so your ads reach more customers who pay upfront.' },
-      { now: "Money goes into ads, but you can't tell which ad makes a profit.", fixTitle: 'A call on every ad:', fix: 'Scale, Keep or Cut, based on profit after RTO and shipping.' },
-      { now: 'Your Meta wallet runs dry, the ads stop, and you find out later.', fixTitle: 'Wallet alert:', fix: 'you hear about it before the money runs out.' },
-      { now: 'Ads with one freelancer, photos with another, the website with a third.', fixTitle: 'One team, one fee.', fix: '' },
+      { now: "No idea if you made a profit after RTO and returns", fixTitle: 'Profit dashboard', fix: 'Daily, weekly and monthly P&L after RTO, shipping and ads' },
+      { now: 'COD orders go out, many come back', fixTitle: 'RTO control', fix: 'COD confirmed on WhatsApp, bad pincodes blocked, prepaid nudges' },
+      { now: 'Nobody follows up NDR parcels', fixTitle: 'NDR desk', fix: 'Who to call and when the re-attempt is, on the dashboard' },
+      { now: 'Too much COD, too little prepaid', fixTitle: 'Meta CAPI setup', fix: 'Your ads reach more customers who pay upfront' },
+      { now: "Can't tell which ad makes money", fixTitle: 'A call on every ad', fix: 'Scale, Keep or Cut, on profit after RTO and shipping' },
+      { now: 'Meta wallet runs dry, ads stop', fixTitle: 'Wallet alert', fix: 'You hear before the money runs out' },
+      { now: 'Ads, photos and website with three different people', fixTitle: 'One team, one fee', fix: 'Ads, photos, store and numbers, all in one place' },
     ],
   },
   dash: {
@@ -295,7 +323,7 @@ const en: LandingCopy = {
     aiSample: 'AI-made sample',
   },
   fee: {
-    h2: 'Fee',
+    h2: 'One fee instead of five salaries',
     per: '/month + GST',
     or: 'or 4% of net sales, whichever is higher',
     fine: 'Net sales means sales after returns and RTO.',
@@ -309,6 +337,20 @@ const en: LandingCopy = {
       'A 15-minute review call every week',
     ],
     pills: ['No lock-in', 'Stop whenever you like'],
+    hire: {
+      title: 'Doing it with your own team',
+      roles: [
+        { role: 'Ads expert (Meta + Google)', cost: '₹30–50K' },
+        { role: 'Graphic designer / video editor', cost: '₹20–30K' },
+        { role: 'Shopify developer', cost: '₹25–40K' },
+        { role: 'Photographer and model (catalogue shoots)', cost: '₹15–40K' },
+        { role: 'Operations executive (RTO, NDR, reports)', cost: '₹15–25K' },
+      ],
+      totalLabel: 'Every month',
+      total: '₹1–1.8 lakh',
+      oursLabel: 'Orcas Prime',
+      note: 'Typical salaries in India, as estimates. They vary by city.',
+    },
   },
   proof: {
     h2: 'Brands that work with us',
@@ -321,16 +363,16 @@ const en: LandingCopy = {
   faq: {
     h2: 'Common questions',
     items: [
-      { q: 'Is ad spend included in the fee?', a: 'No. You pay for ads directly to Meta and Google from your own account. Our fee is separate.' },
       { q: 'What is the 4% charged on?', a: "On net sales, meaning the sales left after returns and RTO. Each month you pay ₹25,000 or 4% of net sales, whichever is higher, plus GST." },
       { q: 'Do you work with fashion brands?', a: 'Yes. We manage the stores of brands like Savana Kurti, Rajvanshi Suit, Vastranama and Khamma Ghani. Their links are above.' },
+      { q: 'How soon can you start?', a: 'If you already have a Shopify store, give us access to it and your ad accounts and we go live in 1 day. If you need a new store, it is ready in 7 days.' },
       { q: "What if I'm not happy with the work?", a: 'Stop whenever you like. No lock-in, no notice period.' },
       { q: 'Who keeps access to the ad account and the store?', a: 'You do. Ads run from your own accounts, and the store stays yours.' },
       { q: 'Do I get a GST invoice?', a: 'Yes, you get a GST invoice for the fee every month.' },
     ],
   },
   form: {
-    h2: 'Tell us about your brand',
+    h2: 'Book a free call',
     name: 'Your name',
     phone: 'WhatsApp number',
     link: 'Store or Instagram link',
@@ -340,10 +382,10 @@ const en: LandingCopy = {
     errPhone: 'Please enter a 10-digit WhatsApp number.',
     errLink: 'Please enter your store or Instagram link.',
     errSpend: 'Please choose one.',
-    submit: 'Send application',
-    thanks: 'Thank you. Our team will reach out on WhatsApp soon.',
+    submit: 'Book my call',
+    thanks: "Thank you. We'll message you on WhatsApp soon to set a time for the call.",
     waFallback: "WhatsApp didn't open? Tap here",
-    waIntro: "Hi, I'd like to talk to Orcas Prime about my brand.",
+    waIntro: "Hi, I'd like to book a call with Orcas Prime about my brand.",
     waLabels: { name: 'Name', whatsapp: 'WhatsApp', link: 'Store / Instagram', spend: 'Monthly ad spend' },
   },
 };
@@ -354,20 +396,24 @@ const gu: LandingCopy = {
   htmlLang: 'gu',
   meta: {
     title: 'ફેશન અને એથનિક વેર બ્રાન્ડ્સ માટે એડ્સ, સ્ટોર, RTO અને પ્રોફિટ ડેશબોર્ડ | Orcas Prime',
-    description: 'Meta Ads, Shopify સ્ટોર, RTO કંટ્રોલ અને પ્રોફિટ ડેશબોર્ડ, બધું એક જ ટીમ પાસે. ₹25,000/મહિને + GST અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે. કોઈ લૉક-ઇન નહીં.',
+    description: 'Meta અને Google Ads, Shopify સ્ટોર, RTO કંટ્રોલ અને પ્રોફિટ ડેશબોર્ડ, બધું એક જ ટીમ પાસે. ₹25,000/મહિને + GST અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે. કોઈ લૉક-ઇન નહીં.',
   },
   ui: { skip: 'કન્ટેન્ટ પર જાઓ', waLink: 'WhatsApp', waLinkLabel: 'WhatsApp પર વાત કરો (નવા ટૅબમાં ખુલશે)', privacy: 'પ્રાઇવસી પૉલિસી', newTab: '(નવા ટૅબમાં ખુલશે)' },
   waMessage: 'નમસ્તે, મારે મારી ફેશન બ્રાન્ડ માટે Orcas Prime વિશે જાણવું છે.',
-  cta: 'તમારી બ્રાન્ડ વિશે જણાવો',
+  cta: 'ફ્રી કૉલ બુક કરો',
   ctaNote: 'કોઈ લૉક-ઇન નહીં · અમે દર મહિને ફક્ત 3 નવી બ્રાન્ડ્સ લઈએ છીએ',
   sample: 'સેમ્પલ ડેટા',
   hero: {
     kicker: 'ફેશન અને એથનિક વેર બ્રાન્ડ્સ માટે',
-    h1: 'Meta Ads, Shopify સ્ટોર, RTO કંટ્રોલ અને પ્રોફિટ ડેશબોર્ડ.',
+    h1: 'Meta અને Google Ads, Shopify સ્ટોર, RTO કંટ્રોલ અને પ્રોફિટ ડેશબોર્ડ.',
     h1Em: 'બધું એક જ ટીમ પાસે.',
     sub: 'અમે તમારી એડ્સ ચલાવીએ છીએ, સ્ટોર સંભાળીએ છીએ, RTO પર કંટ્રોલ રાખીએ છીએ, અને ડેશબોર્ડ પર બતાવીએ છીએ કે ખરેખર કેટલો નફો થયો.',
-    chipsLabel: 'શું શું મળે છે',
-    profitChip: 'પ્રોફિટ ડેશબોર્ડ',
+  },
+  wheel: {
+    title: '8 કામ.', titleEm: '1 ટીમ.',
+    label: 'Orcas Prime આ બધું સંભાળે છે',
+    hubSub: 'એક ટીમ, એક ફી',
+    items: ['Meta Ads', 'Google Ads', 'Shopify સ્ટોર', 'પ્રોફિટ ડેશબોર્ડ', 'RTO અને COD', 'NDR કૉલ', 'AI ફોટા અને વિડિયો', 'WhatsApp અને Instagram'],
   },
   team: {
     h2: 'એક ટીમ. આખું કામ.',
@@ -387,13 +433,13 @@ const gu: LandingCopy = {
     nowLabel: 'અત્યારે',
     withLabel: 'Orcas Prime સાથે',
     items: [
-      { now: 'મહિનાના અંતે પણ ખબર નથી પડતી કે RTO અને રિટર્ન પછી નફો થયો કે નુકસાન.', fixTitle: 'પ્રોફિટ ડેશબોર્ડ:', fix: 'દરરોજ, દર અઠવાડિયે અને દર મહિને RTO, શિપિંગ અને એડ ખર્ચ પછીનો P&L.' },
-      { now: 'COD ઓર્ડર ડિસ્પેચ થાય છે, અને ઘણા પાછા આવે છે.', fixTitle: 'RTO કંટ્રોલ:', fix: 'WhatsApp પર COD કન્ફર્મેશન, પ્રોબ્લેમવાળા પિનકોડ બ્લોક, અને પ્રીપેડ માટે રિમાઇન્ડર.' },
-      { now: 'NDR વાળા પાર્સલની કોઈને ખબર નથી, ગ્રાહકને કોઈએ ફોન નથી કર્યો.', fixTitle: 'NDR ડેસ્ક:', fix: 'દરેક NDR પાર્સલની યાદી, કોને ફોન કરવાનો છે, રી-એટેમ્પ્ટ ક્યારે છે. બધું ડેશબોર્ડ પર.' },
-      { now: 'પ્રીપેડ ઓર્ડર ઓછા, COD વધારે.', fixTitle: 'Meta CAPI સેટઅપ,', fix: 'જેથી એડ્સ પ્રીપેડ ખરીદનારા વધુ ગ્રાહકો સુધી પહોંચે.' },
-      { now: 'એડ્સ પાછળ પૈસા જાય છે, પણ કઈ એડ નફો આપે છે તે ખબર નથી.', fixTitle: 'દરેક એડનો નિર્ણય:', fix: 'Scale, Keep કે Cut, RTO અને શિપિંગ પછીના નફાના આધારે.' },
-      { now: 'Meta વૉલેટ ખાલી, એડ્સ બંધ, અને ખબર પછી પડે છે.', fixTitle: 'વૉલેટ એલર્ટ:', fix: 'પૈસા પૂરા થાય તે પહેલાં જ જાણ.' },
-      { now: 'એડ્સ એક ફ્રીલાન્સર પાસે, ફોટા બીજા પાસે, વેબસાઇટ ત્રીજા પાસે.', fixTitle: 'એક ટીમ, એક ફી.', fix: '' },
+      { now: 'RTO અને રિટર્ન પછી નફો થયો કે નુકસાન, ખબર નથી', fixTitle: 'પ્રોફિટ ડેશબોર્ડ', fix: 'રોજનો, અઠવાડિયાનો અને મહિનાનો P&L, RTO, શિપિંગ અને એડ્સ પછી' },
+      { now: 'COD ઓર્ડર જાય છે, ઘણા પાછા આવે છે', fixTitle: 'RTO કંટ્રોલ', fix: 'WhatsApp પર COD કન્ફર્મ, ખરાબ પિનકોડ બ્લોક, પ્રીપેડ માટે રિમાઇન્ડર' },
+      { now: 'NDR પાર્સલનું કોઈ ફોલો-અપ નથી કરતું', fixTitle: 'NDR ડેસ્ક', fix: 'કોને ફોન કરવાનો, રી-એટેમ્પ્ટ ક્યારે, બધું ડેશબોર્ડ પર' },
+      { now: 'પ્રીપેડ ઓછા, COD વધારે', fixTitle: 'Meta CAPI સેટઅપ', fix: 'એડ્સ પ્રીપેડ ચૂકવતા ગ્રાહકો સુધી પહોંચે' },
+      { now: 'કઈ એડ નફો આપે છે, ખબર નથી', fixTitle: 'દરેક એડનો નિર્ણય', fix: 'Scale, Keep કે Cut, RTO અને શિપિંગ પછીના નફા પર' },
+      { now: 'Meta વૉલેટ ખાલી, એડ્સ બંધ', fixTitle: 'વૉલેટ એલર્ટ', fix: 'પૈસા પૂરા થાય તે પહેલાં જાણ' },
+      { now: 'એડ્સ, ફોટા અને વેબસાઇટ ત્રણ અલગ લોકો પાસે', fixTitle: 'એક ટીમ, એક ફી', fix: 'એડ્સ, ફોટા, સ્ટોર અને હિસાબ, બધું એક જગ્યાએ' },
     ],
   },
   dash: {
@@ -433,7 +479,7 @@ const gu: LandingCopy = {
     aiSample: 'AI થી બનાવેલ સેમ્પલ',
   },
   fee: {
-    h2: 'ફી',
+    h2: 'પાંચ પગારની જગ્યાએ એક ફી',
     per: '/મહિને + GST',
     or: 'અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે',
     fine: 'નેટ સેલ્સ એટલે રિટર્ન અને RTO પછીનું સેલ્સ.',
@@ -447,6 +493,20 @@ const gu: LandingCopy = {
       'દર અઠવાડિયે 15 મિનિટનો રિવ્યૂ કૉલ',
     ],
     pills: ['કોઈ લૉક-ઇન નહીં', 'જ્યારે ઇચ્છો ત્યારે બંધ કરી શકો'],
+    hire: {
+      title: 'આ જ કામ તમારી પોતાની ટીમથી કરાવો તો',
+      roles: [
+        { role: 'એડ્સ એક્સપર્ટ (Meta + Google)', cost: '₹30–50K' },
+        { role: 'ગ્રાફિક ડિઝાઇનર / વિડિયો એડિટર', cost: '₹20–30K' },
+        { role: 'Shopify ડેવલપર', cost: '₹25–40K' },
+        { role: 'ફોટોગ્રાફર અને મોડલ (કેટલોગ શૂટ)', cost: '₹15–40K' },
+        { role: 'ઓપરેશન્સ એક્ઝિક્યુટિવ (RTO, NDR, રિપોર્ટ)', cost: '₹15–25K' },
+      ],
+      totalLabel: 'દર મહિને',
+      total: '₹1–1.8 લાખ',
+      oursLabel: 'Orcas Prime',
+      note: 'ભારતમાં સામાન્ય પગારના અંદાજ. શહેર પ્રમાણે ફરક પડી શકે.',
+    },
   },
   proof: {
     h2: 'આ બ્રાન્ડ્સ અમારી સાથે છે',
@@ -459,16 +519,16 @@ const gu: LandingCopy = {
   faq: {
     h2: 'તમારા સવાલ',
     items: [
-      { q: 'શું એડ્સનો ખર્ચ આ ફીમાં સામેલ છે?', a: 'ના. એડ્સના પૈસા તમે તમારા Meta અને Google એકાઉન્ટમાંથી સીધા ચૂકવો છો. અમારી ફી અલગ છે.' },
       { q: '4% શેના પર લાગે છે?', a: 'નેટ સેલ્સ પર, એટલે કે રિટર્ન અને RTO પછી જે સેલ્સ બચે તેના પર. દર મહિને ₹25,000 અથવા નેટ સેલ્સના 4%, જે વધારે હોય તે, વત્તા GST.' },
       { q: 'શું તમે ફેશન બ્રાન્ડ્સ સાથે કામ કરો છો?', a: 'હા. Savana Kurti, Rajvanshi Suit, Vastranama અને Khamma Ghani જેવી બ્રાન્ડ્સના સ્ટોર અમે સંભાળીએ છીએ. તેમની લિંક ઉપર આપેલી છે.' },
+      { q: 'કામ કેટલા દિવસમાં શરૂ થાય?', a: 'Shopify સ્ટોર પહેલેથી હોય તો સ્ટોર અને એડ એકાઉન્ટનો એક્સેસ આપો, અમે 1 દિવસમાં લાઇવ કરી દઈએ. નવો સ્ટોર જોઈએ તો 7 દિવસમાં તૈયાર.' },
       { q: 'કામ પસંદ ન આવે તો?', a: 'જ્યારે ઇચ્છો ત્યારે બંધ કરી દો. કોઈ લૉક-ઇન નહીં, કોઈ નોટિસ પિરિયડ નહીં.' },
       { q: 'એડ એકાઉન્ટ અને સ્ટોરનો એક્સેસ કોની પાસે રહેશે?', a: 'તમારી પાસે. એડ્સ તમારા પોતાના એકાઉન્ટથી ચાલે છે અને સ્ટોર પણ તમારો જ રહે છે.' },
       { q: 'GST બિલ મળશે?', a: 'હા, દર મહિને ફીનું GST ઇન્વૉઇસ મળે છે.' },
     ],
   },
   form: {
-    h2: 'તમારી બ્રાન્ડ વિશે જણાવો',
+    h2: 'ફ્રી કૉલ બુક કરો',
     name: 'તમારું નામ',
     phone: 'WhatsApp નંબર',
     link: 'સ્ટોર કે Instagram લિંક',
@@ -478,10 +538,10 @@ const gu: LandingCopy = {
     errPhone: '10 આંકડાનો WhatsApp નંબર લખો.',
     errLink: 'સ્ટોર કે Instagram ની લિંક લખો.',
     errSpend: 'એક વિકલ્પ પસંદ કરો.',
-    submit: 'અરજી મોકલો',
-    thanks: 'આભાર. અમારી ટીમ ટૂંક સમયમાં તમારા WhatsApp પર સંપર્ક કરશે.',
+    submit: 'કૉલ બુક કરો',
+    thanks: 'આભાર. કૉલનો સમય નક્કી કરવા અમારી ટીમ ટૂંક સમયમાં તમને WhatsApp કરશે.',
     waFallback: 'WhatsApp ના ખૂલ્યું? અહીં દબાવો',
-    waIntro: 'નમસ્તે, મારે મારી બ્રાન્ડ માટે Orcas Prime સાથે વાત કરવી છે.',
+    waIntro: 'નમસ્તે, મારે મારી બ્રાન્ડ માટે Orcas Prime સાથે કૉલ બુક કરવો છે.',
     waLabels: { name: 'નામ', whatsapp: 'WhatsApp', link: 'સ્ટોર / Instagram', spend: 'દર મહિને એડ ખર્ચ' },
   },
 };

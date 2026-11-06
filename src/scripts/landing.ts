@@ -29,18 +29,24 @@ function initMotion() {
   const anim = document.documentElement.classList.contains('lp-anim') && !reduced();
   if (!anim) return;
 
-  // Hero load order (02b §1): 0 / 120 / 200 / 300 / 360 ms, cards at 700 / 1,100.
+  // Hero load order (02b §1): 0 / 120 / 300 / 360 ms; wheel items from 500 ms.
   document.querySelectorAll<HTMLElement>('[data-hero]').forEach((el) => {
     fadeUp(el, Number(el.dataset.hero), el.dataset.hero === '360' ? 32 : 16);
   });
-  document.querySelectorAll<HTMLElement>('[data-float]').forEach((el) => {
+  // Wheel: the jobs pop in around the hub one by one, then the hub lands.
+  document.querySelectorAll<HTMLElement>('[data-wheel-item]').forEach((el, i) => {
     el.style.opacity = '0';
     animate(
       el,
-      { opacity: [0, 1], transform: ['translateY(12px) scale(0.96)', 'translateY(0) scale(1)'] },
-      { duration: 0.5, delay: Number(el.dataset.float) / 1000, ease: EASE }
+      { opacity: [0, 1], scale: [0.6, 1] },
+      { duration: 0.45, delay: 0.5 + i * 0.08, ease: EASE }
     );
   });
+  const hub = document.querySelector<HTMLElement>('[data-wheel-hub]');
+  if (hub) {
+    hub.style.opacity = '0';
+    animate(hub, { opacity: [0, 1], scale: [0.85, 1] }, { duration: 0.6, delay: 1.2, ease: EASE });
+  }
 
   // Sections: slide up and fade in once. Items inside [data-stagger] go
   // one after another at that gap; everything else 0 delay.
@@ -63,25 +69,6 @@ function initMotion() {
       }
       fadeUp(el, delay);
     }, { amount: 0.15 });
-  });
-
-  // Section 2: problem first, then the fix slides in under (or beside) it.
-  document.querySelectorAll<HTMLElement>('[data-ba]').forEach((row) => {
-    const now = row.querySelector('[data-ba-now]')!;
-    const fix = row.querySelector('[data-ba-fix]')!;
-    const line = row.querySelector<SVGPathElement>('[data-ba-line]');
-    (now as HTMLElement).style.opacity = '0';
-    (fix as HTMLElement).style.opacity = '0';
-    inView(row, () => {
-      fadeUp(now, 0, 12, 0.5);
-      if (line) animate(line, { strokeDashoffset: [40, 0] }, { duration: 0.4, delay: 0.25 });
-      const wide = window.matchMedia('(min-width: 900px)').matches;
-      animate(
-        fix,
-        { opacity: [0, 1], transform: [wide ? 'translateX(-16px)' : 'translateY(-10px)', 'translate(0,0)'] },
-        { duration: 0.55, delay: 0.35, ease: EASE }
-      );
-    }, { amount: 0.6 });
   });
 
   // Bars grow in once.
