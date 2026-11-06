@@ -12,16 +12,16 @@
 import '../styles/landing.css';
 import { MessageCircle } from '@lucide/astro';
 import { SITE } from '../lib/site';
+import type { LandingCopy } from '../data/landing/fashion-copy';
 
 export interface Props {
-  title: string;
-  description: string;
+  copy: LandingCopy;
   ogImage?: string;
-  /** Pre-filled WhatsApp message for the corner link. */
-  whatsappMessage: string;
 }
 
-const { title, description, ogImage = '/og-default.png', whatsappMessage } = Astro.props;
+const { copy: c, ogImage = '/og-default.png' } = Astro.props;
+const { title, description } = c.meta;
+const whatsappMessage = c.waMessage;
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = siteOrigin + Astro.url.pathname;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : siteOrigin + ogImage;
@@ -31,7 +31,7 @@ const year = new Date().getFullYear();
 ---
 
 <!doctype html>
-<html lang="hi-Latn" class="lp-root">
+<html lang={c.htmlLang} class={`lp-root lp-lang-${c.lang}`}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -79,7 +79,7 @@ const year = new Date().getFullYear();
 		<meta name="twitter:card" content="summary_large_image" />
 	</head>
 	<body class="lp">
-		<a href="#main" class="skip-link">Content pe jaayein</a>
+		<a href="#main" class="skip-link">{c.ui.skip}</a>
 
 		<header class="lp-top">
 			<div class="lp-wrap lp-top__inner">
@@ -92,9 +92,9 @@ const year = new Date().getFullYear();
 					</svg>
 					<span>Orcas Prime</span>
 				</span>
-				<a class="lp-wa" href={waHref} target="_blank" rel="noopener" aria-label="WhatsApp pe baat karein (naye tab mein khulega)">
+				<a class="lp-wa" href={waHref} target="_blank" rel="noopener" aria-label={c.ui.waLinkLabel}>
 					<MessageCircle size={18} aria-hidden="true" />
-					<span>WhatsApp</span>
+					<span>{c.ui.waLink}</span>
 				</a>
 			</div>
 		</header>
@@ -105,7 +105,7 @@ const year = new Date().getFullYear();
 
 		<footer class="lp-foot">
 			<div class="lp-wrap">
-				<p>© {year} Orcas Prime · <a href="/privacy-policy">Privacy policy</a></p>
+				<p>© {year} Orcas Prime · <a href="/privacy-policy">{c.ui.privacy}</a></p>
 			</div>
 		</footer>
 

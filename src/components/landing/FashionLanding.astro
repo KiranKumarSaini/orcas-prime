@@ -1,0 +1,585 @@
+---
+/**
+ * The fashion ad landing page, shared by every language version
+ * (/fashion, /fashion/en, /fashion/gu). Layout, motion and data live here;
+ * every word visitors read comes from src/data/landing/fashion-copy.ts.
+ *
+ * Assets still to make (docs/growth/02b Part 2) render as labelled .lp-ph
+ * frames at the final aspect ratio. Swap each for an <img> (AVIF/WebP,
+ * width/height set, loading="lazy" below the fold) when the asset exists.
+ */
+import LandingLayout from '../../layouts/LandingLayout.astro';
+import results from '../../data/results.json';
+import { SITE } from '../../lib/site';
+import type { LandingCopy } from '../../data/landing/fashion-copy';
+import {
+  Megaphone, Search, ShoppingBag, ChartLine, PackageX, MessageCircle,
+  CircleX, CircleCheck, Store, Image, Clapperboard, MessageSquare, Camera,
+  CalendarDays, PhoneCall, Check, ArrowRight, ArrowUpRight, ShieldAlert,
+  Mail, Star, CircleAlert,
+} from '@lucide/astro';
+
+export interface Props { copy: LandingCopy }
+const { copy: c } = Astro.props;
+
+const CTA = c.cta;
+// Public demo of the Orcas Dashboard (demo client, made-up data). Leave empty
+// until the demo exists; the button only renders when this is set.
+const DEMO_DASHBOARD_URL = '';
+const fmt = (n: number) => '₹' + n.toLocaleString('en-IN');
+const waBase = `https://wa.me/${SITE.contact.whatsapp.replace(/[^0-9]/g, '')}`;
+
+// ── Proof: every value read from results.json ─────────────────────────
+const roas = results.headline.roas;
+const divine = results.clients.find((x) => x.slug === 'divine-rudras')!;
+const divineAmount = divine.result.kind === 'quantitative' ? (divine.result as { amount: number }).amount : 0;
+const brandCount = results.headline.brandCount.value;
+
+// Store order from 02b §8. Jaipur Rang is left out (no longer a client).
+const storeOrder = ['savana-kurti', 'vastranama', 'khamma-ghani', 'rajvanshi-suit', 'amrit-valley', 'brinza', 'healthscot', 'pd-wellness', 'ladakh-berry'];
+const stores = storeOrder
+  .map((slug) => results.clients.find((x) => x.slug === slug))
+  .filter((x): x is (typeof results.clients)[number] & { liveUrl: string } => Boolean(x && 'liveUrl' in x && x.liveUrl));
+
+const problems = c.problems.items;
+const tileIcons = [Store, Image, Clapperboard, MessageSquare, Camera, CalendarDays];
+const tiles = c.team.tiles.map((t, i) => ({ ...t, icon: tileIcons[i] }));
+const dashTabs = c.dash.tabs;
+
+// Sample data for the "Profit by day" chart (demo store, not a client).
+const profitByDay = [42, 58, 35, -18, 64, 71, 50, -9, 46, 80, 62, -24, 55, 74];
+const chartW = 280, chartH = 150, zeroY = 100, scale = 1.1, gap = 6;
+const barW = (chartW - gap * (profitByDay.length - 1)) / profitByDay.length;
+
+const kurtis = [1, 2, 3, 4];
+---
+
+
+<LandingLayout copy={c}>
+	{/* ════ 1. Hero ════ */}
+	<section class="lp-hero lp-print" id="hero" aria-labelledby="hero-title">
+		<div class="lp-wrap lp-hero__grid">
+			<div>
+				<p class="lp-hero__kicker" data-hero="0">{c.hero.kicker}</p>
+				<h1 id="hero-title" data-hero="0">{c.hero.h1} <em>{c.hero.h1Em}</em></h1>
+				<p class="lp-hero__sub" data-hero="120">{c.hero.sub}</p>
+				<ul class="lp-chips" data-hero="200" aria-label={c.hero.chipsLabel}>
+					<li class="lp-chip"><Megaphone size={15} aria-hidden="true" />Meta Ads</li>
+					<li class="lp-chip"><Search size={15} aria-hidden="true" />Google Ads</li>
+					<li class="lp-chip"><ShoppingBag size={15} aria-hidden="true" />Shopify</li>
+					<li class="lp-chip"><ChartLine size={15} aria-hidden="true" />{c.hero.profitChip}</li>
+					<li class="lp-chip"><PackageX size={15} aria-hidden="true" />RTO + NDR</li>
+					<li class="lp-chip"><MessageCircle size={15} aria-hidden="true" />WhatsApp</li>
+				</ul>
+				<div class="lp-hero__cta" data-hero="300">
+					<a href="#apply" class="lp-btn lp-btn--block">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
+					<p class="lp-note">{c.ctaNote}</p>
+				</div>
+			</div>
+
+			{/* Phone with the dashboard's "Aaj ka hisaab" screen. Drawn in HTML
+			    until the real 390 px screenshot exists (02b asset #1). */}
+			<div class="lp-hero__visual" data-hero="360">
+				<div class="lp-hero__device">
+				<div class="lp-phone" role="img" aria-label={`Orcas Dashboard, "Aaj ka hisaab" (${c.sample}): 42 orders, CPP ₹186, Meta wallet ₹8,400`}>
+					<div class="lp-phone__notch"></div>
+					<div class="lp-phone__screen">
+						<div class="lp-dash" aria-hidden="true">
+							<div class="lp-dash__head">
+								<span class="lp-dash__title">Aaj ka hisaab</span>
+								<span class="lp-sample">{c.sample}</span>
+							</div>
+							<div class="lp-dash__grid">
+								<div class="lp-kpi"><div class="lp-kpi__label">Orders</div><div class="lp-kpi__value">42</div></div>
+								<div class="lp-kpi"><div class="lp-kpi__label">Sales value</div><span class="lp-skel" style="width:80%"></span></div>
+								<div class="lp-kpi"><div class="lp-kpi__label">Ad spend</div><span class="lp-skel" style="width:70%"></span></div>
+								<div class="lp-kpi"><div class="lp-kpi__label">Cost per order</div><div class="lp-kpi__value">₹186</div></div>
+								<div class="lp-kpi lp-kpi--wide"><div><div class="lp-kpi__label">Meta wallet</div><div class="lp-kpi__value">₹8,400</div></div><Megaphone size={18} color="#2F4739" /></div>
+							</div>
+							<div class="lp-dash__chart">
+								<div class="lp-kpi__label">Orders, aaj</div>
+								<svg viewBox="0 0 200 60" preserveAspectRatio="none">
+									<polyline points="0,52 20,48 40,50 60,40 80,42 100,30 120,34 140,22 160,26 180,14 200,10" fill="none" stroke="#2F4739" stroke-width="2" vector-effect="non-scaling-stroke" />
+								</svg>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="lp-float lp-float--wa" data-float="700" aria-hidden="true">
+					<div class="lp-float__row"><MessageCircle size={14} />WhatsApp</div>
+					Aaj: 42 orders · CPP ₹186 · Wallet ₹8,400
+				</div>
+				<div class="lp-float lp-float--alert" data-float="1100" aria-hidden="true">
+					<div class="lp-float__row"><ShieldAlert size={14} />RTO risk</div>
+					3 orders, pincode block
+				</div>
+				<span class="lp-sample lp-hero__tag" aria-hidden="true">{c.sample}</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 3. Bento ════ */}
+	<section class="lp-section lp-section--sunken" aria-labelledby="s3-title">
+		<div class="lp-wrap">
+			<h2 id="s3-title" class="lp-h2" data-reveal>{c.team.h2}</h2>
+			<ul class="lp-bento" data-stagger="60">
+				<li class="lp-tile lp-tile--wide" data-reveal>
+					<h3>{c.team.meta.title}</h3>
+					<p>{c.team.meta.body}</p>
+					<div class="lp-tile__art" aria-hidden="true" data-adcards>
+						{[['scale', 'Scale'], ['keep', 'Keep'], ['cut', 'Cut']].map(([k, label]) => (
+							<div class="lp-adcard">
+								<div class="lp-adcard__img"><svg viewBox="0 0 26 34"><path d="M9 1h8l1 3 6 3-2 7-3-1v20H7V13l-3 1-2-7 6-3z" fill="currentColor" /></svg></div>
+								<div class="lp-adcard__line"></div>
+								<div class="lp-adcard__line lp-adcard__line--s"></div>
+								<span class={`lp-verdict lp-verdict--${k}`}>{label}</span>
+							</div>
+						))}
+					</div>
+				</li>
+				{tiles.slice(0, 1).map((t) => (
+					<li class="lp-tile" data-reveal>
+						<span class="lp-tile__icon"><t.icon size={22} aria-hidden="true" /></span>
+						<h3>{t.title}</h3><p>{t.body}</p>
+					</li>
+				))}
+				{tiles.slice(1, 2).map((t) => (
+					<li class="lp-tile" data-reveal>
+						<span class="lp-tile__icon"><t.icon size={22} aria-hidden="true" /></span>
+						<h3>{t.title}</h3><p>{t.body}</p>
+					</li>
+				))}
+				<li class="lp-tile lp-tile--wide" data-reveal>
+					<h3>{c.team.google.title}</h3>
+					<p>{c.team.google.body}</p>
+					<div class="lp-tile__art" aria-hidden="true">
+						<div class="lp-gshop">
+							<div class="lp-gshop__img"><svg viewBox="0 0 26 34"><path d="M9 1h8l1 3 6 3-2 7-3-1v20H7V13l-3 1-2-7 6-3z" fill="currentColor" /></svg></div>
+							<div class="lp-gshop__body">
+								<span class="lp-gshop__spon">Sponsored · Shopping</span>
+								<div class="lp-adcard__line" style="width:90%"></div>
+								<div class="lp-adcard__line lp-adcard__line--s"></div>
+								<span class="lp-gshop__stars">{[1, 2, 3, 4, 5].map(() => <Star size={11} fill="currentColor" stroke-width={0} />)}</span>
+							</div>
+						</div>
+					</div>
+				</li>
+				{tiles.slice(2).map((t, i) => (
+					<li class={`lp-tile${i === 3 ? ' lp-tile--full' : ''}`} data-reveal>
+						<span class="lp-tile__icon"><t.icon size={22} aria-hidden="true" /></span>
+						<div><h3>{t.title}</h3><p>{t.body}</p></div>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	{/* ════ 2. Before / after ════ */}
+	<section class="lp-section" aria-labelledby="s2-title">
+		<div class="lp-wrap">
+			<h2 id="s2-title" class="lp-h2" data-reveal>{c.problems.h2}</h2>
+			<div class="lp-ba__heads" aria-hidden="true"><span>{c.problems.nowLabel}</span><span>{c.problems.withLabel}</span></div>
+			<ul class="lp-ba">
+				{problems.map((p) => (
+					<li class="lp-ba__row" data-ba>
+						<div class="lp-ba__cell lp-ba__now" data-ba-now>
+							<CircleX size={20} aria-hidden="true" />
+							<p><span class="lp-ba__tag" aria-hidden="true">{c.problems.nowLabel}</span><span class="sr-only">{c.problems.nowLabel}: </span>{p.now}</p>
+						</div>
+						<svg class="lp-ba__arrow" viewBox="0 0 40 12" aria-hidden="true">
+							<path d="M0 6h36" stroke="currentColor" stroke-width="1.5" stroke-dasharray="40" stroke-dashoffset="0" data-ba-line />
+							<path d="M31 1l6 5-6 5" fill="none" stroke="currentColor" stroke-width="1.5" />
+						</svg>
+						<div class="lp-ba__cell lp-ba__fix" data-ba-fix>
+							<CircleCheck size={20} aria-hidden="true" />
+							<p><span class="lp-ba__tag" aria-hidden="true">{c.problems.withLabel}</span><span class="sr-only">{c.problems.withLabel}: </span><strong>{p.fixTitle}</strong>{p.fix && ' ' + p.fix}</p>
+						</div>
+					</li>
+				))}
+			</ul>
+			<div class="lp-mini-cta" data-reveal>
+				<a href="#apply" class="lp-btn lp-btn--block">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 4. Dashboard ════ */}
+	<section class="lp-section lp-section--sunken" aria-labelledby="s4-title">
+		<div class="lp-wrap">
+			<h2 id="s4-title" class="lp-h2" data-reveal>{c.dash.h2}</h2>
+			<p class="lp-lead" data-reveal>{c.dash.lead}</p>
+			{DEMO_DASHBOARD_URL && (
+				<p class="lp-demo" data-reveal>
+					<a class="lp-btn lp-btn--ghost" href={DEMO_DASHBOARD_URL} target="_blank" rel="noopener">{c.dash.demoCta}<ArrowUpRight size={18} aria-hidden="true" /></a>
+				</p>
+			)}
+
+			<div class="lp-dashsec__grid">
+				<div>
+					{/* Desktop: laptop + tabs */}
+					<div class="lp-dash-desktop" data-reveal>
+						<div class="lp-tabs" role="tablist" aria-label={c.dash.tabsLabel}>
+							{dashTabs.map((t, i) => (
+								<button class="lp-tab" role="tab" id={`tab-${t.id}`} aria-controls={`panel-${t.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} type="button">{t.label}</button>
+							))}
+						</div>
+						<div class="lp-laptop">
+							<div class="lp-laptop__lid">
+								<div class="lp-laptop__screen">
+									{dashTabs.map((t, i) => (
+										<div class="lp-tabpanel" role="tabpanel" id={`panel-${t.id}`} aria-labelledby={`tab-${t.id}`} hidden={i !== 0} data-panel>
+											<div class="lp-ph">
+												<span class="lp-ph__label"><strong>Dashboard screenshot: {t.label}</strong>Demo store, sample data<span class="lp-ph__dim">1440 × 900 · AVIF/WebP</span></span>
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
+							<div class="lp-laptop__base"></div>
+						</div>
+						{dashTabs.map((t, i) => (
+							<p class="lp-tabdesc" data-desc={t.id} hidden={i !== 0}><strong>{t.label}</strong> · {t.desc}</p>
+						))}
+					</div>
+
+					{/* Mobile: swipeable phone screens */}
+					<div class="lp-dash-mobile" data-reveal>
+						<div class="lp-embla" data-embla aria-roledescription="carousel" aria-label={c.dash.tabsLabel}>
+							<div class="lp-embla__track">
+								{dashTabs.map((t, i) => (
+									<div class="lp-embla__slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} / ${dashTabs.length}: ${t.label}`}>
+										<div class="lp-phone">
+											<div class="lp-phone__notch"></div>
+											<div class="lp-phone__screen">
+												<div class="lp-ph">
+													<span class="lp-ph__label"><strong>Dashboard: {t.label}</strong>Demo store, sample data<span class="lp-ph__dim">390 × 844 · AVIF/WebP</span></span>
+												</div>
+											</div>
+										</div>
+										<p class="lp-embla__cap"><strong>{t.label}</strong>{t.desc}</p>
+									</div>
+								))}
+							</div>
+						</div>
+						<div class="lp-dots" data-embla-dots hidden>
+							{dashTabs.map((t, i) => (
+								<button class="lp-dot" type="button" aria-label={`Screen ${i + 1}: ${t.label}`} aria-current={i === 0 ? 'true' : 'false'}></button>
+							))}
+						</div>
+					</div>
+				</div>
+
+				{/* Profit by day, inline SVG, sample data */}
+				<figure class="lp-chartcard" data-reveal>
+					<div class="lp-chartcard__head">
+						<h3>{c.dash.chartTitle}</h3>
+						<span class="lp-sample">{c.sample}</span>
+					</div>
+					<svg viewBox={`0 0 ${chartW} ${chartH}`} role="img" aria-label={c.dash.chartAria} data-chart>
+						<line x1="0" x2={chartW} y1={zeroY} y2={zeroY} stroke="#D6CFC2" stroke-width="1" />
+						{profitByDay.map((v, i) => {
+							const h = Math.abs(v) * scale;
+							const x = i * (barW + gap);
+							return v >= 0
+								? <rect class="lp-bar lp-bar--up" x={x} y={zeroY - h} width={barW} height={h} rx="3" />
+								: <rect class="lp-bar lp-bar--down" x={x} y={zeroY} width={barW} height={h} rx="3" />;
+						})}
+					</svg>
+					<figcaption class="lp-legend">
+						<span><i style="background:#2F4739"></i>{c.dash.profit}</span>
+						<span><i style="background:#B4533C"></i>{c.dash.loss}</span>
+					</figcaption>
+				</figure>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 5. Daily + weekly reports ════ */}
+	<section class="lp-section" aria-labelledby="s5-title">
+		<div class="lp-wrap">
+			<h2 id="s5-title" class="lp-h2" data-reveal>{c.reports.h2}</h2>
+			<div class="lp-reports__grid">
+				<div class="lp-chatwrap" data-reveal>
+					<div class="lp-phone" role="img" aria-label={`WhatsApp chat (${c.sample})`}>
+						<div class="lp-phone__notch"></div>
+						<div class="lp-phone__screen">
+							<div class="lp-chat" aria-hidden="true">
+								<div class="lp-chat__bar">
+									<span class="lp-chat__avatar">
+										<svg viewBox="0 0 64 64" width="20" height="20"><rect width="64" height="64" rx="14" fill="#2F4739" /><path d="M32.5 12c1.2 6.9 4.6 14.5 10.4 21.4H26.8C28.6 26.6 30.9 19.4 32.5 12Z" fill="#FAF7F2" /></svg>
+									</span>
+									<span><span class="lp-chat__name">Orcas Prime</span><br /><span class="lp-chat__status">{c.sample}</span></span>
+								</div>
+								<div class="lp-chat__body" data-chat>
+									<div class="lp-typing" data-typing><span></span><span></span><span></span></div>
+									<div class="lp-bubble" data-chat-msg>
+										<b>Daily summary</b>
+										<ul>
+											<li><span>Orders</span><span>42</span></li>
+											<li><span>Marketing spend</span><span class="lp-skel"></span></li>
+											<li><span>CPP</span><span>₹186</span></li>
+											<li><span>Meta wallet</span><span>₹8,400</span></li>
+										</ul>
+										<span class="lp-bubble__time">9:00 pm</span>
+									</div>
+									<div class="lp-bubble" data-chat-msg>
+										<b>Weekly report</b>
+										<ul>
+											<li><span>Orders</span><span class="lp-skel"></span></li>
+											<li><span>Ad spend</span><span class="lp-skel"></span></li>
+											<li><span>RTO</span><span class="lp-skel"></span></li>
+											<li><span>Returns</span><span class="lp-skel"></span></li>
+											<li><span>COD</span><span class="lp-skel"></span></li>
+											<li><span>GST</span><span class="lp-skel"></span></li>
+											<li class="lp-bubble__total"><span>Profit</span><span class="lp-skel"></span></li>
+										</ul>
+										<span class="lp-bubble__time">{c.reports.days[0]}, 10:00 am</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<ul class="lp-feats" data-stagger="80">
+					<li class="lp-feat" data-reveal>
+						<span class="lp-feat__icon"><Mail size={22} aria-hidden="true" /></span>
+						<div>
+							<h3>{c.reports.daily.title}</h3>
+							<p>{c.reports.daily.body}</p>
+						</div>
+					</li>
+					<li class="lp-feat" data-reveal>
+						<span class="lp-feat__icon"><MessageCircle size={22} aria-hidden="true" /></span>
+						<div>
+							<h3>{c.reports.weekly.title}</h3>
+							<p>{c.reports.weekly.body}</p>
+						</div>
+					</li>
+					<li class="lp-feat" data-reveal>
+						<span class="lp-feat__icon"><PhoneCall size={22} aria-hidden="true" /></span>
+						<div>
+							<h3>{c.reports.call.title}</h3>
+							<p>{c.reports.call.body}</p>
+							<div class="lp-cal" aria-hidden="true">
+								{c.reports.days.map((d) => <span class="lp-cal__dow">{d}</span>)}
+								{Array.from({ length: 14 }, (_, i) => (
+									i % 7 === 1
+										? <span class="lp-cal__day lp-cal__day--call"><PhoneCall size={13} /><small>{c.reports.callCell}</small></span>
+										: <span class="lp-cal__day">{i + 1}</span>
+								))}
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 6. AI catalogue photos ════ */}
+	<section class="lp-section lp-section--sunken" aria-labelledby="s6-title">
+		<div class="lp-wrap">
+			<p class="lp-eyebrow" data-reveal>{c.ai.eyebrow}</p>
+			<h2 id="s6-title" class="lp-h2" data-reveal>{c.ai.h2}</h2>
+			<p class="lp-lead" data-reveal>{c.ai.lead}</p>
+
+			<div class="lp-ai__grid">
+				<div data-reveal>
+					<div class="lp-compare">
+						<span class="lp-sample lp-compare__ai">{c.ai.aiSample}</span>
+						<img-comparison-slider value="50" aria-label={c.ai.sliderAria}>
+							<div slot="first" class="lp-ph" data-before>
+								<span class="lp-ph__label"><strong>Hanger photo · Kurti 1</strong><span class="lp-ph__dim">1200 × 1500 · AVIF/WebP</span></span>
+							</div>
+							<div slot="second" class="lp-ph" data-after>
+								<span class="lp-ph__label"><strong>AI model shot · Kurti 1</strong><span class="lp-ph__dim">1200 × 1500 · AVIF/WebP</span></span>
+							</div>
+						</img-comparison-slider>
+						<div class="lp-compare__tags" aria-hidden="true"><span class="lp-compare__tag">{c.ai.before}</span><span class="lp-compare__tag">{c.ai.after}</span></div>
+					</div>
+					<ul class="lp-thumbs" aria-label={c.ai.thumbsLabel}>
+						{kurtis.map((k) => (
+							<li>
+								<button class="lp-thumb" type="button" aria-pressed={k === 1 ? 'true' : 'false'} data-kurti={k} aria-label={`${c.ai.kurti} ${k}`}>
+									<span class="lp-ph"><span class="lp-ph__label">{c.ai.kurti} {k}</span></span>
+								</button>
+							</li>
+						))}
+					</ul>
+				</div>
+
+				<ul class="lp-videos" data-stagger="80">
+					{[1, 2, 3].map((n) => (
+						<li data-reveal>
+							<div class="lp-phone">
+								<div class="lp-phone__screen">
+									<div class="lp-ph">
+										<span class="lp-ph__label"><strong>AI video ad {n}</strong>9:16 · 10–15 s · captions<span class="lp-ph__dim">muted autoplay</span></span>
+									</div>
+								</div>
+							</div>
+							<p class="lp-videos__cap">{c.ai.aiSample}</p>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 7. Fee ════ */}
+	<section class="lp-section lp-print lp-fee" aria-labelledby="s7-title">
+		<div class="lp-wrap lp-fee">
+			<div class="lp-feecard" data-reveal>
+				<h2 id="s7-title" class="sr-only">{c.fee.h2}</h2>
+				<p class="lp-price"><span class="lp-price__amt">₹25,000</span><span class="lp-price__per">{c.fee.per}</span></p>
+				<p class="lp-price__or">{c.fee.or}</p>
+				<p class="lp-price__fine">{c.fee.fine}</p>
+				<ul class="lp-incl" data-stagger="60">
+					{c.fee.included.map((item) => (
+						<li data-reveal><Check size={18} aria-hidden="true" /><span>{item}</span></li>
+					))}
+				</ul>
+				<div class="lp-pills">
+					<span class="lp-pill"><Check size={14} aria-hidden="true" />{c.fee.pills[0]}</span>
+					<span class="lp-pill"><Check size={14} aria-hidden="true" />{c.fee.pills[1]}</span>
+				</div>
+				<a href="#apply" class="lp-btn">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 8. Proof ════ */}
+	<section class="lp-section lp-section--sunken" aria-labelledby="s8-title">
+		<div class="lp-wrap">
+			<h2 id="s8-title" class="lp-h2" data-reveal>{c.proof.h2}</h2>
+			<ul class="lp-stats" data-stagger="80">
+				<li class="lp-stat" data-reveal>
+					<div class="lp-stat__num">{roas.display}</div>
+					<p class="lp-stat__who">Ladakh Berry · Google Ads</p>
+					<p class="lp-stat__what">{c.proof.roasWhat(fmt(roas.spend), fmt(roas.revenue))}</p>
+				</li>
+				<li class="lp-stat" data-reveal>
+					<div class="lp-stat__num">{fmt(divineAmount)}</div>
+					<p class="lp-stat__who">Divine Rudras · Flipkart</p>
+					<p class="lp-stat__what">{c.proof.divineWhat}</p>
+				</li>
+				<li class="lp-stat" data-reveal>
+					<div class="lp-stat__num">{c.proof.brands(brandCount)}</div>
+					<p class="lp-stat__who">{c.proof.brandsWho}</p>
+				</li>
+			</ul>
+
+			<p class="lp-stores__lead" data-reveal>{c.proof.storesLead}</p>
+			<div class="lp-stores" data-reveal>
+				<ul class="lp-stores__track lp-stores__track--drift">
+					{stores.map((s) => (
+						<li class="lp-store">
+							<a href={s.liveUrl} target="_blank" rel="noopener" aria-label={`${s.name} store ${c.ui.newTab}`}>
+								<div class="lp-phone">
+									<div class="lp-phone__screen">
+										<div class="lp-ph"><span class="lp-ph__label"><strong>{s.name}</strong>Homepage screenshot<span class="lp-ph__dim">390 × 844</span></span></div>
+									</div>
+								</div>
+								<span class="lp-store__name">{s.name}<ArrowUpRight size={14} aria-hidden="true" /></span>
+							</a>
+						</li>
+					))}
+					{/* Second copy for the seamless desktop drift. Hidden from AT and tab order. */}
+					{stores.map((s) => (
+						<li class="lp-store lp-store--dup" aria-hidden="true">
+							<a href={s.liveUrl} target="_blank" rel="noopener" tabindex="-1">
+								<div class="lp-phone">
+									<div class="lp-phone__screen">
+										<div class="lp-ph"><span class="lp-ph__label"><strong>{s.name}</strong>Homepage screenshot<span class="lp-ph__dim">390 × 844</span></span></div>
+									</div>
+								</div>
+								<span class="lp-store__name">{s.name}<ArrowUpRight size={14} /></span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 9. FAQ ════ */}
+	<section class="lp-section" aria-labelledby="s9-title">
+		<div class="lp-wrap">
+			<h2 id="s9-title" class="lp-h2" data-reveal>{c.faq.h2}</h2>
+			<div class="lp-faq" data-reveal>
+				{c.faq.items.map((f) => (
+					<details name="faq">
+						<summary>{f.q}<span class="lp-pm" aria-hidden="true"></span></summary>
+						<p class="lp-faq__a">{f.a}</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	{/* ════ 10. Form ════ */}
+	<section class="lp-section lp-formsec" id="apply" aria-labelledby="s10-title">
+		<div class="lp-wrap lp-formsec__grid">
+			<div>
+				<h2 id="s10-title" class="lp-h2" data-reveal>{c.form.h2}</h2>
+			</div>
+			<div class="lp-formcard" data-reveal>
+				{/* Leads: until the Google Sheet endpoint exists, submitting opens
+				    WhatsApp with the details typed out to our number. Set
+				    data-endpoint (and add its host to connect-src in vercel.json)
+				    to also save each lead to the Sheet. */}
+				<form id="lp-form" novalidate data-endpoint="" data-wa={waBase} data-wa-intro={c.form.waIntro} data-wa-labels={JSON.stringify(c.form.waLabels)}>
+					<div class="lp-field">
+						<label for="f-name">{c.form.name}</label>
+						<input class="lp-input" id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name" />
+						<p class="lp-err" id="e-name"><CircleAlert size={14} aria-hidden="true" />{c.form.errName}</p>
+					</div>
+					<div class="lp-field">
+						<label for="f-phone">{c.form.phone}</label>
+						<input class="lp-input" id="f-phone" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="e-phone" />
+						<p class="lp-err" id="e-phone"><CircleAlert size={14} aria-hidden="true" />{c.form.errPhone}</p>
+					</div>
+					<div class="lp-field">
+						<label for="f-link">{c.form.link}</label>
+						<input class="lp-input" id="f-link" name="link" type="url" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" required aria-describedby="e-link" />
+						<p class="lp-err" id="e-link"><CircleAlert size={14} aria-hidden="true" />{c.form.errLink}</p>
+					</div>
+					<div class="lp-field">
+						<fieldset>
+							<legend>{c.form.spend}</legend>
+							<div class="lp-opts" id="f-spend" aria-describedby="e-spend">
+								{c.form.bands.map((b) => (
+									<label class="lp-opt"><input type="radio" name="adspend" value={b} required /><span>{b}</span></label>
+								))}
+							</div>
+						</fieldset>
+						<p class="lp-err" id="e-spend"><CircleAlert size={14} aria-hidden="true" />{c.form.errSpend}</p>
+					</div>
+					<button class="lp-btn lp-submit" type="submit">
+						<span>{c.form.submit}</span>
+						<ArrowRight size={18} class="lp-arrow" aria-hidden="true" />
+						<span class="lp-spin" aria-hidden="true"></span>
+					</button>
+					<p class="lp-note">{c.ctaNote}</p>
+				</form>
+				<div class="lp-thanks" id="lp-thanks" hidden tabindex="-1">
+					<div class="lp-thanks__icon"><CircleCheck size={28} aria-hidden="true" /></div>
+					<p>{c.form.thanks}</p>
+					<a class="lp-thanks__wa" id="lp-thanks-wa" href={waBase} hidden>{c.form.waFallback}</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div slot="after" class="lp-sticky" id="lp-sticky" data-shown="false">
+		<a href="#apply" class="lp-btn" tabindex="-1">{CTA}<ArrowRight size={18} class="lp-arrow" aria-hidden="true" /></a>
+	</div>
+</LandingLayout>
+
+<script>
+	import 'img-comparison-slider';
+	import { initLanding } from '../../scripts/landing';
+	initLanding();
+</script>

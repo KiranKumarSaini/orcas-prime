@@ -266,12 +266,13 @@ function initForm() {
     const data = new FormData(form);
     // The lead's details, typed out for WhatsApp. Sent by the visitor, so it
     // reaches us even before the Sheet is connected.
+    const labels = JSON.parse(form.dataset.waLabels || '{}') as Record<string, string>;
     const waText = [
-      'Namaste, mujhe apne brand ke liye Orcas Prime se baat karni hai.',
-      `Naam: ${data.get('name')}`,
-      `WhatsApp: ${data.get('whatsapp')}`,
-      `Store / Instagram: ${data.get('link')}`,
-      `Har mahine ka ad spend: ${data.get('adspend')}`,
+      form.dataset.waIntro || '',
+      `${labels.name}: ${data.get('name')}`,
+      `${labels.whatsapp}: ${data.get('whatsapp')}`,
+      `${labels.link}: ${data.get('link')}`,
+      `${labels.spend}: ${data.get('adspend')}`,
     ].join('\n');
     const waHref = `${form.dataset.wa}?text=${encodeURIComponent(waText)}`;
     const endpoint = form.dataset.endpoint;

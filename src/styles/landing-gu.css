@@ -1,0 +1,35 @@
+/*
+  Gujarati version of the ad landing page (/fashion/gu). Loaded only there.
+
+  Latin letters, numbers and ₹ keep Instrument Serif and Inter; Gujarati
+  letters fall through to Noto Serif/Sans Gujarati. Gujarati vowel signs sit
+  above and below the line, so headings get more line height and lose the
+  tight letter spacing used for Latin.
+*/
+@import "@fontsource-variable/noto-serif-gujarati/wght.css";
+@import "@fontsource-variable/noto-sans-gujarati/wght.css";
+
+.lp-lang-gu .lp {
+  /* Headings: Noto Serif Gujarati for both scripts, so Latin words (Meta,
+     Shopify) match the Gujarati around them instead of looking thinner. */
+  --serif: "Noto Serif Gujarati Variable", "Instrument Serif", ui-serif, Georgia, serif;
+  --sans: "Inter Variable", "Noto Sans Gujarati Variable", ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.7;
+}
+.lp-lang-gu .lp h1,
+.lp-lang-gu .lp h2,
+.lp-lang-gu .lp h3 { letter-spacing: 0; font-weight: 450; }
+/* Gujarati has no italic; keep the colour accent, drop the fake slant. */
+.lp-lang-gu .lp-hero h1 em { font-style: normal; }
+.lp-lang-gu .lp-hero h1 { font-size: clamp(1.75rem, 3.4vw + 1rem, 3.5rem); line-height: 1.3; }
+.lp-lang-gu .lp-h2 { font-size: clamp(1.75rem, 2.6vw + 1rem, 3rem); line-height: 1.3; }
+.lp-lang-gu .lp-tile h3,
+.lp-lang-gu .lp-feat h3,
+.lp-lang-gu .lp-chartcard h3 { line-height: 1.4; }
+.lp-lang-gu .lp-faq summary { line-height: 1.45; font-size: 1.25rem; }
+.lp-lang-gu .lp-thanks p { line-height: 1.45; font-size: 1.5rem; }
+.lp-lang-gu .lp-dash__title { font-size: 18px; }
+/* Big numbers stay in Instrument Serif, like the other versions. */
+.lp-lang-gu .lp-price__amt,
+.lp-lang-gu .lp-stat__num,
+.lp-lang-gu .lp-kpi__value { font-family: "Instrument Serif", "Noto Serif Gujarati Variable", serif; }
