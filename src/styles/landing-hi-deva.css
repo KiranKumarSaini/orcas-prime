@@ -1,0 +1,38 @@
+/*
+  Hindi (Devanagari) version of the ad landing page (/fashion/hi). Loaded only there.
+
+  Same approach as landing-gu.css. Latin letters, numbers and ₹ keep Inter
+  in body text; Devanagari falls through to Noto Sans Devanagari. Devanagari
+  hangs from the shirorekha (top line) with matras above and below it, so
+  headings get more line height and no tight letter spacing.
+*/
+@import "@fontsource-variable/noto-serif-devanagari/wght.css";
+@import "@fontsource-variable/noto-sans-devanagari/wght.css";
+
+.lp-lang-hi-deva .lp {
+  /* Headings: Noto Serif Devanagari for both scripts, so Latin words (Meta,
+     Shopify, RTO) match the Hindi around them. */
+  --serif: "Noto Serif Devanagari Variable", "Instrument Serif", ui-serif, Georgia, serif;
+  --sans: "Inter Variable", "Noto Sans Devanagari Variable", ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.7;
+}
+.lp-lang-hi-deva .lp h1,
+.lp-lang-hi-deva .lp h2,
+.lp-lang-hi-deva .lp h3 { letter-spacing: 0; font-weight: 500; }
+/* Devanagari has no italic; keep the colour accent, drop the fake slant. */
+.lp-lang-hi-deva .lp-hero h1 em,
+.lp-lang-hi-deva .lp-wheel__title em { font-style: normal; }
+.lp-lang-hi-deva .lp-hero h1 { font-size: clamp(1.75rem, 3.4vw + 1rem, 3.5rem); line-height: 1.35; }
+.lp-lang-hi-deva .lp-h2 { font-size: clamp(1.75rem, 2.6vw + 1rem, 3rem); line-height: 1.35; }
+.lp-lang-hi-deva .lp-tile h3,
+.lp-lang-hi-deva .lp-feat h3,
+.lp-lang-hi-deva .lp-chartcard h3 { line-height: 1.45; }
+.lp-lang-hi-deva .lp-faq summary { line-height: 1.5; font-size: 1.25rem; }
+.lp-lang-hi-deva .lp-thanks p { line-height: 1.5; font-size: 1.5rem; }
+/* Big numbers stay in Instrument Serif, like the other versions. */
+.lp-lang-hi-deva .lp-price__amt,
+.lp-lang-hi-deva .lp-stat__num,
+.lp-lang-hi-deva .lp-hire__ours strong { font-family: "Instrument Serif", "Noto Serif Devanagari Variable", serif; }
+.lp-lang-hi-deva .lp-wheel__label { line-height: 1.45; }
+.lp-lang-hi-deva .lp-pc__fix strong { line-height: 1.5; }
+.lp-lang-hi-deva .lp-hire h3 { line-height: 1.5; }

@@ -4,9 +4,10 @@
  *   hi  Hinglish (Roman script, "aap")      /fashion     docs/growth/02b
  *   en  English                             /fashion/en
  *   gu  Gujarati (Gujarati script, "તમે")    /fashion/gu
+ *   hi-deva  Hindi (Devanagari, "आप")        /fashion/hi
  *
- * All three say the same things: same facts, same numbers, same order.
- * Change a fact in one, change it in all three. Client numbers are not
+ * All four say the same things: same facts, same numbers, same order.
+ * Change a fact in one, change it in all four. Client numbers are not
  * typed here; they come from results.json through the functions below.
  *
  * Gujarati style (2026-11-06): તમે, not આપ (matches Google's Gujarati
@@ -14,12 +15,18 @@
  * letters (Meta, Shopify, WhatsApp, RTO, COD, GST, P&L). Everyday trade
  * words are written in Gujarati script (ઓર્ડર, સ્ટોર, ડેશબોર્ડ, એડ્સ).
  *
+ * Hindi style (2026-11-06): same rules as Gujarati. आप, brand names and
+ * short forms in Latin (RTO, COD, NDR, GST), trade words in Devanagari
+ * (ऑर्डर, स्टोर, डैशबोर्ड, ऐड्स). Spoken Hindi, not textbook Hindi: मुनाफा,
+ * not लाभ; no words like स्वचालित or एकीकृत. No nukta (ज्यादा, फीस), as on
+ * most Indian business sites. Sentences end with ।
+ *
  * Product UI drawn on the page (the "Aaj ka hisaab" phone, the WhatsApp
  * bubbles) is the dashboard itself, so it is the same in every language and
  * lives in the component, not here.
  */
 
-export type Lang = 'hi' | 'en' | 'gu';
+export type Lang = 'hi' | 'en' | 'gu' | 'hi-deva';
 
 export interface LandingCopy {
   lang: Lang;
@@ -546,4 +553,160 @@ const gu: LandingCopy = {
   },
 };
 
-export const fashionCopy: Record<Lang, LandingCopy> = { hi, en, gu };
+/* ── Hindi, Devanagari script (/fashion/hi) ──────────────────────────── */
+const hiDeva: LandingCopy = {
+  lang: 'hi-deva',
+  htmlLang: 'hi',
+  meta: {
+    title: 'फैशन और एथनिक वियर ब्रांड्स के लिए ऐड्स, स्टोर, RTO और प्रॉफिट डैशबोर्ड | Orcas Prime',
+    description: 'Meta और Google Ads, Shopify स्टोर, RTO कंट्रोल और प्रॉफिट डैशबोर्ड, सब एक ही टीम के पास। ₹25,000/महीना + GST या नेट सेल्स का 4%, जो भी ज्यादा हो। कोई लॉक-इन नहीं।',
+  },
+  ui: { skip: 'कंटेंट पर जाएं', waLink: 'WhatsApp', waLinkLabel: 'WhatsApp पर बात करें (नए टैब में खुलेगा)', privacy: 'प्राइवेसी पॉलिसी', newTab: '(नए टैब में खुलेगा)' },
+  waMessage: 'नमस्ते, मुझे अपने फैशन ब्रांड के लिए Orcas Prime के बारे में जानना है।',
+  cta: 'फ्री कॉल बुक करें',
+  ctaNote: 'कोई लॉक-इन नहीं · हम हर महीने सिर्फ 3 नए ब्रांड्स लेते हैं',
+  sample: 'सैंपल डेटा',
+  hero: {
+    kicker: 'फैशन और एथनिक वियर ब्रांड्स के लिए',
+    h1: 'Meta और Google Ads, Shopify स्टोर, RTO कंट्रोल और प्रॉफिट डैशबोर्ड।',
+    h1Em: 'सब एक ही टीम के पास।',
+    sub: 'हम आपके ऐड्स चलाते हैं, स्टोर संभालते हैं, RTO पर कंट्रोल रखते हैं, और डैशबोर्ड पर दिखाते हैं कि असल में कितना मुनाफा हुआ।',
+  },
+  wheel: {
+    title: '8 काम।', titleEm: '1 टीम।',
+    label: 'Orcas Prime ये सब संभालता है',
+    hubSub: 'एक टीम, एक फीस',
+    items: ['Meta Ads', 'Google Ads', 'Shopify स्टोर', 'प्रॉफिट डैशबोर्ड', 'RTO और COD', 'NDR कॉल', 'AI फोटो और वीडियो', 'WhatsApp और Instagram'],
+  },
+  team: {
+    h2: 'एक टीम। पूरा काम।',
+    meta: { title: 'Meta Ads, पूरी मैनेजमेंट', body: 'कैंपेन स्ट्रक्चर, ऑडियंस, क्रिएटिव टेस्टिंग, बजट पेसिंग, Pixel और CAPI ट्रैकिंग। हर हफ्ते क्या बदला, उसका लिखा हुआ लॉग।' },
+    google: { title: 'Google Ads', body: 'Search, Shopping, Performance Max और रीमार्केटिंग। साथ में Google Merchant Center पर आपके प्रोडक्ट्स की फ्री लिस्टिंग भी।' },
+    tiles: [
+      { title: 'Shopify स्टोर', body: 'स्टोर के रोज के बदलाव और फिक्स, फीस में शामिल।' },
+      { title: 'AI कैटलॉग फोटो', body: 'फ्लैट-ले या हैंगर फोटो से मॉडल शॉट, पूरे कैटलॉग के लिए।' },
+      { title: 'AI वीडियो ऐड्स', body: 'हर महीने 10 तक, फीस में शामिल।' },
+      { title: 'WhatsApp ऑटोमेशन', body: 'अधूरी छोड़ी कार्ट, ऑर्डर अपडेट, रीऑर्डर रिमाइंडर और त्योहार के ब्रॉडकास्ट।' },
+      { title: 'Instagram', body: 'रील्स, कैप्शन और पोस्टिंग।' },
+      { title: 'त्योहारों का कैलेंडर', body: 'दिवाली, शादी का सीजन, राखी, एंड-ऑफ-सीजन सेल। 4–6 हफ्ते पहले प्लानिंग, क्रिएटिव्स तैयार।' },
+    ],
+  },
+  problems: {
+    h2: 'क्या आपका ऑनलाइन बिजनेस ऐसे चलता है?',
+    nowLabel: 'अभी',
+    withLabel: 'Orcas Prime के साथ',
+    items: [
+      { now: 'RTO और रिटर्न के बाद मुनाफा हुआ या नुकसान, पता नहीं', fixTitle: 'प्रॉफिट डैशबोर्ड', fix: 'रोज, हफ्ते और महीने का P&L, RTO, शिपिंग और ऐड्स के बाद' },
+      { now: 'COD ऑर्डर जाते हैं, कई वापस आ जाते हैं', fixTitle: 'RTO कंट्रोल', fix: 'WhatsApp पर COD कन्फर्म, खराब पिनकोड ब्लॉक, प्रीपेड के लिए रिमाइंडर' },
+      { now: 'NDR पार्सल का कोई फॉलो-अप नहीं करता', fixTitle: 'NDR डेस्क', fix: 'किसे कॉल करना है, री-अटेम्प्ट कब है, सब डैशबोर्ड पर' },
+      { now: 'प्रीपेड कम, COD ज्यादा', fixTitle: 'Meta CAPI सेटअप', fix: 'ऐड्स पहुंचें प्रीपेड देने वाले ग्राहकों तक' },
+      { now: 'कौन सा ऐड मुनाफा दे रहा है, पता नहीं', fixTitle: 'हर ऐड का फैसला', fix: 'Scale, Keep या Cut, RTO और शिपिंग के बाद के मुनाफे पर' },
+      { now: 'Meta वॉलेट खाली, ऐड्स बंद', fixTitle: 'वॉलेट अलर्ट', fix: 'पैसा खत्म होने से पहले खबर' },
+      { now: 'ऐड्स एक फ्रीलांसर, फोटो दूसरा, वेबसाइट तीसरा', fixTitle: 'एक टीम, एक फीस', fix: 'ऐड्स, फोटो, स्टोर और हिसाब, सब एक जगह' },
+    ],
+  },
+  dash: {
+    h2: 'आपका पूरा बिजनेस, एक डैशबोर्ड पर',
+    lead: 'ऑर्डर, ऐड खर्च, RTO और मुनाफा। एक जगह, लाइव।',
+    demoCta: 'डेमो डैशबोर्ड खोलें',
+    tabsLabel: 'डैशबोर्ड की स्क्रीन',
+    tabs: [
+      { id: 'aaj', label: 'आज', desc: 'आज के ऑर्डर, सेल्स, Meta और Google खर्च, हर ऑर्डर की लागत, और कितने ऑर्डर शिप होने बाकी हैं।' },
+      { id: 'pnl', label: 'P&L', desc: 'दिन, हफ्ते या महीने का P&L, एक क्लिक में Excel।' },
+      { id: 'ads', label: 'ऐड्स', desc: 'कैंपेन से लेकर हर ऐड तक, हर ऐड पर Scale, Keep या Cut, असली मुनाफे के हिसाब से।' },
+      { id: 'rto', label: 'RTO और NDR', desc: 'COD vs प्रीपेड, कूरियर के हिसाब से RTO, रिस्की पिनकोड और NDR कॉल लिस्ट।' },
+      { id: 'products', label: 'प्रोडक्ट्स', desc: 'कौन सा प्रोडक्ट मुनाफा दे रहा है, और कौन सा नहीं।' },
+    ],
+    chartTitle: 'रोज का मुनाफा',
+    chartAria: 'सैंपल डेटा: 14 दिन का मुनाफा। 11 दिन मुनाफा, 3 दिन नुकसान।',
+    profit: 'मुनाफा',
+    loss: 'नुकसान',
+  },
+  reports: {
+    h2: 'हर दिन और हर हफ्ते, हिसाब आपके पास',
+    daily: { title: 'डेली समरी, WhatsApp, ईमेल और डैशबोर्ड पर', body: 'आज कितने ऑर्डर आए, मार्केटिंग पर कितना खर्च हुआ, कॉस्ट पर परचेज (CPP) कितना रहा, और Meta वॉलेट में कितना पैसा बचा।' },
+    weekly: { title: 'वीकली रिपोर्ट, WhatsApp पर', body: 'ऑर्डर, ऐड खर्च, RTO, रिटर्न, COD, GST, और आखिर में कितना मुनाफा बचा।' },
+    call: { title: 'हर हफ्ते 15 मिनट की रिव्यू कॉल', body: 'साथ में "क्या बदला और क्यों" का लिखा हुआ लॉग।' },
+    days: ['सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि', 'रवि'],
+    callCell: '15 मि.',
+  },
+  ai: {
+    eyebrow: 'AI कैटलॉग फोटो',
+    h2: 'फोटोग्राफर, मॉडल और स्टूडियो का खर्च नहीं',
+    lead: 'आप प्रोडक्ट की फ्लैट-ले या हैंगर फोटो भेजिए। मॉडल शॉट हम AI से बनाते हैं, पूरे कैटलॉग के लिए।',
+    sliderAria: 'हैंगर फोटो और AI मॉडल शॉट की तुलना। हैंडल को बाएं या दाएं खिसकाएं।',
+    before: 'हैंगर फोटो',
+    after: 'AI मॉडल शॉट',
+    thumbsLabel: 'कुर्ती चुनें',
+    kurti: 'कुर्ती',
+    aiSample: 'AI से बना सैंपल',
+  },
+  fee: {
+    h2: 'पांच सैलरी की जगह एक फीस',
+    per: '/महीना + GST',
+    or: 'या नेट सेल्स का 4%, जो भी ज्यादा हो',
+    fine: 'नेट सेल्स यानी रिटर्न और RTO के बाद की सेल्स।',
+    included: [
+      'Meta और Google ऐड्स मैनेजमेंट',
+      'Shopify स्टोर सपोर्ट',
+      'प्रॉफिट डैशबोर्ड, डेली और वीकली समरी',
+      'RTO, COD और NDR कंट्रोल',
+      'AI कैटलॉग फोटो और 10 तक AI वीडियो ऐड्स',
+      'WhatsApp ऑटोमेशन, Instagram, त्योहारों का कैलेंडर',
+      'हर हफ्ते 15 मिनट की रिव्यू कॉल',
+    ],
+    pills: ['कोई लॉक-इन नहीं', 'जब चाहें बंद कर सकते हैं'],
+    hire: {
+      title: 'यही काम अपनी टीम से करवाएं तो',
+      roles: [
+        { role: 'ऐड्स एक्सपर्ट (Meta + Google)', cost: '₹30–50K' },
+        { role: 'ग्राफिक डिजाइनर / वीडियो एडिटर', cost: '₹20–30K' },
+        { role: 'Shopify डेवलपर', cost: '₹25–40K' },
+        { role: 'फोटोग्राफर और मॉडल (कैटलॉग शूट)', cost: '₹15–40K' },
+        { role: 'ऑपरेशंस एग्जीक्यूटिव (RTO, NDR, रिपोर्ट)', cost: '₹15–25K' },
+      ],
+      totalLabel: 'हर महीने',
+      total: '₹1–1.8 लाख',
+      oursLabel: 'Orcas Prime',
+      note: 'भारत में आम सैलरी के अंदाजे। हर शहर में अलग हो सकते हैं।',
+    },
+  },
+  proof: {
+    h2: 'ये ब्रांड्स हमारे साथ हैं',
+    roasWhat: (spend, revenue) => `${spend} के ऐड खर्च पर ${revenue} की कन्वर्जन वैल्यू (लाइफटाइम)।`,
+    divineWhat: '30 दिन की कमाई।',
+    brands: (n) => `${n} ब्रांड्स`,
+    brandsWho: 'Shopify और Flipkart पर',
+    storesLead: 'लाइव स्टोर्स, जिनके साथ हम काम करते हैं:',
+  },
+  faq: {
+    h2: 'आपके सवाल',
+    items: [
+      { q: '4% किस पर लगता है?', a: 'नेट सेल्स पर, यानी रिटर्न और RTO के बाद जो सेल्स बचती है। हर महीने ₹25,000 या नेट सेल्स का 4%, जो भी ज्यादा हो, साथ में GST।' },
+      { q: 'क्या आप फैशन ब्रांड्स के साथ काम करते हैं?', a: 'हां। Savana Kurti, Rajvanshi Suit, Vastranama और Khamma Ghani जैसे ब्रांड्स के स्टोर हम संभालते हैं। उनके लिंक ऊपर दिए हैं।' },
+      { q: 'काम कितने दिन में शुरू होगा?', a: 'Shopify स्टोर पहले से है तो स्टोर और ऐड अकाउंट का एक्सेस दीजिए, हम 1 दिन में लाइव कर देते हैं। नया स्टोर चाहिए तो 7 दिन में तैयार।' },
+      { q: 'काम पसंद न आए तो?', a: 'जब चाहें बंद कर दीजिए। कोई लॉक-इन नहीं, कोई नोटिस पीरियड नहीं।' },
+      { q: 'ऐड अकाउंट और स्टोर का एक्सेस किसके पास रहेगा?', a: 'आपके पास। ऐड्स आपके अपने अकाउंट से चलते हैं और स्टोर भी आपका ही रहता है।' },
+      { q: 'GST बिल मिलेगा?', a: 'हां, हर महीने फीस का GST इनवॉइस मिलता है।' },
+    ],
+  },
+  form: {
+    h2: 'फ्री कॉल बुक करें',
+    name: 'आपका नाम',
+    phone: 'WhatsApp नंबर',
+    link: 'स्टोर या Instagram लिंक',
+    spend: 'हर महीने का ऐड खर्च',
+    bands: ['₹50K से कम', '₹50K–1L', '₹1–3L', '₹3L+'],
+    errName: 'अपना नाम लिखिए।',
+    errPhone: '10 अंकों का WhatsApp नंबर लिखिए।',
+    errLink: 'स्टोर या Instagram का लिंक लिखिए।',
+    errSpend: 'एक विकल्प चुनिए।',
+    submit: 'कॉल बुक करें',
+    thanks: 'धन्यवाद। कॉल का समय तय करने के लिए हमारी टीम जल्दी ही आपको WhatsApp करेगी।',
+    waFallback: 'WhatsApp नहीं खुला? यहां दबाइए',
+    waIntro: 'नमस्ते, मुझे अपने ब्रांड के लिए Orcas Prime के साथ कॉल बुक करनी है।',
+    waLabels: { name: 'नाम', whatsapp: 'WhatsApp', link: 'स्टोर / Instagram', spend: 'हर महीने का ऐड खर्च' },
+  },
+};
+
+export const fashionCopy: Record<Lang, LandingCopy> = { hi, en, gu, 'hi-deva': hiDeva };
